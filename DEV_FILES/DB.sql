@@ -211,10 +211,12 @@ CREATE TABLE `CoreGeek_Test`.`GroupPermissions`(
 CREATE TABLE `CoreGeek_Test`.`ORState`(
   `OR_ID`           INT(11) UNSIGNED NOT NULL COMMENT 'FK -> Evaluations',
   `State_ID`        INT(11) UNSIGNED NOT NULL COMMENT 'FK -> Repair_State',
+  `User_ID`         INT(11) UNSIGNED NOT NULL COMMENT 'FK -> Users',
   `Creation_Date`   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Alteration done in',
 
   FOREIGN KEY(`OR_ID`) REFERENCES `CoreGeek_Test`.`Evaluations`(`OR_ID`),
-  FOREIGN KEY(`State_ID`) REFERENCES `CoreGeek_Test`.`Repair_State`(`State_ID`)  
+  FOREIGN KEY(`State_ID`) REFERENCES `CoreGeek_Test`.`Repair_State`(`State_ID`),
+  FOREIGN KEY(`User_ID`) REFERENCES `CoreGeek_Test`.`Users`(`User_ID`)  
 )ENGINE = InnoDB COMMENT = 'Keeping track of the or state';
 
 --
