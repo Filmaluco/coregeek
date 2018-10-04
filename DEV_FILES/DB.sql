@@ -226,7 +226,7 @@ CREATE TABLE `CoreGeek_Test`.`ORState`(
 CREATE TABLE `CoreGeek_Test`.`Override_UserPermissions`(
     `User_ID`       INT(11) UNSIGNED NOT NULL COMMENT 'FK -> Users',
     `Permission_ID` INT(11) UNSIGNED NOT NULL COMMENT 'FK -> Permissions',
-    `status`        TINYINT(1)       NOT NULL COMMENT '1 - Granted / 0 - Denied',
+    `Status`        TINYINT(1)       NOT NULL COMMENT '1 - Granted / 0 - Denied',
 
     FOREIGN KEY(`User_ID`) REFERENCES `CoreGeek_Test`.`Users`(`User_ID`),
     FOREIGN KEY(`Permission_ID`) REFERENCES `CoreGeek_Test`.`Permissions`(`Permission_ID`)
