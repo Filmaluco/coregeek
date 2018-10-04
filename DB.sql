@@ -1,0 +1,231 @@
+CREATE DATABASE `CoreGeek_Test` CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+
+-- ######################################################
+-- ################     TYPE TABLES      ################
+-- ######################################################
+
+CREATE TABLE `CoreGeek_Test`.`Repair_Types` ( 
+    `Type_ID`      INT(11) UNSIGNED     NOT NULL  AUTO_INCREMENT  COMMENT 'PK Type of reparation ID' ,
+    `Name`         VARCHAR(32)          NOT NULL                  COMMENT 'Designation of the reparation',
+    
+    PRIMARY KEY (`Type_ID`)
+) ENGINE = InnoDB COMMENT = 'Type of the reparation';
+
+CREATE TABLE `CoreGeek_Test`.`Repair_State` ( 
+    `State_ID`      INT(11) UNSIGNED     NOT NULL  AUTO_INCREMENT  COMMENT 'PK State of reparation ID' ,
+    `Name`         VARCHAR(32)          NOT NULL                  COMMENT 'Designation of the state',
+    
+    PRIMARY KEY (`State_ID`)
+) ENGINE = InnoDB COMMENT = 'State of the reparation';
+
+-- ######################################################
+-- ################     CORE TABLES      ################
+-- ######################################################
+--
+-- ##################### STORES TABLE ###########################
+--
+
+CREATE TABLE `CoreGeek_Test`.`Stores` ( 
+    `Store_ID`      INT(11) UNSIGNED     NOT NULL  AUTO_INCREMENT  COMMENT 'PK Store Identification' ,
+    `Name`          VARCHAR(32)          NOT NULL                  COMMENT 'Name of the store',
+    `Manager`       VARCHAR(32)          NOT NULL                  COMMENT 'Name of the person in charge',
+    `Email`         VARCHAR(32)          NULL                      COMMENT 'Email of the store',
+    `Phone`         INT(12) UNSIGNED     NULL                      COMMENT 'Store contact',
+    `Location`      TEXT                                           COMMENT 'Store location',
+    
+    PRIMARY KEY (`Store_ID`)
+) ENGINE = InnoDB COMMENT = 'Stores related data';
+ALTER TABLE `CoreGeek_Test`.`Stores` AUTO_INCREMENT=1;
+
+--
+-- ##################### USERS TABLE ###########################
+--
+
+CREATE TABLE `CoreGeek_Test`.`Users` ( 
+    `User_ID`       INT(11) UNSIGNED      NOT NULL   AUTO_INCREMENT  COMMENT 'PK User Identification' , 
+    `Store_ID`      INT(11) UNSIGNED      NULL       DEFAULT NULL    COMMENT 'FK -> Store Identification' , 
+    `Username`      VARCHAR(32)           NOT NULL                   COMMENT 'Username' , 
+    `Password`      VARCHAR(255)          NOT NULL                   COMMENT 'Password' , 
+    
+    PRIMARY KEY (`User_ID`),
+    FOREIGN KEY (`Store_ID`) REFERENCES `CoreGeek_Test`.`Stores`(`Store_ID`)
+) ENGINE = InnoDB COMMENT = 'Main information about the Users';
+ALTER TABLE `CoreGeek_Test`.`Users` AUTO_INCREMENT=1;
+
+--
+-- ##################### USER TOKENS TABLE ###########################
+--
+
+CREATE TABLE `CoreGeek_Test`.`UserTokens`(
+    `Token_Key`      VARCHAR(255)           NOT NULL                   COMMENT 'PK AcessToken',
+    `User_ID`       int(11) UNSIGNED       NOT NULL                   COMMENT 'Token belongs to User',
+    `Creation_Date`  DATETIME               NOT NULL  DEFAULT CURRENT_TIMESTAMP COMMENT 'Creation of the token',
+    `Status`        TINYINT(1)             NOT NULL  DEFAULT 1        COMMENT 'Token valid',
+
+    PRIMARY KEY (`Token_Key`),
+    FOREIGN KEY (`User_ID`) REFERENCES `CoreGeek_Test`.`Users`(`User_ID`)
+) ENGINE = InnoDB COMMENT = 'Acess tokens data';
+
+
+--
+-- ##################### NOTIFICATIONs TABLE ###########################
+--
+
+CREATE TABLE `CoreGeek_Test`.`Notifications` ( 
+    `Notification_ID`   INT(11) UNSIGNED    NOT NULL                            COMMENT 'PK Identification',
+    `Message`           TEXT                NOT NULL                            COMMENT 'Content of the Notification',
+    `Creation_Date`     DATETIME            NOT NULL  DEFAULT CURRENT_TIMESTAMP COMMENT 'Creation of the notification',
+    `Expiration_Date`   DATETIME            NULL      DEFAULT NULL              COMMENT 'Create a time limit for the notification',
+    
+    PRIMARY KEY(`Notification_ID`)
+) ENGINE = InnoDB COMMENT = 'Notifications table';
+ALTER TABLE `CoreGeek_Test`.`Notifications` AUTO_INCREMENT=1;
+
+--
+-- ##################### CLIENTS TABLE ###########################
+--
+
+CREATE TABLE `CoreGeek_Test`.`Clients` ( 
+    `Client_ID`   INT(11) UNSIGNED    NOT NULL  AUTO_INCREMENT  COMMENT 'PK Clients',
+    `Name`        VARCHAR(32)         NOT NULL                  COMMENT 'Client Name',
+    `Phone`       INT(12) UNSIGNED    NULL                      COMMENT 'Client cellphone number',
+    `Email`       VARCHAR(32)         NOT NULL                  COMMENT 'Email for contract',
+    `Obs`         TEXT                NULL                      COMMENT 'Client observations',
+
+    PRIMARY KEY(`Client_ID`)
+) ENGINE = InnoDB COMMENT = 'Clients table';
+ALTER TABLE `CoreGeek_Test`.`Clients` AUTO_INCREMENT=1; 
+
+--
+-- ##################### EVALUATIONS TABLE ###########################
+--
+
+CREATE TABLE `CoreGeek_Test`.`Evaluations`(
+    `OR_ID`     INT(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'PK EvaluationID',
+    `Client_ID` INT(11) UNSIGNED NOT NULL                COMMENT 'FK -> Clientes',
+    `Type_ID`   INT(11) UNSIGNED NOT NULL                COMMENT 'FK -> Repair_Types',
+
+    PRIMARY KEY(`OR_ID`),
+    FOREIGN KEY(`Client_ID`) REFERENCES `CoreGeek_Test`.`Clients`(`Client_ID`),
+    FOREIGN KEY(`Type_ID`) REFERENCES `CoreGeek_Test`.`Repair_Types`(`Type_ID`)
+)ENGINE = InnoDB COMMENT = 'Evaluations Table';
+ALTER TABLE  `CoreGeek_Test`.`Evaluations` AUTO_INCREMENT=1;
+
+--
+-- ##################### REPAIRS TABLE ###########################
+--
+
+CREATE TABLE `CoreGeek_Test`.`Repair_Info` ( 
+    `Repair_ID`   INT(11) UNSIGNED    NOT NULL  AUTO_INCREMENT              COMMENT 'PK Clients',
+    `OR_ID`       INT(11) UNSIGNED    NOT NULL                              COMMENT 'FK -> Evaluation',
+    `User_ID`     INT(11) UNSIGNED    NOT NULL                              COMMENT 'FK -> Users',
+    `Creation_Date` DATETIME          NOT NULL  DEFAULT CURRENT_TIMESTAMP   COMMENT 'Creation of the info',
+    `Schedule_To_Date` DATETIME       NULL      DEFAULT NULL                COMMENT 'Promised delivered date',
+    `Device`     VARCHAR(32)          NOT NULL                              COMMENT 'Type of device (phone,etc...)',
+    `Brand`      VARCHAR(32)          NOT NULL                              COMMENT 'Brand of the device',
+    `Model`      VARCHAR(32)          NOT NULL                              COMMENT 'Model of device',
+    `Color`      VARCHAR(32)          NOT NULL                              COMMENT 'Color of the device',
+    `Unlock_Code`VARCHAR(32)          NULL      DEFAULT NULL                COMMENT 'Unlock code if it has one',
+    `Acessories` VARCHAR(64)          NULL      DEFAULT 'S/ Acessorios'     COMMENT 'Acessories brought with phone',
+    `Desc`       TEXT                 NULL                                  COMMENT 'Description of the device',
+    `Obs`        TEXT                 NULL                                  COMMENT 'Obs about the repair',
+    `Price`      FLOAT  UNSIGNED      NULL      DEFAULT '0'                 COMMENT 'Price given to the client',
+ 
+    PRIMARY KEY(`Repair_ID`),
+    FOREIGN KEY(`OR_ID`) REFERENCES `CoreGeek_Test`.`Evaluations`(`OR_ID`),
+    FOREIGN KEY(`User_ID`) REFERENCES `CoreGeek_Test`.`Users`(`User_ID`)
+) ENGINE = InnoDB COMMENT = 'Repairs (Versions) table';
+ALTER TABLE  `CoreGeek_Test`.`Repair_Info` AUTO_INCREMENT=1; 
+
+--
+-- ##################### PERMISSIONS TABLE ###########################
+--
+
+CREATE TABLE `CoreGeek_Test`.`Permissions` (
+    `Permission_ID` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'PK PermissionID',
+    `Name`          VARCHAR(32) NOT NULL                     COMMENT 'Permission Designation',
+
+    PRIMARY KEY(`Permission_ID`)
+)ENGINE = InnoDB COMMENT = 'Permissions Table';
+ALTER TABLE `CoreGeek_Test`.`Permissions` AUTO_INCREMENT = 1;
+
+--
+-- ##################### GROUPS TABLE ###########################
+--
+
+CREATE TABLE `CoreGeek_Test`.`Groups` (
+    `Group_ID` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'PK Group ID',
+    `Name`          VARCHAR(32) NOT NULL                     COMMENT 'Group name',
+
+    PRIMARY KEY(`Group_ID`)
+)ENGINE = InnoDB COMMENT 'Groups Table';
+ALTER TABLE `CoreGeek_Test`.`Groups` AUTO_INCREMENT = 1;
+
+
+-- ######################################################
+-- ################ RELATIONSHIPS TABLES ################
+-- ######################################################
+
+--
+-- ##################### USER NOTIFICATIONs TABLE ###########################
+--
+
+CREATE TABLE `CoreGeek_Test`.`UserNotifications` (
+    `Notification_ID` INT(11) UNSIGNED    NOT NULL              COMMENT 'FK -> Notifications ID',
+    `User_ID`         INT(11) UNSIGNED    NOT NULL              COMMENT 'FK -> Users ID',
+    `Seen`            TINYINT(1)          NOT NULL   DEFAULT 0  COMMENT 'Was the notification seen',
+    
+    FOREIGN KEY (`User_ID`) REFERENCES `CoreGeek_Test`.`Users`(`User_ID`),
+    FOREIGN KEY (`Notification_ID`) REFERENCES `CoreGeek_Test`.`Notifications`(`Notification_ID`)
+) ENGINE = InnoDB COMMENT = 'Users and Notifications relationship table';
+
+--
+-- ##################### USERS GROUPS TABLE ###########################
+--
+
+CREATE TABLE `CoreGeek_Test`.`UserGroups`(
+    `User_ID` INT(11)  UNSIGNED     NOT NULL    COMMENT 'FK -> Users',
+    `Group_ID` INT(11) UNSIGNED     NOT NULL    COMMENT 'FK -> Groups',
+
+    FOREIGN KEY (`User_ID`) REFERENCES `CoreGeek_Test`.`Users`(`User_ID`),
+    FOREIGN KEY (`Group_ID`) REFERENCES `CoreGeek_Test`.`Groups`(`Group_ID`)
+) ENGINE = InnoDB COMMENT = 'Users and Groups relationship table';
+
+--
+-- ##################### GROUPS PERMISIONS TABLE ###########################
+--
+
+CREATE TABLE `CoreGeek_Test`.`GroupPermissions`(
+    `Permission_ID` INT(11) UNSIGNED     NOT NULL    COMMENT 'FK -> Permissions',
+    `Group_ID` INT(11) UNSIGNED          NOT NULL    COMMENT 'FK -> Groups',
+
+    FOREIGN KEY (`Permission_ID`) REFERENCES `CoreGeek_Test`.`Permissions`(`Permission_ID`),
+    FOREIGN KEY (`Group_ID`) REFERENCES `CoreGeek_Test`.`Groups`(`Group_ID`)
+) ENGINE = InnoDB COMMENT = 'Groups and Permissions relationship table';
+
+
+--
+-- ##################### EVALUATION STATE TABLE ###########################
+--
+
+CREATE TABLE `CoreGeek_Test`.`ORState`(
+  `OR_ID`           INT(11) UNSIGNED NOT NULL COMMENT 'FK -> Evaluations',
+  `State_ID`        INT(11) UNSIGNED NOT NULL COMMENT 'FK -> Repair_State',
+  `Creation_Date`   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Alteration done in',
+
+  FOREIGN KEY(`OR_ID`) REFERENCES `CoreGeek_Test`.`Evaluations`(`OR_ID`),
+  FOREIGN KEY(`State_ID`) REFERENCES `CoreGeek_Test`.`Repair_State`(`State_ID`)  
+)ENGINE = InnoDB COMMENT = 'Keeping track of the or state';
+
+--
+-- ##################### PERMISIONS OVERRIDE ###########################
+--
+
+CREATE TABLE `CoreGeek_Test`.`Override_UserPermissions`(
+    `User_ID`       INT(11) UNSIGNED NOT NULL COMMENT 'FK -> Users',
+    `Permission_ID` INT(11) UNSIGNED NOT NULL COMMENT 'FK -> Permissions',
+    `status`        TINYINT(1)       NOT NULL COMMENT '1 - Granted / 0 - Denied',
+
+    FOREIGN KEY(`User_ID`) REFERENCES `CoreGeek_Test`.`Users`(`User_ID`),
+    FOREIGN KEY(`Permission_ID`) REFERENCES `CoreGeek_Test`.`Permissions`(`Permission_ID`)
+)ENGINE = InnoDB COMMENT = 'Overriding permissions table';
