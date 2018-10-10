@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="media-body">
-                        <div class="media-title font-weight-semibold">Username</div>
+                        <div class="media-title font-weight-semibold"><?php echo $username?></div>
                     </div>
 
                     <div class="ml-3 align-self-center">

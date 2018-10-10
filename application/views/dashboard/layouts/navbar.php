@@ -30,21 +30,25 @@
                 <a href="#" class="navbar-nav-link">
                     <i class="icon-bell2"></i>
                     <span class="d-md-none ml-2">Notifications</span>
-                    <span class="badge badge-mark border-white ml-auto ml-md-0"></span>
+                    <?php if($user_Notifications > 0){
+                        echo '<span class="badge badge-mark border-orange ml-auto ml-md-0"></span>';
+                    }else
+                        echo '<span class="badge badge-mark border-white ml-auto ml-md-0"></span>';
+                        ?>
+
                 </a>
             </li>
 
             <li class="nav-item dropdown dropdown-user">
                 <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
                     <img src="#" class="rounded-circle mr-2" height="34" alt="loading">
-                    <span>Username</span>
+                    <span> <?php echo $username?></span>
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right">
                     <a href="#" class="dropdown-item"><i class="icon-user-plus"></i> My profile</a>
-                    <a href="#" class="dropdown-item"><i class="icon-comment-discussion"></i> Messages <span class="badge badge-pill bg-blue ml-auto">X</span></a>
-                    <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item"><i class="icon-cog5"></i> Account settings</a>
+                    <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
                 </div>
             </li>

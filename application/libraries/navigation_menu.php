@@ -2,11 +2,11 @@
 /**
  * Created by PhpStorm.
  * User: FilipeA
- * Date: 9/30/2018
- * Time: 22:51
+ * Date: 10/10/2018
+ * Time: 22:30
  */
 
-class CORE_auth
+class Navigation_Menu
 {
     protected $CI;
 
@@ -17,4 +17,5 @@ class CORE_auth
         // Assign the CodeIgniter super-object
         $this->CI =& get_instance();
     }
+
 }

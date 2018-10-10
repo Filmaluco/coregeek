@@ -25,7 +25,7 @@
         <div class="page-header page-header-light">
             <div class="page-header-content header-elements-md-inline">
                 <div class="page-title d-flex">
-                    <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">CONTROLLER</span> - METHOD</h4>
+                    <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold"><?php echo $controller_Name?></span> - <?php echo $current_Method?></h4>
                     <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
                 </div>
 
@@ -34,8 +34,8 @@
             <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
                 <div class="d-flex">
                     <div class="breadcrumb">
-                        <a href="#" class="breadcrumb-item"><i class="icon-home2 mr-2"></i>FOLDER</a>
-                        <span class="breadcrumb-item active">Current</span>
+                        <a href="<?php echo $parent_Path?>" class="breadcrumb-item"><i class="icon-home2 mr-2"></i><?php echo $parent_Path_Name?></a>
+                        <span class="breadcrumb-item active"><?php echo $current_Method?></span>
                     </div>
 
                     <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
@@ -44,18 +44,13 @@
             </div>
         </div>
         <!-- /page header -->
-
-
-
-        <!-- Content area -->
+        <!-- Content area------------------------------------------------------------------------------------------- -->
         <div class="content">
 
 
 
         </div>
-        <!-- /content area -->
-
-
+        <!-- /content area------------------------------------------------------------------------------------------ -->
         <?php $this->view('dashboard/layouts/footer'); ?>
 
     </div>
