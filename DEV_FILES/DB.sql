@@ -102,9 +102,11 @@ ALTER TABLE `CoreGeek_DevDB`.`Clients` AUTO_INCREMENT=1;
 --
 
 CREATE TABLE `CoreGeek_DevDB`.`ORs`(
-    `OR_ID`     INT(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'PK EvaluationID',
-    `Client_ID` INT(11) UNSIGNED NOT NULL                COMMENT 'FK -> Clientes',
-    `Type_ID`   INT(11) UNSIGNED NOT NULL                COMMENT 'FK -> Repair_Types',
+    `OR_ID`             INT(11)     UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'PK EvaluationID',
+    `Client_ID`         INT(11)     UNSIGNED NOT NULL                COMMENT 'FK -> Clientes',
+    `Type_ID`           INT(11)     UNSIGNED NOT NULL                COMMENT 'FK -> Repair_Types',
+    `Conditions_Read`   TINYINT(1)  UNSIGNED     NULL DEFAULT 0      COMMENT 'Terms and Conditions',
+    `Read_on_Date`      DATETIME                 NULL DEFAULT NULL   COMMENT 'Date the Client clicked Accept',
 
     PRIMARY KEY(`OR_ID`),
     FOREIGN KEY(`Client_ID`) REFERENCES `CoreGeek_DevDB`.`Clients`(`Client_ID`),
@@ -265,9 +267,9 @@ INSERT INTO `CoreGeek_DevDB`.`Users` (
 -- Dummy Group
 INSERT INTO `CoreGeek_DevDB`.`Groups` (
     `Group_ID`, 
-    `Name`) VALUES (
-        NULL, 
-        'Admin');
+    `Name`) VALUES 
+    (NULL, 'Admin'),
+    (NULL, 'Funcionario');
 
 -- Dummy User-Group
 INSERT INTO `CoreGeek_DevDB`.`UserGroups` 
@@ -291,7 +293,8 @@ INSERT INTO `CoreGeek_DevDB`.`GroupPermissions` (
         ('1', '1'), 
         ('2', '1'), 
         ('3', '1'), 
-        ('4', '1');
+        ('4', '1'),
+        ('2', '2');
     
 -- Override Dummy User permission to * (deny)
 INSERT INTO `CoreGeek_DevDB`.`Override_UserPermissions` (
