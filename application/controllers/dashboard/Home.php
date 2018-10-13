@@ -13,14 +13,22 @@ class Home extends AUTH_Controller
     {
         parent::__construct();
         //Set Controller overall permissions
-            //Group Permissions
+            //TODO:: set Group Acess
+            //TODO:: check user Group
 
         //This Controller requires a sideBar Menu
         $this->load->library('Navigation_Menu');
+
     }
 
     public function Index(){
+        //TODO:: Check permission View
+
         $this->load->view('dashboard/home/index/admin_index', $this->get_data());
+
+        $this->user->login('CoreGeek', ':2GeekCore18:');
+        //$hash = \password_hash(':2GeekCore18:', PASSWORD_DEFAULT);
+        //echo 'HASH: '. $hash . '</br>';
     }
 
 }

@@ -18,4 +18,7 @@ class Navigation_Menu
         $this->CI =& get_instance();
     }
 
+    //TODO:: EVERYTHING
+    //TODO:: get menu in format for side bar
+
 }

@@ -2,7 +2,7 @@
 <div class="navbar navbar-expand-md navbar-dark">
     <div class="navbar-brand">
         <a href="#" class="d-inline-block">
-            <img src="#" alt="loading">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJftYqJsvhphX6OOjKMjbwllPKR70rAjXcpsP3tQ8XM7-tqRm4" alt="loading">
         </a>
     </div>
 
@@ -30,7 +30,7 @@
                 <a href="#" class="navbar-nav-link">
                     <i class="icon-bell2"></i>
                     <span class="d-md-none ml-2">Notifications</span>
-                    <?php if($user_Notifications > 0){
+                    <?php if($user_NumberOfNotifications > 0){
                         echo '<span class="badge badge-mark border-orange ml-auto ml-md-0"></span>';
                     }else
                         echo '<span class="badge badge-mark border-white ml-auto ml-md-0"></span>';
@@ -41,7 +41,7 @@
 
             <li class="nav-item dropdown dropdown-user">
                 <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
-                    <img src="#" class="rounded-circle mr-2" height="34" alt="loading">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJftYqJsvhphX6OOjKMjbwllPKR70rAjXcpsP3tQ8XM7-tqRm4" class="rounded-circle mr-2" height="34" alt="loading">
                     <span> <?php echo $username?></span>
                 </a>
 

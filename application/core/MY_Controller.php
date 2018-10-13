@@ -15,9 +15,6 @@ class MY_Controller extends CI_Controller
 
 class AUTH_Controller extends MY_Controller{
 
-    //User information and methods
-    protected $user;
-
     //Basic information to pass the view
     protected $controller_Name = "notDefined";
     protected $current_Method= "notDefined";
@@ -29,10 +26,7 @@ class AUTH_Controller extends MY_Controller{
 
     public function __construct() {
         parent::__construct();
-        $this->load->library('GEEK_authUser');
-
-        //Load new user
-        $this->user = new GEEK_authUser();
+        $this->load->library('user');
 
         //Set basic data to the view
         $this->data = array(
@@ -41,11 +35,17 @@ class AUTH_Controller extends MY_Controller{
             'parent_Path_Name' => $this->parent_Path_Name,
             'parent_Path' => $this->parent_Path,
             'username' => $this->user->getUserName(),
-            'user_Notifications' => $this->user->getNotifications()
+            'user_NumberOfNotifications' => $this->user->getNumberOfNotifications()
         );
+
+        //TODO:: add user permissions canEdit ...
 
     }
 
+    /**
+     * @param $var = value of the data we pretend to add to the view
+     * @param string $key = name of the variable (ex: $key)
+     */
     public function add_data($var, $key = 'default'){
         if(is_array($var)){
            $this->data = array_merge($this->data, $var);
@@ -54,6 +54,10 @@ class AUTH_Controller extends MY_Controller{
         }
     }
 
+    /**
+     * @return array
+     * Returns all the data contained in the array
+     */
     public function get_data(){
         return $this->data;
     }

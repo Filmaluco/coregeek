@@ -7,3 +7,5 @@ if ( ! function_exists('asset_url()'))
         return base_url().'assets';
     }
 }
+
+//TODO:: add function to get Menu

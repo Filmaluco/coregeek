@@ -23,7 +23,7 @@
             <div class="card-body">
                 <div class="media">
                     <div class="mr-3">
-                        <a href="#"><img src="" width="38" height="38" class="rounded-circle" alt="loading"></a>
+                        <a href="#"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJftYqJsvhphX6OOjKMjbwllPKR70rAjXcpsP3tQ8XM7-tqRm4" width="38" height="38" class="rounded-circle" alt="loading"></a>
                     </div>
 
                     <div class="media-body">

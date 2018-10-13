@@ -83,3 +83,8 @@ defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user 
 defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+//LOGIN CONSTANTS (used for authentication and login only)
+defined('LOGIN_SUCCESS')                    OR define('LOGIN_SUCCESS', 0); // user login accepted
+defined('LOGIN_ERROR_NON_EXISTENT_USER')    OR define('LOGIN_ERROR_NON_EXISTENT_USER', 1); // user doesn't exist
+defined('LOGIN_ERROR_PASSWORD')             OR define('LOGIN_ERROR_PASSWORD', 2); // user password does not match
