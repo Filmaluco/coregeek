@@ -102,7 +102,6 @@ class User
 
         //Check if the user even exist's
         if($query->num_rows() != 1){
-            echo "User does not Exist";
             return LOGIN_ERROR_NON_EXISTENT_USER;
         }
 
@@ -110,7 +109,6 @@ class User
 
         //Check if its the user correct password
         if(!password_verify($password, $user_info->Password)){
-            echo "Incorrect Password";
             return LOGIN_ERROR_PASSWORD;
         }
 
@@ -149,6 +147,11 @@ class User
 
         return LOGIN_SUCCESS;
 
+    }
+
+    public function logout(){
+        delete_cookie('SID');
+        delete_cookie('SIDR');
     }
 
 

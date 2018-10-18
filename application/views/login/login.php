@@ -53,14 +53,18 @@
                         </div>
 
                         <div class="form-group form-group-feedback form-group-feedback-left">
-                            <input type="text" class="form-control" placeholder="Username">
+                            <?php echo form_input([ 'class' => 'form-control',
+                                                    'placeholder' => 'username',
+                                                    'name' => 'username'])?>
                             <div class="form-control-feedback">
                                 <i class="icon-user text-muted"></i>
                             </div>
                         </div>
 
                         <div class="form-group form-group-feedback form-group-feedback-left">
-                            <input type="password" class="form-control" placeholder="Password">
+                            <?php echo form_password([  'class' => 'form-control',
+                                                        'placeholder' => 'password',
+                                                        'name' => 'password'])?>
                             <div class="form-control-feedback">
                                 <i class="icon-lock2 text-muted"></i>
                             </div>
@@ -69,7 +73,8 @@
                         <div class="form-group d-flex align-items-center">
                             <div class="form-check mb-0">
                                 <label class="form-check-label">
-                                    <input type="checkbox" name="remember" class="form-input-styled" checked data-fouc>
+                                    <?php echo form_checkbox([  'name' => 'remember_Me',
+                                                                'class' => 'form-input-styled'], 'true', true);?>
                                     Remember me
                                 </label>
                             </div>
