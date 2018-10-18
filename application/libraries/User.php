@@ -75,6 +75,7 @@ class User
     {
         // Assign the CodeIgniter super-object
         $this->CI =& get_instance();
+        $this->CI->load->library('user_agent');
         $this->CI->load->helper('cookie');
     }
 
@@ -113,38 +114,43 @@ class User
             return LOGIN_ERROR_PASSWORD;
         }
 
+        //Get Device information
+        $device_info = $this->CI->agent->is_mobile() == true ? "Mobile: " : "";
+        $device_info .=  $this->CI->agent->browser();
+
+        //Set User variables
         $this->store_id = $user_info->Store_ID;
         $this->user_id = $user_info->User_ID;
         $this->username = $user_info->Username;
 
 
-        //TODO -> Implement:
-
         $cstrong = True;
         $this->token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong));
 
+        //Add token to the DB
+        $this->CI->db
+                    ->set([ 'Name' => $device_info,
+                            'User_ID' => $this->user_id,
+                            'Token_Key' => $this->token])
+                    ->insert('UserTokens');
 
+        $cookie_time = strtotime('3 days', 0);      //sets cookie expiration date if not remember me
+        $cookie_reminder = strtotime('2 days', 0);  //sets cookie refresh reminder timer (every 1 day refresh the token)
 
-        $r = $this->CI->db
-                          ->set([ 'User_ID' => $this->user_id,
-                                  'Token_Key' => $this->token])
-                          ->insert('UserTokens');
+        $https = ENVIRONMENT == 'development' ? false : true;
 
-
-
-
-
-
-
-
-        //check remember me
-            //Add token as cookie (temp)
-            //Add token as cookie (remb)
-                //Add time cookie (3days)
+        //Add token cookie
+        if($remember_me){
+            set_cookie("SID", $this->token, $cookie_time);
+            set_cookie("SIDR", true, $cookie_reminder);
+        }else{
+           set_cookie("SID", $this->token, 0);
+        }
 
         return LOGIN_SUCCESS;
 
     }
+
 
     /**
      * @return string

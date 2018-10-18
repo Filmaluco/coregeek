@@ -27,6 +27,7 @@ class AUTH_Controller extends MY_Controller{
     public function __construct() {
         parent::__construct();
         $this->load->library('user');
+        $this->load->helper('cookie');
 
         //Set basic data to the view
         $this->data = array(
@@ -61,5 +62,39 @@ class AUTH_Controller extends MY_Controller{
     public function get_data(){
         return $this->data;
     }
+
+    /**
+     * @param string $controller_Name
+     */
+    public function set_ControllerName($controller_Name)
+    {
+        $this->controller_Name = $controller_Name;
+    }
+
+    /**
+     * @param string $current_Method
+     */
+    public function set_CurrentMethod($current_Method)
+    {
+        $this->current_Method = $current_Method;
+    }
+
+    /**
+     * @param string $parent_Path_Name
+     */
+    public function set_ParentPathName($parent_Path_Name)
+    {
+        $this->parent_Path_Name = $parent_Path_Name;
+    }
+
+    /**
+     * @param string $parent_Path
+     */
+    public function set_ParentPath($parent_Path)
+    {
+        $this->parent_Path = $parent_Path;
+    }
+
+
 
 }
