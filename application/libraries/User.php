@@ -150,6 +150,12 @@ class User
     }
 
     public function logout(){
+
+        $this->CI->db
+                    ->set([ 'Status' => 0])
+                    ->where('Token_Key', $this->CI->input->cookie('SID'))
+                    ->update('UserTokens');
+
         delete_cookie('SID');
         delete_cookie('SIDR');
     }
