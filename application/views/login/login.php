@@ -52,6 +52,10 @@
                             <span class="d-block text-muted">Your credentials</span>
                         </div>
 
+                        <?php if ($this->session->flashdata('errors')){
+                            echo $this->session->flashdata('errors');
+                        };?>
+
                         <div class="form-group form-group-feedback form-group-feedback-left">
                             <?php echo form_input([ 'class' => 'form-control',
                                                     'placeholder' => 'username',
