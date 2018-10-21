@@ -19,7 +19,7 @@ class AUTH_Controller extends MY_Controller{
     protected $controller_Name = "notDefined";
     protected $current_Method= "notDefined";
     protected $parent_Path_Name = "notDefined";
-    protected $parent_Path = "#";
+    protected $parent_Path = "";
 
     //Data that is passed to the views;
     protected $data;
@@ -28,6 +28,10 @@ class AUTH_Controller extends MY_Controller{
         parent::__construct();
         $this->load->library('user');
         $this->load->helper('cookie');
+
+        if($this->user->authenticate() == AUTHENTICATION_ERROR){
+            redirect('/login');
+        }
 
         //Set basic data to the view
         $this->data = array(

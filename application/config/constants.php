@@ -84,7 +84,21 @@ defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
+//COOKIES TIMES (used for controlling the amount of time cookies stay in a browser)
+defined('COOKIE_TIME_ACCESS')               OR define('COOKIE_TIME_ACCESS','3 days'); // user login accepted
+
 //LOGIN CONSTANTS (used for authentication and login only)
 defined('LOGIN_SUCCESS')                    OR define('LOGIN_SUCCESS', 0); // user login accepted
 defined('LOGIN_ERROR_NON_EXISTENT_USER')    OR define('LOGIN_ERROR_NON_EXISTENT_USER', 1); // user doesn't exist
 defined('LOGIN_ERROR_PASSWORD')             OR define('LOGIN_ERROR_PASSWORD', 2); // user password does not match
+
+//AUTHENTICATION (used for control over the authentication result)
+defined('AUTHENTICATION_SUCCESS')           OR define('AUTHENTICATION_SUCCESS', 1); // current user is valid
+defined('AUTHENTICATION_ERROR')             OR define('AUTHENTICATION_ERROR', 0); // current user is invalid
+
+//TOKEN
+defined('TOKEN_VALID')                      OR define('TOKEN_VALID', 1); // current token is valid
+defined('TOKEN_INVALID')                    OR define('TOKEN_INVALID', 0); // current token is invalid
+
+//LOAD CONSTANTS (used for default loads of the database)
+defined('LOAD_LAST_NOTIFICATIONS')          OR define('LOAD_LAST_NOTIFICATIONS', 5); //loads last 5notifications

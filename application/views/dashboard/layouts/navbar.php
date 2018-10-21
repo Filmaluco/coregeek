@@ -27,15 +27,12 @@
         <ul class="navbar-nav ml-auto">
 
             <li class="nav-item dropdown">
-                <a href="#" class="navbar-nav-link">
+                <a href="" class="navbar-nav-link">
                     <i class="icon-bell2"></i>
                     <span class="d-md-none ml-2">Notifications</span>
-                    <?php if($user_NumberOfNotifications > 0){
-                        echo '<span class="badge badge-mark border-orange ml-auto ml-md-0"></span>';
-                    }else
-                        echo '<span class="badge badge-mark border-white ml-auto ml-md-0"></span>';
-                        ?>
-
+                        <?php if($user_NumberOfNotifications > 0){
+                            echo '<span class="badge badge-danger badge-pill">'.$user_NumberOfNotifications.'</span>';
+                        } ?>
                 </a>
             </li>
 
@@ -46,8 +43,8 @@
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a href="#" class="dropdown-item"><i class="icon-user-plus"></i> My profile</a>
-                    <a href="#" class="dropdown-item"><i class="icon-cog5"></i> Account settings</a>
+                    <a href="#" class="dropdown-item"><i class="icon-user-plus"></i>O meu Perfil</a>
+                    <a href="#" class="dropdown-item"><i class="icon-cog5"></i> Definições de Conta</a>
                     <div class="dropdown-divider"></div>
                     <a href="<?php echo site_url('login/logout/') ?>" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
                 </div>

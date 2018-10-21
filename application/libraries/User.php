@@ -76,7 +76,9 @@ class User
         // Assign the CodeIgniter super-object
         $this->CI =& get_instance();
         $this->CI->load->library('user_agent');
+        $this->CI->load->library('notification');
         $this->CI->load->helper('cookie');
+        $this->CI->load->helper('date');
     }
 
     /**
@@ -132,15 +134,15 @@ class User
                             'Token_Key' => $this->token])
                     ->insert('UserTokens');
 
-        $cookie_time = strtotime('3 days', 0);      //sets cookie expiration date if not remember me
-        $cookie_reminder = strtotime('2 days', 0);  //sets cookie refresh reminder timer (every 1 day refresh the token)
+        $cookie_time = strtotime(COOKIE_TIME_ACCESS, 0);      //sets cookie token
+        $cookie_reminder = strtotime(COOKIE_TIME_ACCESS, 0);  //sets cookie remind me
 
         $https = ENVIRONMENT == 'development' ? false : true;
 
         //Add token cookie
         if($remember_me){
             set_cookie("SID", $this->token, $cookie_time);
-            set_cookie("SIDR", true, $cookie_reminder);
+            set_cookie("SIDR", $this->token, $cookie_reminder);
         }else{
            set_cookie("SID", $this->token, 0);
         }
@@ -149,6 +151,9 @@ class User
 
     }
 
+    /**
+     * @return void
+     */
     public function logout(){
 
         $this->CI->db
@@ -158,6 +163,128 @@ class User
 
         delete_cookie('SID');
         delete_cookie('SIDR');
+
+    }
+
+    /**
+     * @return int
+     *      AUTHENTICATION_SUCCESS
+     *      AUTHENTICATION_ERROR
+     * @throws Exception
+     */
+    public function authenticate(){
+
+        //Check if theres a token cookie
+        if(!$this->CI->input->cookie('SID')){
+            return AUTHENTICATION_ERROR;
+        }
+
+        //Gets the token cookie
+        $this->token = $this->CI->input->cookie('SID');
+
+        //Obtains token info
+        $token_info = $this->CI->db->get_where('UserTokens', ['Token_Key' => $this->token], 1);
+        $token_info = $token_info->row();
+
+        //Checks if token is valid
+        if($token_info->Status == TOKEN_INVALID){
+            return AUTHENTICATION_ERROR;
+        }
+
+        //Load Basic Info ---------------------------------------------------------------------------------------------
+        $this->user_id = $token_info->User_ID;
+
+        $user_details = $this->CI->db->get_where('Users', ['User_ID' => $this->user_id],1);
+        $user_details = $user_details->row();
+
+        $this->username = $user_details->Username;
+        $this->store_id = $user_details->Store_ID;
+
+        //Load Notifications info --------------------------------------------------------------------------------------
+        //TODO
+        //count total of notifications not seen
+        $user_notifications_info = $this->CI->db->get_where('UserNotifications', ['User_ID' => $this->user_id, 'Seen' => 0]);
+        $this->notifications_count = $user_notifications_info->num_rows();
+
+
+        //gets last LOAD_LAST_NOTIFICATIONS
+
+        $last_notifications = $this->CI->db->query('SELECT N.*
+                                                    FROM UserNotifications userN
+                                                      JOIN Notifications N ON (userN.Notification_ID = N.Notification_ID)
+                                                    WHERE userN.User_ID = '.$this->user_id.'
+                                                    ORDER BY N.Creation_Date DESC
+                                                    LIMIT '.LOAD_LAST_NOTIFICATIONS.';');
+
+        $all_notifications = array();
+        foreach ($last_notifications->result() as $info){
+            $newNotification = new Notification();
+            try {
+                $newNotification->load($info->Notification_ID, 2);
+            } catch (Exception $e) {
+                $this->notifications_count--;
+                continue;
+            }
+            array_push($all_notifications, $newNotification);
+        }
+
+
+        //TODO
+        //Pass this data as array to the view for easy acess
+
+
+
+        //Load Groups Info ---------------------------------------------------------------------------------------------
+        //TODO
+
+        //Load Permissions Info ----------------------------------------------------------------------------------------
+        //TODO
+
+
+
+        //Checks if it's a reminder token
+        if($this->CI->input->cookie('SIDR')){
+            $token_info_data = new DateTime($token_info->Creation_Date);
+
+            $token_info_data->modify('+1 day');
+            $token_info_data = $token_info_data->format('Y-m-d');
+
+
+            //If the token creation date is 1 or more days older
+            if($token_info_data <= date('Y-m-d')){
+                //Destroy old Cookie -----------------------------------------------------------------------------------
+                $this->CI->db
+                    ->set([ 'Status' => 0])
+                    ->where('Token_Key', $this->CI->input->cookie('SID'))
+                    ->update('UserTokens');
+
+                delete_cookie('SID');
+
+                //Set new one ------------------------------------------------------------------------------------------
+                $cstrong = True;
+                $this->token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong));
+
+
+                //Get Device information
+                $device_info = $this->CI->agent->is_mobile() == true ? "Mobile: " : "";
+                $device_info .=  $this->CI->agent->browser();
+                //Add token to the DB
+                $this->CI->db
+                    ->set([ 'Name' => $device_info,
+                            'User_ID' => $this->user_id,
+                            'Token_Key' => $this->token])
+                    ->insert('UserTokens');
+
+                //Create cookies
+                $cookie_time = strtotime(COOKIE_TIME_ACCESS, 0);      //sets cookie token
+                $cookie_reminder = strtotime(COOKIE_TIME_ACCESS, 0);  //sets cookie remind me
+
+                set_cookie("SID", $this->token, $cookie_time);
+                set_cookie("SIDR", $this->token, $cookie_reminder);
+            }
+        }
+
+        return AUTHENTICATION_SUCCESS;
     }
 
 
