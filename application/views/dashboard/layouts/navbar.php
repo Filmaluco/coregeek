@@ -68,16 +68,16 @@
                         echo '</ul>';
                     echo '</div>';
 
-                }
-                ?>
+                    echo '<div class="dropdown-content-footer bg-light">';
+                        echo '<a href="#" class="text-grey mr-auto">';
+                            echo 'All Notifications</a>';
+                        echo '<div>';
+                            echo '<a href="#" class="text-grey" data-popup="tooltip" title="Mark all as read"><i class="icon-radio-unchecked"></i></a>';
+                       echo ' </div>';
+                    echo '</div>';
+               echo '</div>';
 
-                    <div class="dropdown-content-footer bg-light">
-                        <a href="#" class="text-grey mr-auto">All Notifications</a>
-                        <div>
-                            <a href="#" class="text-grey" data-popup="tooltip" title="Mark all as read"><i class="icon-radio-unchecked"></i></a>
-                        </div>
-                    </div>
-                </div>
+                } ?>
             </li>
 
             <!----------------------------------- NOTIFICATIONS ------------------------------------------------------->

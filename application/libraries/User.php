@@ -213,7 +213,8 @@ class User
         $last_notifications = $this->CI->db->query('SELECT N.*
                                                     FROM UserNotifications userN
                                                       JOIN Notifications N ON (userN.Notification_ID = N.Notification_ID)
-                                                    WHERE userN.User_ID = '.$this->user_id.'
+                                                    WHERE userN.User_ID = '.$this->user_id.' AND
+                                                          userN.Seen = 0
                                                     ORDER BY N.Creation_Date DESC
                                                     LIMIT '.LOAD_LAST_NOTIFICATIONS.';');
 
