@@ -1,8 +1,8 @@
 <!-- Main navbar -->
 <div class="navbar navbar-expand-md navbar-dark">
     <div class="navbar-brand">
-        <a href="#" class="d-inline-block">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJftYqJsvhphX6OOjKMjbwllPKR70rAjXcpsP3tQ8XM7-tqRm4" alt="loading">
+        <a href="<?php echo site_url('r/home');?>" class="d-inline-block">
+            <img src="<?php echo assets_url()?>/images/banner-logo.png" alt="loading">
         </a>
     </div>
 
@@ -84,7 +84,7 @@
 
             <li class="nav-item dropdown dropdown-user">
                 <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJftYqJsvhphX6OOjKMjbwllPKR70rAjXcpsP3tQ8XM7-tqRm4" class="rounded-circle mr-2" height="34" alt="loading">
+                    <img src="<?php echo assets_url()?>/images/avatar-logo.jpg" class="rounded-circle mr-2" height="34" width="34" alt="loading">
                     <span> <?php echo $username?></span>
                 </a>
 

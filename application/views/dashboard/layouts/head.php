@@ -18,6 +18,10 @@
 <script src="<?php echo assets_url()?>/js/plugins/loaders/blockui.min.js"></script>
 <!-- /core JS files -->
 
+<script src="<?php echo assets_url()?>/js/plugins/extensions/session_timeout.min.js"></script>
+<script src="<?php echo assets_url()?>/js/plugins/ui/prism.min.js"></script>
+<script src="<?php echo assets_url()?>/js/coregeek/userTimeout.js"></script>
+
 <!-- Theme JS files -->
 <script src="<?php echo assets_url()?>/js/app.js"></script>
 <!-- /theme JS files -->

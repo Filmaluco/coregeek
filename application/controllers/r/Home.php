@@ -18,7 +18,7 @@ class Home extends AUTH_Controller
 
         // REQUIRED ----------------------------------------------------------------------------------------------------
         $this->set_ControllerName('Home');
-        $this->set_ParentPath(site_url('/home'));
+        $this->set_ParentPath(site_url('r/home'));
         $this->set_ParentPathName('Home');
         //--------------------------------------------------------------------------------------------------------------
 
@@ -42,8 +42,6 @@ class Home extends AUTH_Controller
         }else{
             echo "User is not admin, please contact this website developer";
         }
-
-
 
     }
 

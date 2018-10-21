@@ -23,7 +23,7 @@
             <div class="card-body">
                 <div class="media">
                     <div class="mr-3">
-                        <a href="#"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJftYqJsvhphX6OOjKMjbwllPKR70rAjXcpsP3tQ8XM7-tqRm4" width="38" height="38" class="rounded-circle" alt="loading"></a>
+                        <a href="#"><img src="<?php echo assets_url()?>/images/avatar-logo.jpg" width="38" height="38" class="rounded-circle" alt="loading"></a>
                     </div>
 
                     <div class="media-body">
@@ -46,7 +46,7 @@
                 <!-- Main -->
                 <li class="nav-item-header"><div class="text-uppercase font-size-xs line-height-xs">Main</div> <i class="icon-menu" title="Main"></i></li>
                 <li class="nav-item">
-                    <a href="<?php echo site_url('/home');?>" class="nav-link <?php if($current_Method == 'Home'){echo 'active';}?>">
+                    <a href="<?php echo site_url('r/home');?>" class="nav-link <?php if($current_Method == 'Home' && $controller_Name == 'Home'){echo 'active';}?>">
                         <i class="icon-home4"></i>
                         <span>Home</span>
                     </a>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Home</title>
+    <title><?php echo 'Coregeek.pt - ' . $current_Method;?></title>
 
     <?php $this->view('dashboard/layouts/head'); ?>
 

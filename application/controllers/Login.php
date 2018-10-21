@@ -49,7 +49,7 @@ class Login extends CI_Controller
 
         switch ($login_return){
             case LOGIN_SUCCESS:
-                redirect('/home');
+                redirect('r/home');
                 break;
             case LOGIN_ERROR_PASSWORD:
                 $data = [
