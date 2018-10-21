@@ -237,7 +237,7 @@ class User
         $user_groups = $this->CI->db->query('
                                                 SELECT Groups.*
                                                 FROM Groups
-                                                LEFT JOIN UserGroups
+                                                RIGHT JOIN UserGroups
                                                 on Groups.Group_ID = UserGroups.Group_ID
                                                     and UserGroups.User_ID in (    
                                                         SELECT Users.User_ID
@@ -260,7 +260,7 @@ class User
                                                         and GroupPermissions.Group_ID in (
                                                             SELECT Groups.Group_ID
                                                             FROM Groups
-                                                            LEFT JOIN UserGroups
+                                                            RIGHT JOIN UserGroups
                                                             on Groups.Group_ID = UserGroups.Group_ID
                                                                 and UserGroups.User_ID in (    
                                                                     SELECT Users.User_ID
@@ -293,7 +293,7 @@ class User
                                                         and GroupPermissions.Group_ID in (
                                                             SELECT Groups.Group_ID
                                                             FROM Groups
-                                                            LEFT JOIN UserGroups
+                                                            RIGHT JOIN UserGroups
                                                             on Groups.Group_ID = UserGroups.Group_ID
                                                                 and UserGroups.User_ID in (    
                                                                     SELECT Users.User_ID

@@ -102,3 +102,4 @@ defined('TOKEN_INVALID')                    OR define('TOKEN_INVALID', 0); // cu
 
 //LOAD CONSTANTS (used for default loads of the database)
 defined('LOAD_LAST_NOTIFICATIONS')          OR define('LOAD_LAST_NOTIFICATIONS', 5); //loads last 5notifications
+

@@ -21,6 +21,9 @@ class AUTH_Controller extends MY_Controller{
     protected $parent_Path_Name = "notDefined";
     protected $parent_Path = "";
 
+    protected $required_groups = array();
+    protected $required_permissions = array();
+
     //Data that is passed to the views;
     protected $data;
 
@@ -51,6 +54,8 @@ class AUTH_Controller extends MY_Controller{
     /**
      * @param $var = value of the data we pretend to add to the view
      * @param string $key = name of the variable (ex: $key)
+     *
+     * if $var is of type array will merge both the arrays, therefore there's no need to specify a $key
      */
     public function add_data($var, $key = 'default'){
         if(is_array($var)){
@@ -74,6 +79,7 @@ class AUTH_Controller extends MY_Controller{
     public function set_ControllerName($controller_Name)
     {
         $this->controller_Name = $controller_Name;
+        $this->data['controller_Name'] = $controller_Name;
     }
 
     /**
@@ -82,6 +88,7 @@ class AUTH_Controller extends MY_Controller{
     public function set_CurrentMethod($current_Method)
     {
         $this->current_Method = $current_Method;
+        $this->data['current_Method'] = $current_Method;
     }
 
     /**
@@ -90,6 +97,7 @@ class AUTH_Controller extends MY_Controller{
     public function set_ParentPathName($parent_Path_Name)
     {
         $this->parent_Path_Name = $parent_Path_Name;
+        $this->data['parent_Path_Name'] = $parent_Path_Name;
     }
 
     /**
@@ -98,8 +106,97 @@ class AUTH_Controller extends MY_Controller{
     public function set_ParentPath($parent_Path)
     {
         $this->parent_Path = $parent_Path;
+        $this->data['parent_Path'] = $parent_Path;
     }
 
+
+    /**
+     * @param $group_name
+     * @return bool
+     */
+    public function belongs_group($group_name){
+        return in_array($group_name, $this->user->get_groups());
+    }
+
+    /**
+     * @param $var
+     * will always clear the previous groups
+     */
+    public function set_group($var = array()){
+        $this->required_groups = array();
+        if(is_array($var)){
+            $this->required_groups = array_merge($this->required_groups, $var);
+        } else{
+           array_push( $this->required_groups, $var);
+        }
+    }
+
+    /**
+     * @param $var
+     * will always clear the previous permissions
+     */
+    public function set_permissions($var = array()){
+        $this->required_permissions = array();
+        if(is_array($var)){
+            $this->required_permissions = array_merge($this->required_permissions, $var);
+        } else{
+            array_push( $this->required_permissions, $var);
+        }
+    }
+
+    /**
+     * @return int
+     *          AUTHENTICATION_SUCCESS
+     *          AUTHENTICATION_ERROR
+     */
+    public function access_check(){
+        $flag = 0;
+
+        //Checks if Groups are required
+        if (empty($this->required_groups)){
+            $flag = 1;
+        }
+
+        //If required groups
+        if(!$flag){
+            // Check if the User belongs to any required group
+            foreach ($this->user->get_groups() as $group){
+                if(in_array($group, $this->required_groups)){
+                    $flag = 1;
+                    break;
+                }
+            }
+        }
+
+        // Doesn't belong to any required group
+        if(!$flag){
+          return AUTHENTICATION_ERROR;
+        }
+
+        $flag = 0;
+
+        //Check if requires any permissions
+        if (empty($this->required_permissions)){
+            $flag = 1;
+        }
+
+        //If requires permissions
+        if(!$flag){
+            // Check if the User belongs to any required group
+            foreach ($this->user->get_permissions() as $permission){
+                if(in_array($permission, $this->required_permissions)){
+                    $flag = 1;
+                    break;
+                }
+            }
+        }
+
+        if($flag){
+           return AUTHENTICATION_SUCCESS;
+        }// Else
+
+        return AUTHENTICATION_ERROR;
+    }
 
 
 }

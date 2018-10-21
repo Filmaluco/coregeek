@@ -18,7 +18,12 @@ class Navigation_Menu
         $this->CI =& get_instance();
     }
 
-    //TODO:: EVERYTHING
-    //TODO:: get menu in format for side bar
+    public function admin_menu(){
+        return $this->CI->load->view('nav_menus/nav_menu_admin.php','',true);
+    }
+
+    public function default_menu(){
+        return $this->CI->load->view('nav_menus/nav_menu_default.php','',true);
+    }
 
 }

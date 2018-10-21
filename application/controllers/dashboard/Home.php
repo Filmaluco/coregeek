@@ -12,22 +12,39 @@ class Home extends AUTH_Controller
     public function __construct()
     {
         parent::__construct();
-        //Set Controller overall permissions
-            //TODO:: set Group Acess
-            //TODO:: check user Group
-
         //This Controller requires a sideBar Menu
-        $this->load->library('Navigation_Menu');
+        $this->load->library('navigation_menu');
         $this->load->helper('cookie');
+
+        // REQUIRED ----------------------------------------------------------------------------------------------------
+        $this->set_ControllerName('Home');
+        $this->set_ParentPath(site_url('/home'));
+        $this->set_ParentPathName('Home');
+        //--------------------------------------------------------------------------------------------------------------
 
     }
 
     public function Index(){
-        //TODO:: Check permission View
-        $this->load->view('dashboard/home/index/admin_index', $this->get_data());
 
-        //$hash = \password_hash(':2GeekCore18:', PASSWORD_DEFAULT);
-        //echo 'HASH: '. $hash . '</br>';
+        // REQUIRED ----------------------------------------------------------------------------------------------------
+        $this->set_CurrentMethod('Home');
+        $this->set_group();
+        $this->set_permissions();
+        if($this->access_check()== AUTHENTICATION_ERROR){
+            redirect('/login');
+        }
+        //--------------------------------------------------------------------------------------------------------------
+
+        if($this->belongs_group('Admin')){
+            $this->add_data("Admin", 'group');
+            echo $this->load->view('dashboard/home/index/admin_index', $this->get_data(), true);
+            die();
+        }else{
+            echo "User is not admin, please contact this website developer";
+        }
+
+
+
     }
 
 }
