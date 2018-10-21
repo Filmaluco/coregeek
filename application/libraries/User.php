@@ -10,7 +10,7 @@ class User
 {
     /**
      * @var CI_Controller
-     * allows acess to codeIgniter framework
+     * allows access to codeIgniter framework
      */
     protected $CI;
 
@@ -170,7 +170,8 @@ class User
      * @return int
      *      AUTHENTICATION_SUCCESS
      *      AUTHENTICATION_ERROR
-     * @throws Exception
+     *
+     * TODO: complex increase description
      */
     public function authenticate(){
 
@@ -227,6 +228,8 @@ class User
             }
             array_push($all_notifications, $newNotification);
         }
+
+        $this->notifications = $all_notifications;
 
 
         //TODO
@@ -292,7 +295,7 @@ class User
      * @return string
      * returns username
      */
-    public function getUserName()
+    public function get_userName()
     {
         return $this->username;
     }
@@ -301,9 +304,17 @@ class User
      * @return string
      * returns the number of unread notifications
      */
-    public function getNumberOfNotifications()
+    public function get_nr_notifications()
     {
         return $this->notifications_count;
+    }
+
+    /**
+     * @return Array of Notification
+     * returns array with the last Notifications
+     */
+    public function get_last_notifications(){
+        return $this->notifications;
     }
 
     //TODO:: shit ton (check evernote)

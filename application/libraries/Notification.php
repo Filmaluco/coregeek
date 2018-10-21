@@ -98,6 +98,8 @@ class Notification
      * @param $notificationID
      * @param $user_id
      * @throws Exception => if the user has no access to the notification OR notification does not exist
+     *
+     * TODO: complex increase description
      */
     public function load($notificationID, $user_id)
     {
@@ -130,6 +132,19 @@ class Notification
 
     }
 
+    public function get_time_since(){
+        $now = new DateTime();
+        $creation_date = new DateTime($this->creation_date);
+
+
+        $since_start = date_diff($now, $creation_date);
+
+        if($since_start->days >= 1){
+            return $since_start->format("%d days and %h hours ago");
+        }//Else
+            return $since_start->format("%i minutes ago");
+    }
+
     /**
      * Sets notification as Seen
      */
@@ -139,6 +154,7 @@ class Notification
             ->where('Token_Key', $this->CI->input->cookie('SID'))
             ->update('UserNotifications');
     }
+
 
 
 
