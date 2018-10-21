@@ -220,7 +220,7 @@ class User
         foreach ($last_notifications->result() as $info){
             $newNotification = new Notification();
             try {
-                $newNotification->load($info->Notification_ID, 2);
+                $newNotification->load($info->Notification_ID, $this->user_id);
             } catch (Exception $e) {
                 $this->notifications_count--;
                 continue;
