@@ -201,8 +201,7 @@ class User
         $this->username = $user_details->Username;
         $this->store_id = $user_details->Store_ID;
 
-        //Load Notifications info --------------------------------------------------------------------------------------
-        //TODO
+        //Load Notifications -------------------------------------------------------------------------------------------
         //count total of notifications not seen
         $user_notifications_info = $this->CI->db->get_where('UserNotifications', ['User_ID' => $this->user_id, 'Seen' => 0]);
         $this->notifications_count = $user_notifications_info->num_rows();
@@ -233,17 +232,90 @@ class User
         $this->notifications = $all_notifications;
 
 
-        //TODO
-        //Pass this data as array to the view for easy acess
-
-
-
         //Load Groups Info ---------------------------------------------------------------------------------------------
-        //TODO
+        $this->groups = array();
+        $user_groups = $this->CI->db->query('
+                                                SELECT Groups.*
+                                                FROM Groups
+                                                LEFT JOIN UserGroups
+                                                on Groups.Group_ID = UserGroups.Group_ID
+                                                    and UserGroups.User_ID in (    
+                                                        SELECT Users.User_ID
+                                                        FROM Users
+                                                        WHERE Users.User_ID = '.$this->user_id.' )');
+
+        foreach ($user_groups->result() as $groups){
+            array_push($this->groups, $groups->Name);
+        }
 
         //Load Permissions Info ----------------------------------------------------------------------------------------
-        //TODO
+        $this->permissions = array();
 
+        //Loads Permission's he has access (and where not denied)
+        $granted_permissions = $this->CI->db->query('
+                                                SELECT DISTINCT Permissions.Name
+                                                FROM Permissions
+                                                    RIGHT JOIN GroupPermissions
+                                                    on Permissions.Permission_ID = GroupPermissions.Permission_ID
+                                                        and GroupPermissions.Group_ID in (
+                                                            SELECT Groups.Group_ID
+                                                            FROM Groups
+                                                            LEFT JOIN UserGroups
+                                                            on Groups.Group_ID = UserGroups.Group_ID
+                                                                and UserGroups.User_ID in (    
+                                                                    SELECT Users.User_ID
+                                                                    FROM Users
+                                                                    WHERE Users.User_ID = '.$this->user_id.'
+                                                                ) 
+                                                        )
+                                                WHERE NOT Permissions.Permission_ID in (
+                                                    SELECT Override_UserPermissions.Permission_ID
+                                                    FROM Override_UserPermissions
+                                                        LEFT JOIN Users
+                                                        ON Override_UserPermissions.User_ID in (
+                                                        SELECT Users.User_ID
+                                                        FROM Users
+                                                        WHERE Users.User_ID = 1
+                                                    )
+                                                    WHERE NOT Override_UserPermissions.Status = 1
+                                                )');
+
+        foreach ($granted_permissions->result() as $granted){
+            array_push($this->permissions, $granted->Name);
+        }
+
+        // Loads Override Permissions Granted
+        $overrided_permissions = $this->CI->db->query('
+                                                SELECT DISTINCT Permissions.Name
+                                                FROM Permissions
+                                                    RIGHT JOIN GroupPermissions
+                                                    on Permissions.Permission_ID = GroupPermissions.Permission_ID
+                                                        and GroupPermissions.Group_ID in (
+                                                            SELECT Groups.Group_ID
+                                                            FROM Groups
+                                                            LEFT JOIN UserGroups
+                                                            on Groups.Group_ID = UserGroups.Group_ID
+                                                                and UserGroups.User_ID in (    
+                                                                    SELECT Users.User_ID
+                                                                    FROM Users
+                                                                    WHERE Users.User_ID = '.$this->user_id.'
+                                                                ) 
+                                                        )
+                                                WHERE Permissions.Permission_ID in (
+                                                    SELECT Override_UserPermissions.Permission_ID
+                                                    FROM Override_UserPermissions
+                                                        LEFT JOIN Users
+                                                        ON Override_UserPermissions.User_ID in (
+                                                        SELECT Users.User_ID
+                                                        FROM Users
+                                                        WHERE Users.User_ID = 1
+                                                    )
+                                                    WHERE Override_UserPermissions.Status = 1
+                                                )');
+
+        foreach ($overrided_permissions->result() as $granted){
+            array_push($this->permissions, $granted->Name);
+        }
 
 
         //Checks if it's a reminder token
@@ -311,14 +383,29 @@ class User
     }
 
     /**
-     * @return Array of Notification
+     * @return array of Notification
      * returns array with the last Notifications
      */
     public function get_last_notifications(){
         return $this->notifications;
     }
 
-    //TODO:: shit ton (check evernote)
+    /**
+     * @return array strings
+     * returns array with the user group names
+     */
+    public function get_groups(){
+        return $this->groups;
+    }
+
+    /**
+     * @return array strings
+     * returns array with the user permissions
+     */
+    public function get_permissions(){
+        return $this->permissions;
+    }
+
 
 
 }
