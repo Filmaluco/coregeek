@@ -29,7 +29,7 @@ class Home extends AUTH_Controller
         // REQUIRED ----------------------------------------------------------------------------------------------------
         $this->set_CurrentMethod('Home');
         $this->set_group();
-        $this->set_permissions();
+        $this->set_permissions('');
         if($this->access_check()== AUTHENTICATION_ERROR){
             redirect('/login');
         }
