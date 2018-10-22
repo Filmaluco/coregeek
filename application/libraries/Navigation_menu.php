@@ -6,7 +6,7 @@
  * Time: 22:30
  */
 
-class Navigation_Menu
+class Navigation_menu
 {
     protected $CI;
 
