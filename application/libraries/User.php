@@ -253,7 +253,7 @@ class User
 
         //Loads Permission's he has access (and where not denied)
         $granted_permissions = $this->CI->db->query('
-                                                SELECT DISTINCT Permissions.Name
+                                                SELECT Permissions.Name
                                                 FROM Permissions
                                                     RIGHT JOIN GroupPermissions
                                                     on Permissions.Permission_ID = GroupPermissions.Permission_ID
@@ -286,7 +286,7 @@ class User
 
         // Loads Override Permissions Granted
         $overrided_permissions = $this->CI->db->query('
-                                                SELECT DISTINCT Permissions.Name
+                                                SELECT Permissions.Name
                                                 FROM Permissions
                                                     RIGHT JOIN GroupPermissions
                                                     on Permissions.Permission_ID = GroupPermissions.Permission_ID

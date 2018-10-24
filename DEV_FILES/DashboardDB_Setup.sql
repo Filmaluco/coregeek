@@ -17,10 +17,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `CoreGeek_DevDB`
+-- Database: `Dashboard`
 --
-CREATE DATABASE IF NOT EXISTS `CoreGeek_DevDB` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `CoreGeek_DevDB`;
+CREATE DATABASE IF NOT EXISTS `Dashboard` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `Dashboard`;
 
 -- --------------------------------------------------------
 
@@ -124,6 +124,7 @@ CREATE TABLE IF NOT EXISTS `ORs` (
   `OR_ID` int(11) unsigned NOT NULL COMMENT 'PK EvaluationID',
   `Client_ID` int(11) unsigned NOT NULL COMMENT 'FK -> Clientes',
   `Type_ID` int(11) unsigned NOT NULL COMMENT 'FK -> Repair_Types',
+  `Invoice_Number` int(11) unsigned DEFAULT '0' COMMENT 'Nr do orçamento',
   `Conditions_Read` tinyint(1) unsigned DEFAULT '0' COMMENT 'Terms and Conditions',
   `Read_on_Date` datetime DEFAULT NULL COMMENT 'Date the Client clicked Accept'
 ) ENGINE=InnoDB AUTO_INCREMENT=3001 DEFAULT CHARSET=latin1 COMMENT='ORs Table';
@@ -138,12 +139,12 @@ INSERT INTO `ORs` (`OR_ID`, `Client_ID`, `Type_ID`, `Conditions_Read`, `Read_on_
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `ORState`
+-- Estrutura da tabela `OR_State`
 --
 -- Criação: 10-Out-2018 às 21:11
 --
 
-CREATE TABLE IF NOT EXISTS `ORState` (
+CREATE TABLE IF NOT EXISTS `OR_State` (
   `OR_ID` int(11) unsigned NOT NULL COMMENT 'FK -> ORs',
   `State_ID` int(11) unsigned NOT NULL COMMENT 'FK -> Repair_State',
   `User_ID` int(11) unsigned NOT NULL COMMENT 'FK -> Users',
@@ -151,12 +152,57 @@ CREATE TABLE IF NOT EXISTS `ORState` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Keeping track of the or state';
 
 --
--- Extraindo dados da tabela `ORState`
+-- Extraindo dados da tabela `OR_State`
 --
 
-INSERT INTO `ORState` (`OR_ID`, `State_ID`, `User_ID`, `Creation_Date`) VALUES
+INSERT INTO `OR_State` (`OR_ID`, `State_ID`, `User_ID`, `Creation_Date`) VALUES
 (3000, 2, 1, '2018-10-10 22:11:53'),
 (3000, 3, 1, '2018-10-10 22:11:53');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `Rents`
+--
+-- Criação: 10-Out-2018 às 21:11
+--
+
+CREATE TABLE IF NOT EXISTS `Rents` (
+  `Rent_ID` int(11) unsigned NOT NULL COMMENT 'PK Rents',
+  `OR_ID` int(11) unsigned NOT NULL COMMENT 'FK -> ORs',
+  `State_ID` int(11) unsigned NOT NULL COMMENT 'FK -> Rent_State',
+  `Desc` text COMMENT 'Description of the device rented',
+  `Acessories` varchar(64) DEFAULT 'S/ Acessorios' COMMENT 'Acessories rented with phone'
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='Rents Table';
+
+--
+-- Extraindo dados da tabela `Rents`
+--
+
+INSERT INTO `Rents` (`Rent_ID`,`OR_ID`, `State_ID`, `Desc`) VALUES
+(1, 3001, 1, 'Noki7 (Android)');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `Rent_State`
+--
+-- Criação: 10-Out-2018 às 21:11
+--
+
+CREATE TABLE IF NOT EXISTS `Rent_State` (
+  `State_ID` int(11) unsigned NOT NULL COMMENT 'PK State of Rent ID',
+  `Name` varchar(32) NOT NULL COMMENT 'Designation of the state'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COMMENT='State of the rent';
+
+--
+-- Extraindo dados da tabela `OR_State`
+--
+
+INSERT INTO `Rent_State` (`State_ID`, `Name`) VALUES
+(1, 'Emprestado'),
+(2, 'Entrege');
+
 
 -- --------------------------------------------------------
 
@@ -428,12 +474,25 @@ ALTER TABLE `ORs`
   ADD KEY `Type_ID` (`Type_ID`);
 
 --
--- Indexes for table `ORState`
+-- Indexes for table `OR_State`
 --
-ALTER TABLE `ORState`
+ALTER TABLE `OR_State`
   ADD KEY `OR_ID` (`OR_ID`),
   ADD KEY `State_ID` (`State_ID`),
   ADD KEY `User_ID` (`User_ID`);
+
+--
+-- Indexes for table `Rents`
+--
+ALTER TABLE `Rents`
+  ADD PRIMARY KEY (`Rent_ID`),
+  ADD KEY `State_ID` (`State_ID`);
+
+  --
+-- Indexes for table `Rent_State`
+--
+ALTER TABLE `Rent_State`
+  ADD PRIMARY KEY (`State_ID`);
 
 --
 -- Indexes for table `Override_UserPermissions`
@@ -526,6 +585,14 @@ ALTER TABLE `Notifications`
 --
 ALTER TABLE `ORs`
   MODIFY `OR_ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'PK EvaluationID',AUTO_INCREMENT=3001;
+
+
+--
+-- AUTO_INCREMENT for table `Rents`
+--
+ALTER TABLE `Rents`
+  MODIFY `Rent_ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'PK of the Rent ID',AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `Permissions`
 --
@@ -575,12 +642,18 @@ ALTER TABLE `ORs`
   ADD CONSTRAINT `ors_ibfk_2` FOREIGN KEY (`Type_ID`) REFERENCES `Repair_Types` (`Type_ID`);
 
 --
--- Limitadores para a tabela `ORState`
+-- Limitadores para a tabela `Rents`
 --
-ALTER TABLE `ORState`
-  ADD CONSTRAINT `orstate_ibfk_1` FOREIGN KEY (`OR_ID`) REFERENCES `ORs` (`OR_ID`),
-  ADD CONSTRAINT `orstate_ibfk_2` FOREIGN KEY (`State_ID`) REFERENCES `Repair_State` (`State_ID`),
-  ADD CONSTRAINT `orstate_ibfk_3` FOREIGN KEY (`User_ID`) REFERENCES `Users` (`User_ID`);
+ALTER TABLE `Rents`
+  ADD CONSTRAINT `rents_ibfk_1` FOREIGN KEY (`State_ID`) REFERENCES `Rent_State` (`State_ID`);
+
+--
+-- Limitadores para a tabela `OR_State`
+--
+ALTER TABLE `OR_State`
+  ADD CONSTRAINT `or_state_ibfk_1` FOREIGN KEY (`OR_ID`) REFERENCES `ORs` (`OR_ID`),
+  ADD CONSTRAINT `or_state_ibfk_2` FOREIGN KEY (`State_ID`) REFERENCES `Repair_State` (`State_ID`),
+  ADD CONSTRAINT `or_state_ibfk_3` FOREIGN KEY (`User_ID`) REFERENCES `Users` (`User_ID`);
 
 --
 -- Limitadores para a tabela `Override_UserPermissions`
