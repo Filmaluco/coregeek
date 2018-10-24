@@ -23,6 +23,18 @@ class Notification
 
     /**
      * @var string
+     * CSS class style to display the icon
+     */
+    protected $icon = "Not Defined";
+
+    /**
+     * @var string
+     * Notification Title
+     */
+    protected $title = "Not Defined";
+
+    /**
+     * @var string
      * Notification content of the notification / text
      */
     protected $message = "Not Defined";
@@ -59,6 +71,23 @@ class Notification
     {
         return $this->id;
     }
+
+    /**
+     * @return string
+     */
+    public function get_Icon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * @return string
+     */
+    public function get_Title()
+    {
+        return $this->title;
+    }
+
 
     /**
      * @return string
@@ -125,6 +154,8 @@ class Notification
         $notification_info = $this->CI->db->get_where('Notifications', ['Notification_ID' => $this->id],1);
         $notification_info = $notification_info->row();
 
+        $this->icon = $notification_info->Icon;
+        $this->title = $notification_info->Title;
         $this->message = $notification_info->Message;
         $this->creation_date = $notification_info->Creation_Date;
         $this->expiration_date = $notification_info->Expiration_Date;
@@ -132,6 +163,11 @@ class Notification
 
     }
 
+    /**
+     * @return string
+     * Returns the amount of time passed since the creation
+     * ex: "5 days and 2 hours ago"
+     */
     public function get_time_since(){
         $now = new DateTime();
         $creation_date = new DateTime($this->creation_date);

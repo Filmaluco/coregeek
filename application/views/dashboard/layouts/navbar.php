@@ -53,7 +53,7 @@
                             echo '<li class="media">';
 
                                 echo '<div class="mr-3">';
-                                     echo '<a href="#" class="btn bg-transparent border-danger text-danger rounded-round border-2 btn-icon"><i class="icon-bell3"></i></a>';
+                                     echo '<a href="#" class="btn bg-transparent border-danger text-danger rounded-round border-2 btn-icon"><i class="'.$notification->get_Icon().'"></i></a>';
 							    echo '</div>';
 
                                 echo '<div class="media-body">';
