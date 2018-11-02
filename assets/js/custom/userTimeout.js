@@ -1,12 +1,3 @@
-/* ------------------------------------------------------------------------------
- *
- *  # Idle timeout
- *
- *  Demo JS code for extra_idle_timeout.html page
- *
- * ---------------------------------------------------------------------------- */
-
-
 // Setup module
 // ------------------------------
 
@@ -29,12 +20,12 @@ var IdleTimeout = function() {
             heading: 'h5',
             title: 'Inatividade',
             message: 'Vai ser disconectado se continuar inativo, pretentende continuar ligado?',
-            warnAfter: 900000,
-            redirAfter: 950000,
+            warnAfter: 600000,
+            redirAfter: 650000,
             keepBtnText: 'Continuar ligado',
             keepAliveUrl: '/',
-            redirUrl: 'userprofile/lockout',
-            logoutUrl: '../login'
+            redirUrl: 'http://127.0.0.1/coregeek/r/userprofile/lockout',
+            logoutUrl: 'http://127.0.0.1/coregeek/login'
         });
     };
 
