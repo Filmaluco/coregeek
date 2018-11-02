@@ -37,7 +37,7 @@ class UserProfile extends AUTH_Controller
         }
         //--------------------------------------------------------------------------------------------------------------
 
-        echo $this->load->view('dashboard/home/user/index', $this->get_data(), true);
+        echo $this->load->view('dashboard/userprofile/index', $this->get_data(), true);
 
     }
 
@@ -52,7 +52,7 @@ class UserProfile extends AUTH_Controller
         }
         //--------------------------------------------------------------------------------------------------------------
 
-        echo $this->load->view('dashboard/home/userprofile/lockout.php', $this->get_data(), true);
+        echo $this->load->view('dashboard/userprofile/lockout', $this->get_data(), true);
 
     }
 
