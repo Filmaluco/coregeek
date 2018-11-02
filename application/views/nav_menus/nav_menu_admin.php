@@ -86,12 +86,19 @@
 
                 <li class="nav-item">
                     <a href="<?php echo site_url('r/home');?>" class="nav-link">
+                        <i class="icon-coins"></i>
+                        <span>Gerir Tabela de Preços</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="<?php echo site_url('r/home');?>" class="nav-link">
                         <i class="icon-bell3"></i>
                         <span>Gerir Notificações</span>
                     </a>
                 </li>
 
-                <!-- Gestão -->
+                <!-- Reparações -->
                 <li class="nav-item-header"><div class="text-uppercase font-size-xs line-height-xs">Reparações</div> <i class="icon-menu" title="reparacoes"></i></li>
                 <li class="nav-item">
                     <a href="<?php echo site_url('r/home');?>" class="nav-link">
@@ -103,6 +110,7 @@
                 <li class="nav-item nav-item-submenu <?php if($current_Method != 'Home' && $controller_Name == 'Booking'){echo 'nav-item-expanded nav-item-open';}?>">
                     <a href="#" class="nav-link <?php if($controller_Name == 'Booking'){echo 'active';}?>"><i class="icon-clipboard"></i> <span>Booking</span></a>
                     <ul class="nav nav-group-sub" data-submenu-title="Booking">
+                        <li class="nav-item"><a href="<?php echo site_url('r/booking');?>" class="nav-link"><i class="icon-coin-dollar "></i> Tabela Preços</a></li>
                         <li class="nav-item"><a href="<?php echo site_url('r/booking/new_booking');?>" class="nav-link <?php if($current_Method == 'Novo Booking' && $controller_Name == 'Booking'){echo 'active';}?>"><i class="icon-add-to-list"></i> Adicionar</a></li>
                         <li class="nav-item"><a href="<?php echo site_url('r/booking');?>" class="nav-link"><i class="icon-search4"></i> Pesquisa</a></li>
                     </ul>
