@@ -22,6 +22,12 @@ class User
 
     /**
      * @var int
+     * User Store ID
+     */
+    protected $store_name = "Not Defined";
+
+    /**
+     * @var int
      * User User ID
      */
     protected $user_id = "Not Defined";
@@ -201,6 +207,10 @@ class User
         $this->username = $user_details->Username;
         $this->store_id = $user_details->Store_ID;
 
+        $user_details = $this->CI->db->get_where('Stores', ['Store_ID' => $this->store_id],1);
+        $user_details = $user_details->row();
+        $this->store_name = $user_details->Name;
+
         //Load Notifications -------------------------------------------------------------------------------------------
         //count total of notifications not seen
         $user_notifications_info = $this->CI->db->get_where('UserNotifications', ['User_ID' => $this->user_id, 'Seen' => 0]);
@@ -363,6 +373,14 @@ class User
         return AUTHENTICATION_SUCCESS;
     }
 
+
+    /**
+     * @return string
+     * returns Store name
+     */
+    public function get_store_name(){
+        return $this->store_name;
+    }
 
     /**
      * @return string

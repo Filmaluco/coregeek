@@ -44,7 +44,8 @@ class AUTH_Controller extends MY_Controller{
             'parent_Path' => $this->parent_Path,
             'username' => $this->user->get_userName(),
             'user_nr_notifications' => $this->user->get_nr_notifications(),
-            'last_notifications' => $this->user->get_last_notifications()
+            'last_notifications' => $this->user->get_last_notifications(),
+            'store_name' => $this->user->get_store_name()
         );
 
         //TODO:: add user permissions canEdit ...

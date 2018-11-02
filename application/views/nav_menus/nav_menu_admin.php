@@ -27,6 +27,9 @@
                     </div>
                     <div class="media-body">
                         <div class="media-title font-weight-semibold"><?php echo $username?></div>
+                        <div class="font-size-xs opacity-50">
+                            <i class="icon-store font-size-sm"></i> &nbsp; <?php echo $store_name; ?>
+                        </div>
                     </div>
 
                     <div class="ml-3 align-self-center">
@@ -48,6 +51,13 @@
                     <a href="<?php echo site_url('r/home');?>" class="nav-link <?php if($current_Method == 'Home' && $controller_Name == 'Home'){echo 'active';}?>">
                         <i class="icon-home4"></i>
                         <span>Home</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="<?php echo site_url('r/home');?>" class="nav-link">
+                        <i class="icon-pie-chart5"></i>
+                        <span>Estatísticas</span>
                     </a>
                 </li>
 
