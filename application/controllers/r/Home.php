@@ -37,7 +37,7 @@ class Home extends AUTH_Controller
 
         if($this->belongs_group('Admin')){
             $this->add_data("Admin", 'group');
-            echo $this->load->view('dashboard/index/admin_index', $this->get_data(), true);
+            echo $this->load->view('dashboard/home/admin/index', $this->get_data(), true);
             die();
         }else{
             echo "User is not admin, please contact this website developer";

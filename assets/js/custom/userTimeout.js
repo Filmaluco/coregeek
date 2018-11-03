@@ -24,7 +24,7 @@ var IdleTimeout = function() {
             redirAfter: 650000,
             keepBtnText: 'Continuar ligado',
             keepAliveUrl: '/',
-            redirUrl: 'http://127.0.0.1/coregeek/r/userprofile/lockout',
+            redirUrl: 'http://127.0.0.1/coregeek/r/profile/lockout',
             logoutUrl: 'http://127.0.0.1/coregeek/login'
         });
     };

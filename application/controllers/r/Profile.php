@@ -6,7 +6,7 @@
  * Time: 22:53
  */
 
-class UserProfile extends AUTH_Controller
+class Profile extends AUTH_Controller
 {
 
     public function __construct()
@@ -37,7 +37,7 @@ class UserProfile extends AUTH_Controller
         }
         //--------------------------------------------------------------------------------------------------------------
 
-        echo $this->load->view('dashboard/userprofile/index', $this->get_data(), true);
+        echo $this->load->view('dashboard/profile/index', $this->get_data(), true);
 
     }
 
@@ -52,7 +52,7 @@ class UserProfile extends AUTH_Controller
         }
         //--------------------------------------------------------------------------------------------------------------
 
-        echo $this->load->view('dashboard/userprofile/lockout', $this->get_data(), true);
+        echo $this->load->view('dashboard/profile/lockout', $this->get_data(), true);
 
     }
 
