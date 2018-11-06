@@ -18,6 +18,9 @@ class Booking extends AUTH_Controller
         //--------------------------------------------------------------------------------------------------------------
         //This Controller requires a sideBar Menu
         $this->load->library('navigation_menu');
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $this->load->library('session');
     }
 
     public function index(){
@@ -38,7 +41,7 @@ class Booking extends AUTH_Controller
             echo "User is not admin, please contact this website developer";
         }
     }
-    public function new_booking(){
+    public function book(){
         // REQUIRED ----------------------------------------------------------------------------------------------------
         $this->set_CurrentMethod('Novo Booking');
         $this->set_group();
@@ -50,11 +53,15 @@ class Booking extends AUTH_Controller
 
         if($this->belongs_group('Admin')){
             $this->add_data("Admin", 'group');
-            echo $this->load->view('dashboard/booking/admin/new_booking', $this->get_data(), true);
+            echo $this->load->view('dashboard/booking/admin/book', $this->get_data(), true);
             die();
         }else{
             echo "User is not admin, please contact this website developer";
         }
+    }
+
+    private function add(){
+
     }
 
 }

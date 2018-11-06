@@ -48,8 +48,6 @@ class AUTH_Controller extends MY_Controller{
             'store_name' => $this->user->get_store_name()
         );
 
-        //TODO:: add user permissions canEdit ...
-
     }
 
     /**
