@@ -1,0 +1,122 @@
+body{
+	background-color:#CCC;
+}
+
+.patternlockcontainer{
+	width:260px;
+	margin:auto;
+	background-color:#444;
+	height:260px;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	overflow:hidden;
+	background-color: #273238;
+	
+}
+
+.patternlockbuttoncontainer{
+	position:absolute;
+	width:300px;
+}
+
+.patternlocklineshorizontalcontainer{
+	position:absolute;
+	width:250px;
+	padding:22px;
+}
+
+.patternlocklinesverticalcontainer{
+	position:absolute;
+	width:260px;
+	padding:22px;
+}
+
+.patternlocklinesdiagonalcontainer{
+	position:absolute;
+	width:240px;
+	padding:22px;
+}
+
+
+.patternlockbutton{
+	background-image:url(../images/patternLock/button.png);
+	background-repeat:no-repeat;
+	display:block;
+	width:53px;
+	height:53px;
+	float:left;
+	margin:16px;
+    -ms-touch-action: none;
+}
+
+.touched{
+	background-image:url(../images/patternLock/button_active.png);
+}
+
+.multiple{
+	background-image:url(../images/patternLock/button_active2.png);
+}
+
+.patternlocklinehorizontal{
+	background-image:url(../images/patternLock/line_hor.png);
+	background-repeat:no-repeat;
+	height:83px;
+	width:53px;
+	display:block;
+	float:left;
+	margin:2px -7px 0 38px;
+	visibility:hidden;
+}
+
+.patternlocklinevertical{
+	background-image:url(../images/patternLock/line_ver.png);
+	background-repeat:no-repeat;
+	height:53px;
+	width:83px;
+	display:block;
+	float:left;
+	margin:38px 0 -7px 3px;
+	visibility:hidden;
+}
+
+.patternlocklinediagonalforward{
+	background-image:url(../images/patternLock/line_diagonal1.png);
+	background-repeat:no-repeat;
+	height:83px;
+	width:83px;
+	display:block;
+	float:left;
+	margin:26px -26px -24px 26px;
+	visibility:hidden;
+}
+
+.patternlocklinediagonalbackwards{
+	background-image:url(../images/patternLock/line_diagonal2.png);
+	background-repeat:no-repeat;
+	height:83px;
+	width:83px;
+	display:block;
+	float:left;
+	margin:26px -26px -24px 26px;
+	visibility:hidden;
+}
+
+.patternreset{
+    position: relative;
+    color: #5A5A5A;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+.patternreset:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.boxsizingcontentbox{
+    /* fixes bootstrap box sizing css */
+    -webkit-box-sizing: content-box !important;
+    -moz-box-sizing: content-box !important;
+    box-sizing: content-box !important;
+}

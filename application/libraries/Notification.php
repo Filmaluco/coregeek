@@ -124,11 +124,12 @@ class Notification
 
 
     /**
+     * * TODO: complex increase description
+     *
      * @param $notificationID
      * @param $user_id
      * @throws Exception => if the user has no access to the notification OR notification does not exist
      *
-     * TODO: complex increase description
      */
     public function load($notificationID, $user_id)
     {

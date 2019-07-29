@@ -5,6 +5,9 @@
 
     <?php $this->view('dashboard/layouts/head'); ?>
 
+    <link rel="stylesheet" type="text/css" href="<?php echo assets_url(); ?>/css/patternlock.css"/>
+    <script src="<?php echo assets_url(); ?>/js/custom/patternlock.js"></script>
+
     <script src="<?php echo assets_url(); ?>/js/plugins/forms/wizards/steps.min.js"></script>
     <script src="<?php echo assets_url(); ?>/js/plugins/forms/selects/select2.min.js"></script>
     <script src="<?php echo assets_url(); ?>/js/plugins/forms/styling/uniform.min.js"></script>
@@ -244,12 +247,56 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Codigo Bloqueio</label>
-                            <input type="text" name="cod_bloqueio" class="form-control" placeholder="se for padrão deixar este campo em branco">
+                            <br>
+                            <input type="radio" name="codeType" value="none"> S/ Codigo<br>
+                            <input type="radio" name="codeType" value="alphanumeric"> Codigo<br>
+                            <input type="radio" name="codeType" value="pattern"> Padrao<br>
                         </div>
                     </div>
+
+                    <script>
+                        $('input[type=radio][name=codeType]').change(function() {
+                            if (this.value == 'none') {
+                                document.getElementById("codigoDesbloqueio").style.display = "none";
+                                document.getElementById("padraoDesbloqueio").style.display = "none";
+                                document.getElementById("cod_bloqueio").classList.remove('required');
+                            }
+                            else if (this.value == 'alphanumeric') {
+                                document.getElementById("codigoDesbloqueio").style.display = "";
+                                document.getElementById("padraoDesbloqueio").style.display = "none";
+                                document.getElementById("cod_bloqueio").classList.add('required');
+                            }
+                            else{
+                                document.getElementById("codigoDesbloqueio").style.display = "none";
+                                document.getElementById("padraoDesbloqueio").style.display = "";
+                                document.getElementById("cod_bloqueio").classList.remove('required');
+
+                            }
+                        });
+                    </script>
+
+
+                    <div id="codigoDesbloqueio" style="display: none;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Codigo</label>
+                                <input type="text" name="cod_bloqueio" class="form-control required" placeholder="codigo alfanumerico">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="padraoDesbloqueio" style="display: none;">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Padrao</label>
+                                <input type="password" id="padrao_bloqueio" name="password" class="patternlock"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
             </fieldset>

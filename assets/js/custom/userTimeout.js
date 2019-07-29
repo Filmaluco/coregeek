@@ -15,17 +15,18 @@ var IdleTimeout = function() {
             return;
         }
 
+
         // Idle timeout
         $.sessionTimeout({
             heading: 'h5',
             title: 'Inatividade',
             message: 'Vai ser disconectado se continuar inativo, pretentende continuar ligado?',
-            warnAfter: 600000,
-            redirAfter: 650000,
+            warnAfter: 390000,
+            redirAfter: 420000,
             keepBtnText: 'Continuar ligado',
             keepAliveUrl: '/',
-            redirUrl: 'http://127.0.0.1/coregeek/r/profile/lockout',
-            logoutUrl: 'http://127.0.0.1/coregeek/login'
+            redirUrl: '/coregeek/r/profile/lockout',
+            logoutUrl: '/coregeek/login'
         });
     };
 
