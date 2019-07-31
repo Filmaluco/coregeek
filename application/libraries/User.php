@@ -177,7 +177,7 @@ class User
      *      AUTHENTICATION_SUCCESS
      *      AUTHENTICATION_ERROR
      *
-     * TODO: complex increase description
+     * Validates user TOKEN and Loads user basic info, if necessary updates user token.
      */
     public function authenticate(){
 
@@ -383,6 +383,14 @@ class User
     }
 
     /**
+     * @return int userID
+     * returns int with the user ID
+     */
+    public function get_userID(){
+        return $this->user_id;
+    }
+
+    /**
      * @return string
      * returns username
      */
@@ -423,6 +431,8 @@ class User
     public function get_permissions(){
         return $this->permissions;
     }
+
+
 
 
 

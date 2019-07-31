@@ -79,7 +79,7 @@
                 </div>
 
 
-            <?php echo form_open('booking/add', 'class="wizard-form steps-validation" method="post" data-fouc id="form"');?>
+            <?php echo form_open('r/booking/add', 'class="wizard-form steps-validation" method="post" data-fouc id="form"');?>
 
 
             <h6>Dados Cliente</h6>
@@ -120,8 +120,8 @@
                             <label>Estado:<span class="text-danger">*</span></label>
                             <select name="or_estado" onchange="or_estadoCheck(this);" data-placeholder="Estado Orçamento" class="form-control form-control-select2 required" data-fouc required title="Recebido ou é necessario agendamento?">
                                 <option></option>
-                                <option value="Recebido na loja">Recebido na Loja</option>
-                                <option value="Agendar Entrega">Agendar Entrega</option>
+                                <option value="2">Recebido na Loja</option>
+                                <option value="1">Agendar Entrega</option>
                             </select>
                         </div>
 
@@ -142,7 +142,7 @@
 
                 <script>
                     function or_estadoCheck(that) {
-                        if (that.value == "Agendar Entrega") {
+                        if (that.value == "1") {
                             document.getElementById("data-agendamento").style.display = "block";
                             document.getElementById("data").classList.add('required');
                         } else {
@@ -160,16 +160,16 @@
                             <label>Tipo Orçamento:</label>
                             <select name="or_tipo" onchange="or_tipoCheck(this);" data-placeholder="Tipo Orçamento" class="form-control form-control-select2" data-fouc>
                                 <option></option>
-                                <option selected="selected" value="Orçamentado">Orçamentado</option>
-                                <option value="Orçamentar">Orçamentar</option>
-                                <option value="Garantia">Garantia</option>
+                                <option selected="selected" value="2">Orçamentado</option>
+                                <option value="1">Orçamentar</option>
+                                <option value="3">Garantia</option>
                             </select>
                         </div>
                     </div>
 
                     <script>
                         function or_tipoCheck(that) {
-                            if (that.value == "Orçamentado") {
+                            if (that.value == "2") {
                                 document.getElementById("valor-requiredMark").style.display = "";
                                 document.getElementById("valor").classList.add('required');
                             } else {
@@ -249,11 +249,11 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Codigo Bloqueio</label>
+                            <label>Codigo Bloqueio<span class="text-danger">*</span></label>
                             <br>
-                            <input type="radio" name="codeType" value="none"> S/ Codigo<br>
-                            <input type="radio" name="codeType" value="alphanumeric"> Codigo<br>
-                            <input type="radio" name="codeType" value="pattern"> Padrao<br>
+                            <input type="radio" name="codeType" class="required" value="none"> S/ Codigo<br>
+                            <input type="radio" name="codeType" class="required" value="alphanumeric"> Codigo<br>
+                            <input type="radio" name="codeType" class="required" value="pattern"> Padrao<br>
                         </div>
                     </div>
 
@@ -262,17 +262,15 @@
                             if (this.value == 'none') {
                                 document.getElementById("codigoDesbloqueio").style.display = "none";
                                 document.getElementById("padraoDesbloqueio").style.display = "none";
-                                document.getElementById("cod_bloqueio").classList.remove('required');
                             }
                             else if (this.value == 'alphanumeric') {
                                 document.getElementById("codigoDesbloqueio").style.display = "";
                                 document.getElementById("padraoDesbloqueio").style.display = "none";
-                                document.getElementById("cod_bloqueio").classList.add('required');
                             }
                             else{
                                 document.getElementById("codigoDesbloqueio").style.display = "none";
                                 document.getElementById("padraoDesbloqueio").style.display = "";
-                                document.getElementById("cod_bloqueio").classList.remove('required');
+
 
                             }
                         });
@@ -283,7 +281,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Codigo</label>
-                                <input type="text" name="cod_bloqueio" class="form-control required" placeholder="codigo alfanumerico">
+                                <input type="text" name="cod_bloqueio" class="form-control" placeholder="codigo alfanumerico">
                             </div>
                         </div>
                     </div>

@@ -124,7 +124,8 @@ class Notification
 
 
     /**
-     * * TODO: complex increase description
+     * * Loads notification ($notificationID) info, (not unlike a constructor)
+     *  IF, the user (user_id) has permission for it
      *
      * @param $notificationID
      * @param $user_id
@@ -136,8 +137,8 @@ class Notification
 
         $this->id = $notificationID;
 
-        //Check if the user has acess to such a notification
-        $flag = 0; // Flag to controll if the user belongs to the list of users with access to the notification
+        //Check if the user has access to such a notification
+        $flag = 0; // Flag to control if the user belongs to the list of users with access to the notification
         $access_to = $this->CI->db->get_where('UserNotifications', ['Notification_ID' => $this->id]);
         foreach ($access_to->result() as $row){
             if($row->User_ID == $user_id){

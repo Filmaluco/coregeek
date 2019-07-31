@@ -1,10 +1,32 @@
+//----------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
+
 /* ------------------------------------------------------------------------------
  *
- *  # Steps wizard
- *
- *  Demo JS code for form_wizard.html page
- *
- * ---------------------------------------------------------------------------- */
+ *  Input Masks */
+
+// Setup module
+// ------------------------------
+
+var InputMasks = function() {
+
+    // Pickadate picker
+    var _componentInputMask = function () {
+        if (!$().inputmask) {
+            console.warn('Warning - inputmask.js is not loaded.');
+            return;
+        }
+    }
+
+}
+
+// Initialize module
+// ------------------------------
+
+document.addEventListener('DOMContentLoaded', function() {
+    InputMasks.init();
+});
 
 
 // Setup module
@@ -74,7 +96,7 @@ var FormWizard = function() {
                 return form.valid();
             },
             onFinished: function (event, currentIndex) {
-                alert('TODO: actually submit');
+               form.submit();
             }
         });
 
