@@ -373,6 +373,8 @@ class User
         return AUTHENTICATION_SUCCESS;
     }
 
+    //todo get all OR's made by user
+    //todo get all OR's modified by user
 
     /**
      * @return string

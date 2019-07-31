@@ -21,6 +21,12 @@ class Booking extends AUTH_Controller
         $this->load->helper('form');
         $this->load->library('form_validation');
         $this->load->library('session');
+        //ORData already loads this 2:
+        //$this->load->model('Client');
+        //$this->load->model('Repair');
+        //--
+        $this->load->model('ORData');
+
     }
 
     public function index(){
@@ -61,7 +67,6 @@ class Booking extends AUTH_Controller
     }
 
     public function add(){
-
         $data = $this->input->post();
 
         if(empty($data)){
@@ -69,71 +74,61 @@ class Booking extends AUTH_Controller
         }
         // Loads to control variables
         //--------------------------------------------------------------------------------------------------------------
-        $client['name'] = $data['cliente_nome'];
-        $client['email'] = $data['cliente_email'];
-        $client['phone'] = str_replace("-", "", $data['cliente_telemovel']);
+        $client = new Client();
+        $client->create_client( $data['cliente_nome'],
+                                $data['cliente_email'], str_replace("-", "",
+                                $data['cliente_telemovel']));
+        //--------------------------------------------------------------------------------------------------------------
+        $or_state = $data['or_estado'];
+        $or_type = $data['or_tipo'];
+        //--------------------------------------------------------------------------------------------------------------
+        //todo (bug fix) schedule_to_date is being inserted as 0000-00-000
 
-        //--------------------------------------------------------------------------------------------------------------
-        $or['state'] = $data['or_estado'];
-        $or['type'] = $data['or_tipo'];
-        //--------------------------------------------------------------------------------------------------------------
-        switch($or['state']){
+        switch($or_state){
             case '1':
-                $repair['schedule_to_date'] = $data['or_data_entrega'];
-                break;
+                $data_entrega= strtotime($data['or_data_entrega']);
+                $data_entrega = date('y-m-d',$data_entrega);
             case '2':
-                $repair['schedule_to_date'] = date("d/m/y");
+                $data_entrega = date("y/m/d");
                 break;
         }
-        $repair['device'] = $data['tipo'];
-        $repair['brand'] = $data['marca'];
-        $repair['model'] = $data['modelo'];
-        $repair['color'] = $data['cor'];
-        $repair['imei'] = $data['imei'];
-        $repair['acessories'] = empty($data['acessorios']) ? '' : implode(",",$data['acessorios']);
-        $repair['desc'] = $data['obs_equipamento'];
-        $repair['obs'] = $data['obs_or'];
-        $repair['price'] = $data['or_valor'];
+
+
+
         switch ($data['codeType']){
             case 'none':
-                $repair['Unlock_Code'] = "s/ codigo";
+                $codigo = "s/ codigo";
                 break;
             case 'alphanumeric':
-                $repair['Unlock_Code'] = "codigo: " . $data['cod_bloqueio'];
+                $codigo = "codigo: " . $data['cod_bloqueio'];
                 break;
             case 'pattern':
-                $repair['Unlock_Code'] = "padrao: " . $data['password'];
+                $codigo = "padrao: " . $data['password'];
                 break;
         }
 
-        // Loads to DB
-        //--------------------------------------------------------------------------------------------------------------
+        $repair = new Repair(   $data['tipo'],
+                                $data['marca'],
+                                $data['modelo'],
+                                $data['cor'],
+                                $codigo,
+                                $data['or_valor'],
+                                $data['imei'],
+                                empty($data['acessorios']) ? '' : implode(",",$data['acessorios']),
+                                $data_entrega,
+                                $data['obs_equipamento'],
+                                $data['obs_or']
+            );
 
-        //Checks if client exists (otherwise inserts)
-        $query = $this->db->get_where('Clients', $client);
-        if(!$query->num_rows()){
-            $this->db->insert('Clients', $client);
-            $client['ID'] = $this->db->insert_id();
-        }else{
-            $client['ID'] = $query->row()->Client_ID;
+
+        $or = new ORData();
+
+        try {
+            $or->create_ORData($or_type, $or_state, $client, $repair, $this->user->get_userID());
+        } catch (Exception $e) {
+            echo "Por favor contacte o administrador do sistema [" . e . "]";
         }
-        //Create OR
-        $this->db->insert('ORs', array('Client_ID' => $client['ID'],
-                                        'Type_ID' => $or['type']));
-        $repair['OR_ID'] = $this->db->insert_id();
-        $repair['User_ID'] = $this->user->get_userID();
 
-            //OR state
-        $this->db->insert('OR_State', array('OR_ID' =>  $repair['OR_ID'],
-                                            'State_ID'=>   $or['state'],
-                                            'User_ID' => $repair['User_ID']));
-
-        //todo: email this shit? helper class? libraries? model?
-
-
-        $this->db->insert('Repair_Info', $repair);
-
-        redirect('r/booking/details/'. $repair['OR_ID'], 'refresh');
     }
 
     public function details($OR_ID = 0){
@@ -142,5 +137,7 @@ class Booking extends AUTH_Controller
         }
 
     }
+
+
 
 }
