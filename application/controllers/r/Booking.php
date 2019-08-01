@@ -139,6 +139,8 @@ class Booking extends AUTH_Controller
             redirect('r/booking/book', 'refresh');
         }
 
+        $or = new ORData($OR_ID);
+
     }
 
 

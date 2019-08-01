@@ -19,6 +19,9 @@ class ORData
     protected $OR_ID;
     protected $Client_ID;
     protected $Type_ID;
+    protected $Type;
+    protected $State_ID;
+    protected $State;
     protected $Invoice_Number;
     protected $Conditions_Read;
     protected $Read_on_Date;
@@ -26,12 +29,16 @@ class ORData
 
     //We'll use a constructor, as you can't directly call a function
     // from a property definition.
-    public function __construct()
+    public function __construct($OR_ID = "0")
     {
         // Assign the CodeIgniter super-object
         $CI =& get_instance();
         $CI->load->model('Client');
         $CI->load->model('Repair');
+
+        if(!empty($OR_ID)){
+            $this->load_ORData($OR_ID);
+        }
     }
 
 
@@ -68,7 +75,8 @@ class ORData
 
         $this->OR_ID = $CI->db->insert_id();
         $this->Client_ID = $client->get_ID();
-        $this->Type_ID = $type;
+        $this->Type_ID = $type; //todo: load string from type
+        $this->State_ID = $status; //todo: load string from state
 
 
         $repair_info->create_repair($this->OR_ID, $userID);
@@ -80,6 +88,14 @@ class ORData
 
 
     }
+
+    private function load_ORData($OR_ID)
+    {
+        //see if $OR exists's
+        //load ClientINFO
+        //load ORState
+    }
+
 
     /**
      * @return mixed
@@ -128,6 +144,8 @@ class ORData
     {
         return $this->Read_on_Date;
     }
+
+
 
 
 }
