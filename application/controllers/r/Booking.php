@@ -82,15 +82,16 @@ class Booking extends AUTH_Controller
         $or_state = $data['or_estado'];
         $or_type = $data['or_tipo'];
         //--------------------------------------------------------------------------------------------------------------
-        //todo (bug fix) schedule_to_date is being inserted as 0000-00-000
-
         switch($or_state){
             case '1':
                 $data_entrega= strtotime($data['or_data_entrega']);
                 $data_entrega = date('y-m-d',$data_entrega);
+                break; //...
             case '2':
                 $data_entrega = date("y/m/d");
                 break;
+            default:
+                $data_entrega = "";
         }
 
 
@@ -105,6 +106,8 @@ class Booking extends AUTH_Controller
             case 'pattern':
                 $codigo = "padrao: " . $data['password'];
                 break;
+            default:
+                $codigo = "";
         }
 
         $repair = new Repair(   $data['tipo'],
@@ -128,7 +131,7 @@ class Booking extends AUTH_Controller
         } catch (Exception $e) {
             echo "Por favor contacte o administrador do sistema [" . e . "]";
         }
-
+        redirect('r/booking/details/'. $or->get_ORID(), 'refresh');
     }
 
     public function details($OR_ID = 0){

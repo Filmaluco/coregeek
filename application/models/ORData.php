@@ -66,16 +66,68 @@ class ORData
             'Type_ID' => $type));
 
 
-        $repair_info->create_repair($CI->db->insert_id(), $userID);
+        $this->OR_ID = $CI->db->insert_id();
+        $this->Client_ID = $client->get_ID();
+        $this->Type_ID = $type;
+
+
+        $repair_info->create_repair($this->OR_ID, $userID);
 
         //OR state
-        $CI->db->insert('OR_State', array('OR_ID' =>  $repair_info->get_ORID(),
+        $CI->db->insert('OR_State', array('OR_ID' =>  $this->OR_ID,
             'State_ID'=>   $status,
             'User_ID' => $userID));
 
 
-
-        redirect('r/booking/details/'. $repair_info->get_RepairID(), 'refresh');
-
     }
+
+    /**
+     * @return mixed
+     */
+    public function get_ORID()
+    {
+        return $this->OR_ID;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function get_ClientID()
+    {
+        return $this->Client_ID;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function get_TypeID()
+    {
+        return $this->Type_ID;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function get_InvoiceNumber()
+    {
+        return $this->Invoice_Number;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function get_ConditionsRead()
+    {
+        return $this->Conditions_Read;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function get_ReadOnDate()
+    {
+        return $this->Read_on_Date;
+    }
+
+
 }

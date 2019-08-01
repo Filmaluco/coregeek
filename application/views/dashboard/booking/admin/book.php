@@ -76,6 +76,16 @@
             <div class="card">
                 <div class="card-header bg-white header-elements-inline">
                     <h6 class="card-title">Booking</h6>
+                    <div class="header-elements">
+                        <div class="list-icons">
+                            <div class="dropdown">
+                                <a href="#" class="list-icons-item dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a href="#" class="dropdown-item">Usar formulário único</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -120,7 +130,7 @@
                             <label>Estado:<span class="text-danger">*</span></label>
                             <select name="or_estado" onchange="or_estadoCheck(this);" data-placeholder="Estado Orçamento" class="form-control form-control-select2 required" data-fouc required title="Recebido ou é necessario agendamento?">
                                 <option></option>
-                                <option value="2">Recebido na Loja</option>
+                                <option selected="selected" value="2">Recebido na Loja</option>
                                 <option value="1">Agendar Entrega</option>
                             </select>
                         </div>
@@ -160,7 +170,7 @@
                             <label>Tipo Orçamento:</label>
                             <select name="or_tipo" onchange="or_tipoCheck(this);" data-placeholder="Tipo Orçamento" class="form-control form-control-select2" data-fouc>
                                 <option></option>
-                                <option selected="selected" value="2">Orçamentado</option>
+                                <option value="2">Orçamentado</option>
                                 <option value="1">Orçamentar</option>
                                 <option value="3">Garantia</option>
                             </select>
@@ -249,11 +259,27 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Codigo Bloqueio<span class="text-danger">*</span></label>
-                            <br>
-                            <input type="radio" name="codeType" class="required" value="none"> S/ Codigo<br>
-                            <input type="radio" name="codeType" class="required" value="alphanumeric"> Codigo<br>
-                            <input type="radio" name="codeType" class="required" value="pattern"> Padrao<br>
+                            <label class="font-weight-semibold">Codigo Bloqueio<span class="text-danger">*</span></label>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="codeType" value="none" checked>
+                                    S/ Codigo
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="codeType" value="alphanumeric">
+                                    Codigo
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="codeType"  value="pattern">
+                                    Padrao
+                                </label>
+                            </div>
                         </div>
                     </div>
 
