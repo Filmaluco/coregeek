@@ -7,7 +7,7 @@
  */
 
 //todo email system (pending "boss" approval)
-class Repair
+class Repair_Info
 {
 
 

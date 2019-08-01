@@ -8,16 +8,13 @@
 
 class ORData
 {
-
-
-    //todo create or (with client class and repair class)
-    //todo get BY ID
     //todo extract Repair class (latest)
     //todo extract Repair class (all of them)
     //todo extract Client class
 
     protected $OR_ID;
     protected $Client_ID;
+    protected $Client;
     protected $Type_ID;
     protected $Type;
     protected $State_ID;
@@ -26,6 +23,9 @@ class ORData
     protected $Conditions_Read;
     protected $Read_on_Date;
 
+    protected $last_repair_info;
+    protected $repair_infos;
+    protected $number_repairs;
 
     //We'll use a constructor, as you can't directly call a function
     // from a property definition.
@@ -34,7 +34,7 @@ class ORData
         // Assign the CodeIgniter super-object
         $CI =& get_instance();
         $CI->load->model('Client');
-        $CI->load->model('Repair');
+        $CI->load->model('Repair_Info');
 
         if(!empty($OR_ID)){
             $this->load_ORData($OR_ID);
@@ -46,7 +46,7 @@ class ORData
      * @param $type int with the correct type (1-Orçamentar | 2-Orçamentado | 3-Garantia)
      * @param $status "from" 1 to 17 (check DB documentation)
      * @param $client Client class OR clientID
-     * @param $repair_info Repair class
+     * @param $repair_info Repair_Info class
      * @throws Exception if the class's are not correct
      */
     public function create_ORData($type, $status, $client, $repair_info, $userID){
@@ -64,19 +64,27 @@ class ORData
             }
         }else {$client_info = $client;}
 
-        if(!($repair_info instanceof Repair)) {
+        if(!($repair_info instanceof Repair_Info)) {
             throw new Exception("Incorrect arguments");
         }
 
+        $this->Client = $client_info;
+        $this->last_repair_info = $repair_info;
+
         //Create OR
-        $CI->db->insert('ORs', array('Client_ID' => $client->get_ID(),
+        $CI->db->insert('ORs', array('Client_ID' => $client_info->get_ID(),
             'Type_ID' => $type));
 
 
         $this->OR_ID = $CI->db->insert_id();
-        $this->Client_ID = $client->get_ID();
-        $this->Type_ID = $type; //todo: load string from type
-        $this->State_ID = $status; //todo: load string from state
+        $this->Client_ID = $client_info->get_ID();
+        try {
+            $this->Type_ID = $CI->db->get_where('Repair_Types', array("Type_ID=" => $type))->row()->Name;
+            $this->State_ID = $CI->db->get_where('Repair_State', array("Type_ID=" => $status))->row()->Name;
+        }catch (Exception $e){
+            $this->Type_ID = "/";
+            $this->State_ID = "/";
+        }
 
 
         $repair_info->create_repair($this->OR_ID, $userID);
@@ -89,11 +97,16 @@ class ORData
 
     }
 
-    private function load_ORData($OR_ID)
+    /**
+     * @param $OR_ID
+     * @param bool $all 0 = only loads last repair_info
+     */
+    private function load_ORData($OR_ID, $all=false)
     {
         //see if $OR exists's
         //load ClientINFO
         //load ORState
+        //load last REPAIR
     }
 
 

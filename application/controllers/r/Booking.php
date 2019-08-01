@@ -110,7 +110,7 @@ class Booking extends AUTH_Controller
                 $codigo = "";
         }
 
-        $repair = new Repair(   $data['tipo'],
+        $repair = new Repair_Info(   $data['tipo'],
                                 $data['marca'],
                                 $data['modelo'],
                                 $data['cor'],
