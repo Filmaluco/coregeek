@@ -6,8 +6,7 @@
  * Time: 23:12
  */
 
-//todo email system (pending "boss" approval)
-class Repair_Info
+class RepairInfo
 {
 
 

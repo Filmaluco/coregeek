@@ -34,36 +34,27 @@ class Booking extends AUTH_Controller
         $this->set_CurrentMethod('Home');
         $this->set_group();
         $this->set_permissions(['View']);
+        $this->add_data($this->user->get_groups()[0], 'group');
         if($this->access_check()== AUTHENTICATION_ERROR){
             redirect('/login');
         }
         //--------------------------------------------------------------------------------------------------------------
 
-        if($this->belongs_group('Admin')){
-            $this->add_data("Admin", 'group');
-            echo $this->load->view('dashboard/booking/admin/index', $this->get_data(), true);
-            die();
-        }else{
-            echo "User is not admin, please contact this website developer";
-        }
+         echo $this->load->view('dashboard/booking/index', $this->get_data(), true);
+
     }
     public function book(){
         // REQUIRED ----------------------------------------------------------------------------------------------------
         $this->set_CurrentMethod('Novo Booking');
         $this->set_group();
         $this->set_permissions(['Add']);
+        $this->add_data($this->user->get_groups()[0], 'group'); //requires a group to the nav, this gets the first group... careful
         if($this->access_check()== AUTHENTICATION_ERROR){
             redirect('/login');
         }
         //--------------------------------------------------------------------------------------------------------------
+        echo $this->load->view('dashboard/booking/book_wizard', $this->get_data(), true);
 
-        if($this->belongs_group('Admin')){
-            $this->add_data("Admin", 'group');
-            echo $this->load->view('dashboard/booking/admin/book', $this->get_data(), true);
-            die();
-        }else{
-            echo "User is not admin, please contact this website developer";
-        }
     }
 
     public function add(){
@@ -110,7 +101,7 @@ class Booking extends AUTH_Controller
                 $codigo = "";
         }
 
-        $repair = new Repair_Info(   $data['tipo'],
+        $repair = new RepairInfo(   $data['tipo'],
                                 $data['marca'],
                                 $data['modelo'],
                                 $data['cor'],
@@ -134,12 +125,31 @@ class Booking extends AUTH_Controller
         redirect('r/booking/details/'. $or->get_ORID(), 'refresh');
     }
 
-    public function details($OR_ID = 0){
+    public function details($OR_ID = 0, $offset=0){
         if(!$OR_ID){
             redirect('r/booking/book', 'refresh');
         }
 
-        $or = new ORData($OR_ID);
+        // REQUIRED ----------------------------------------------------------------------------------------------------
+        $this->set_CurrentMethod('Details');
+        $this->set_group();
+        $this->set_permissions(['View']);
+        $this->add_data($this->user->get_groups()[0], 'group');
+        if($this->access_check()== AUTHENTICATION_ERROR){
+            redirect('/login');
+        }
+        //--------------------------------------------------------------------------------------------------------------
+
+        $OR = new ORData();
+        try{
+            $OR->load_specific_ORData($OR_ID, $offset);
+        }catch (Exception $e){
+            redirect("r/booking", "refresh");
+            die;
+        }
+        $this->add_data($OR, "OR");
+
+        echo $this->load->view('dashboard/booking/details', $this->get_data(), true);
 
     }
 

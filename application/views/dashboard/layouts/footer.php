@@ -10,7 +10,7 @@
     <div class="navbar-collapse collapse" id="navbar-footer">
 					<span class="navbar-text">
 						&copy; 2018 - <?php echo date('Y')?>. <a href="#">CoreGeek.pt</a> by <a href="https://github.com/Filmaluco" target="_blank">Filmaluco</a>
-					</span>
+					</span> &emsp;(EM DESENVOLVIMENTO)
     </div>
 </div>
 <!-- /footer -->

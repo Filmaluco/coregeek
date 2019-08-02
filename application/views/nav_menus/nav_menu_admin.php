@@ -88,9 +88,10 @@
                 <!-- Reparações -->
                 <li class="nav-item-header"><div class="text-uppercase font-size-xs line-height-xs">Reparações</div> <i class="icon-menu" title="reparacoes"></i></li>
 
-                        <li class="nav-item"><a href="<?php echo site_url('r/booking');?>" class="nav-link"><i class="icon-coin-dollar "></i> Tabela Preços</a></li>
-                        <li class="nav-item"><a href="<?php echo site_url('r/booking/book');?>" class="nav-link <?php if($current_Method == 'Novo Booking' && $controller_Name == 'Booking'){echo 'active';}?>"><i class="icon-add-to-list"></i> Adicionar</a></li>
-                        <li class="nav-item"><a href="<?php echo site_url('r/booking');?>" class="nav-link"><i class="icon-search4"></i> Pesquisa</a></li>
+
+                <li class="nav-item"><a href="<?php echo site_url('r/booking');?>" class="nav-link"><i class="icon-coin-dollar "></i><span>Tabela Preços</span></a></li>
+                <li class="nav-item"><a href="<?php echo site_url('r/booking/book');?>" class="nav-link <?php if($current_Method == 'Novo Booking' && $controller_Name == 'Booking'){echo 'active';}?>"><i class="icon-add-to-list"></i> <span>Adicionar</span></a></li>
+                <li class="nav-item"><a href="<?php echo site_url('r/booking');?>" class="nav-link"><i class="icon-search4"></i> <span>Pesquisa</span></a></li>
                     </ul>
                 </li>
 

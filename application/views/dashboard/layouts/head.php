@@ -5,6 +5,7 @@
 <!-- Global stylesheets -->
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
 <link href="<?php echo assets_url()?>/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+<link href="<?php echo assets_url()?>/css/icons/fontawesome/styles.min.css" rel="stylesheet" type="text/css">
 <link href="<?php echo assets_url()?>/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 <link href="<?php echo assets_url()?>/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
 <link href="<?php echo assets_url()?>/css/layout.min.css" rel="stylesheet" type="text/css">
