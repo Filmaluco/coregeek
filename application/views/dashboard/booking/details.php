@@ -56,17 +56,33 @@
                     </h4>
                     <div class="header-elements">
                         <ul class="pagination pagination-sm pagination-pager justify-content-between">
-                            <li class="page-item"><a name="1" href="#" class="page-link" data-popup="tooltip" title="Alteracao anterior">&larr;</a></li>
+                            <?php
+                            if($OR->get_RepairOffset() < ($OR->get_NumberRepairs()-1)){
+                                $url = site_url('r/booking/details/' . $OR->get_ORID().'/'. ($OR->get_RepairOffset()+1).'');
+                                echo '
+                                    <ul class="pagination pagination-sm pagination-pager justify-content-between">
+                                        <li class="page-item"><a name="2" href="'.$url.'" class="page-link" data-popup="tooltip" title="Alteracao anterior">&larr;</a></li>
+                                    </ul> &nbsp; &nbsp;';
+                            } ?>
                         </ul>
                         &nbsp; &nbsp;
                         <ul class="list-inline mb-0">
-                            <li class="list-inline-item"><b><?php echo  date('d, M Y', strtotime($OR->get_LastRepairInfo()->Creation_Date)); ?></b></li>
+                            <?php
+                            if($OR->get_RepairOffset() == 0){
+                                echo '<li class="list-inline-item text-success" data-popup="tooltip" title="versao mais recente"><b>' .date('d, M Y', strtotime($OR->get_LastRepairInfo()->Creation_Date)) . '</b></li>';
+                            }else{
+                                echo '<li class="list-inline-item text-warning" data-popup="tooltip" title="versao antiga"><b>' .date('d, M Y', strtotime($OR->get_LastRepairInfo()->Creation_Date)) . '</b></li>';
+                            }
+                            ?>
                         </ul>
-                        &nbsp; &nbsp;
-                        <ul class="pagination pagination-sm pagination-pager justify-content-between">
-                            <li class="page-item"><a name="2" href="#" class="page-link" data-popup="tooltip" title="Alteracao seguinte">&rarr;</a></li>
-                        </ul>
-                        &nbsp; &nbsp;
+                        &nbsp; &nbsp;<?php
+                                if($OR->get_RepairOffset() > 0){
+                                    $url = site_url('r/booking/details/' . $OR->get_ORID().'/'. ($OR->get_RepairOffset()-1).'');
+                                    echo '
+                                    <ul class="pagination pagination-sm pagination-pager justify-content-between">
+                                        <li class="page-item"><a name="2" href="'.$url.'" class="page-link" data-popup="tooltip" title="Alteracao seguinte">&rarr;</a></li>
+                                    </ul> &nbsp; &nbsp;';
+                        } ?>
                         <div class="list-icons">
                             <div class="dropdown">
                                 <a href="#" class="list-icons-item dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
@@ -74,7 +90,12 @@
                                     <a href="#" class="dropdown-item">Editar</a>
                                     <?php if($group == "Admin"){ echo '<a href="#" class="dropdown-item">Apagar</a>' ;} ?>
                                     <div class="dropdown-divider"></div>
-                                    <a href="#" class="dropdown-item">Ir para alteracao mais recente</a>
+                                    <?php
+                                    if($OR->get_RepairOffset() > 0){
+                                        $url = site_url('r/booking/details/' . $OR->get_ORID().'');
+                                        echo ' <a href="'. $url .'" class="dropdown-item" class="dropdown-item">Ir para alteracao mais recente</a>';
+                                    }
+                                    ?>
                                 </div>
                             </div>
                         </div>

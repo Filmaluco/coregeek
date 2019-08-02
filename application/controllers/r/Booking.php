@@ -40,7 +40,7 @@ class Booking extends AUTH_Controller
         }
         //--------------------------------------------------------------------------------------------------------------
 
-         echo $this->load->view('dashboard/booking/index', $this->get_data(), true);
+         redirect('r/booking/search', 'refresh');
 
     }
     public function book(){
@@ -53,8 +53,12 @@ class Booking extends AUTH_Controller
             redirect('/login');
         }
         //--------------------------------------------------------------------------------------------------------------
-        echo $this->load->view('dashboard/booking/book_wizard', $this->get_data(), true);
 
+        if($this->user->is_set_uniqueForm()){
+            echo $this->load->view('dashboard/booking/book_form', $this->get_data(), true);
+        }else{
+            echo $this->load->view('dashboard/booking/book_wizard', $this->get_data(), true);
+        }
     }
 
     public function add(){
@@ -106,8 +110,8 @@ class Booking extends AUTH_Controller
                                 $data['modelo'],
                                 $data['cor'],
                                 $codigo,
-                                $data['or_valor'],
-                                $data['imei'],
+                                isset($data['or_valor']) ? $data['or_valor'] : 0,
+                                isset($data['imei']) ? $data['imei'] : "",
                                 empty($data['acessorios']) ? '' : implode(",",$data['acessorios']),
                                 $data_entrega,
                                 $data['obs_equipamento'],
@@ -151,6 +155,62 @@ class Booking extends AUTH_Controller
 
         echo $this->load->view('dashboard/booking/details', $this->get_data(), true);
 
+
+    }
+
+    public function search($method = "onGoing"){
+        // REQUIRED ----------------------------------------------------------------------------------------------------
+        $this->set_CurrentMethod('Procura');
+        $this->set_group();
+        $this->set_permissions(['View']);
+        $this->add_data($this->user->get_groups()[0], 'group');
+        if($this->access_check()== AUTHENTICATION_ERROR){
+            redirect('/login');
+        }
+        //--------------------------------------------------------------------------------------------------------------
+
+        $query_str = 'SELECT 	ORs.OR_ID,
+        Repair_State.Name as \'Estado\',
+        CONCAT(Last_Repair.Brand, \' \',Last_Repair.Model) AS \'Dispositivo\',
+        Clients.Name AS \'Cliente\',
+        CONCAT(Clients.Email, \'/\', Clients.Phone) AS \'Contactos\',
+        CONCAT(DATE_FORMAT(OR_State.Creation_Date, "%d, %M %Y"), \' por \', Users.Username) as \'UltimaAlteracao\'
+        FROM ORs
+        JOIN OR_State
+        ON ORs.OR_ID = OR_State.OR_ID
+        JOIN Repair_State
+        ON OR_State.State_ID = Repair_State.State_ID
+        JOIN (
+            SELECT  OR_ID,
+                    Repair_Info.Creation_Date,
+                    Brand,
+                    Model
+            FROM Repair_Info
+                   JOIN (SELECT Repair_ID, Max(Creation_Date) FROM Repair_Info GROUP BY Repair_ID) as B
+                     ON Repair_Info.Repair_ID = B.Repair_ID
+            GROUP BY OR_ID
+            ) AS Last_Repair
+         ON OR_State.OR_ID = Last_Repair.OR_ID
+       JOIN Clients ON ORs.Client_ID = Clients.Client_ID
+       JOIN Users ON OR_State.User_ID = Users.User_ID ';
+
+        switch ($method){
+            case "onGoing":
+                $query_str .= "WHERE OR_State.State_ID < " . BOOKING_STATE_BOOKED_DELIVERED_S;
+                break;
+            case "finished":
+                $query_str .= "WHERE OR_State.State_ID > " . BOOKING_STATE_BOOKED_DELIVERED_S;
+                break;
+            case "all":
+                $query_str .= "WHERE OR_State.State_ID > 0";
+                break;
+        }
+
+        $query = $this->db->query($query_str);
+
+        $this->add_data($query, 'query_search');
+
+        echo $this->load->view('dashboard/booking/search', $this->get_data(), true);
     }
 
 

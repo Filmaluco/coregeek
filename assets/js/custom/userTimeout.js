@@ -25,8 +25,8 @@ var IdleTimeout = function() {
             redirAfter: 420000,
             keepBtnText: 'Continuar ligado',
             keepAliveUrl: '/',
-            redirUrl: '/coregeek/r/profile/lockout',
-            logoutUrl: '/coregeek/login'
+            redirUrl: '',
+            logoutUrl: ''
         });
     };
 
@@ -45,7 +45,8 @@ var IdleTimeout = function() {
 
 // Initialize module
 // ------------------------------
-
-document.addEventListener('DOMContentLoaded', function() {
-    IdleTimeout.init();
+$(document).ready(function() {
+    document.addEventListener('DOMContentLoaded', function () {
+        IdleTimeout.init();
+    });
 });

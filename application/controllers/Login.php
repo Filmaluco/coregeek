@@ -22,7 +22,6 @@ class Login extends CI_Controller
 
     public function Index(){
         $this->load->view('/login/login');
-
     }
 
     public function Login(){

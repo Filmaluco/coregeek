@@ -74,6 +74,12 @@ class User
      */
     protected $permissions = "Not Defined";
 
+    // COOKIES FOR SETTINGS --------------------------------------------------------------------------------------------
+    /**
+     * @var TRUE uses UNIQUE form
+     */
+    protected $unique_form;
+
 
     // We'll use a constructor, as you can't directly call a function
     // from a property definition.
@@ -373,8 +379,17 @@ class User
         return AUTHENTICATION_SUCCESS;
     }
 
-    //todo get all OR's made by user
-    //todo get all OR's modified by user
+    public function is_set_uniqueForm(){
+        return $this->CI->input->cookie('uniqueForm');
+    }
+
+    public function set_uniqueForm($on = TRUE){
+        if($on){
+            set_cookie("uniqueForm", "1", 0);
+        }else{
+            delete_cookie("uniqueForm");
+        }
+    }
 
     /**
      * @return string

@@ -81,7 +81,7 @@
                             <div class="dropdown">
                                 <a href="#" class="list-icons-item dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="#" class="dropdown-item">Usar formulário único</a>
+                                    <a href="<?php echo site_url("r/profile/UniqueForm/true");?>" class="dropdown-item">Usar formulário único</a>
                                 </div>
                             </div>
                         </div>
@@ -182,10 +182,11 @@
                             if (that.value == "2") {
                                 document.getElementById("valor-requiredMark").style.display = "";
                                 document.getElementById("valor").classList.add('required');
+                                document.getElementById("valor").removeAttribute("disabled");
                             } else {
                                 document.getElementById("valor-requiredMark").style.display = "none";
                                 document.getElementById("valor").classList.remove('required');
-
+                                document.getElementById("valor").setAttribute("disabled", "true");
                             }
                         }
                     </script>

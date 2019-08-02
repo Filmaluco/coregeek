@@ -25,6 +25,7 @@ class ORData
     protected $Conditions_Read;
     protected $Read_on_Date;
 
+
     protected $repair_offset = 0;
     protected $last_repair_info;
     protected $repair_infos;
@@ -250,6 +251,56 @@ class ORData
     {
         return $this->Read_on_Date;
     }
+
+    /**
+     * @return mixed
+     */
+    public function get_Type()
+    {
+        return $this->Type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function get_StateID()
+    {
+        return $this->State_ID;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function get_StateAlteredDate()
+    {
+        return $this->State_Altered_Date;
+    }
+
+    /**
+     * @return int
+     */
+    public function get_RepairOffset()
+    {
+        return $this->repair_offset;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function get_RepairInfos()
+    {
+        return $this->repair_infos;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function get_NumberRepairs()
+    {
+        return $this->number_repairs;
+    }
+
+
 
     /**
      * @return as $database object NOT as RepairInfo

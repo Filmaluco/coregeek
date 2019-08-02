@@ -15,6 +15,7 @@ class MY_Controller extends CI_Controller
 
 class AUTH_Controller extends MY_Controller{
 
+
     //Basic information to pass the view
     protected $controller_Name = "notDefined";
     protected $current_Method= "notDefined";
@@ -31,6 +32,7 @@ class AUTH_Controller extends MY_Controller{
         parent::__construct();
         $this->load->library('user');
         $this->load->helper('cookie');
+
 
         if($this->user->authenticate() == AUTHENTICATION_ERROR){
             redirect('/login');

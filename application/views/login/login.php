@@ -27,7 +27,6 @@
     <script src="<?php echo assets_url(); ?>/js/plugins/forms/styling/uniform.min.js"></script>
 
     <script src="<?php echo assets_url(); ?>/js/app.js"></script>
-    <script src="<?php echo assets_url(); ?>/js/demo_pages/login.js"></script>
     <!-- /theme JS files -->
 
 </head>

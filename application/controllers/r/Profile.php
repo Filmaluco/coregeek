@@ -41,6 +41,16 @@ class Profile extends AUTH_Controller
 
     }
 
+    public function UniqueForm($redirect = false){
+        if($this->user->is_set_uniqueForm()){
+            $this->user->set_uniqueForm(FALSE);
+        }else{
+            $this->user->set_uniqueForm(TRUE);
+        }
+
+        if($redirect){redirect("r/booking/book", "refresh");}
+    }
+
     public function Lockout(){
 
         // REQUIRED ----------------------------------------------------------------------------------------------------

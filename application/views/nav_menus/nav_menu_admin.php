@@ -90,8 +90,8 @@
 
 
                 <li class="nav-item"><a href="<?php echo site_url('r/booking');?>" class="nav-link"><i class="icon-coin-dollar "></i><span>Tabela Preços</span></a></li>
+                <li class="nav-item"><a href="<?php echo site_url('r/booking/search');?>" class="nav-link <?php if($current_Method == 'Procura' && $controller_Name == 'Booking'){echo 'active';}?>"><i class="icon-search4"></i> <span>Pesquisa</span></a></li>
                 <li class="nav-item"><a href="<?php echo site_url('r/booking/book');?>" class="nav-link <?php if($current_Method == 'Novo Booking' && $controller_Name == 'Booking'){echo 'active';}?>"><i class="icon-add-to-list"></i> <span>Adicionar</span></a></li>
-                <li class="nav-item"><a href="<?php echo site_url('r/booking');?>" class="nav-link"><i class="icon-search4"></i> <span>Pesquisa</span></a></li>
                     </ul>
                 </li>
 
