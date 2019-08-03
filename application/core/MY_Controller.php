@@ -111,19 +111,24 @@ class AUTH_Controller extends MY_Controller{
     }
 
 
+    //todo belongs_group by name and by id
     /**
-     * @param $group_name
+     * @param $group_id
      * @return bool
      */
-    public function belongs_group($group_name){
-        return in_array($group_name, $this->user->get_groups());
+    public function belongs_group($group_id){
+        if(!is_numeric($group_id)) return false;
+        return in_array($group_id, $this->user->get_groups());
     }
+
+    //todo set_group by name and by id
 
     /**
      * @param $var
      * will always clear the previous groups
      */
     public function set_group($var = array()){
+        if(!check_numeric_array($var)) return;
         $this->required_groups = array();
         if(is_array($var)){
             $this->required_groups = array_merge($this->required_groups, $var);
@@ -132,11 +137,14 @@ class AUTH_Controller extends MY_Controller{
         }
     }
 
+    //todo set_group by name and by id
+
     /**
      * @param $var
      * will always clear the previous permissions
      */
     public function set_permissions($var = array()){
+        if(!check_numeric_array($var)) return;
         $this->required_permissions = array();
         if(is_array($var)){
             $this->required_permissions = array_merge($this->required_permissions, $var);
@@ -144,6 +152,8 @@ class AUTH_Controller extends MY_Controller{
             array_push( $this->required_permissions, $var);
         }
     }
+
+    //todo do access_check by id
 
     /**
      * @return int

@@ -20,6 +20,7 @@ class Home extends AUTH_Controller
         $this->set_ControllerName('Home');
         $this->set_ParentPath(site_url('r/home'));
         $this->set_ParentPathName('Home');
+        $this->add_data($this->user->get_mainGroup(), 'group');
         //--------------------------------------------------------------------------------------------------------------
 
     }
@@ -33,14 +34,14 @@ class Home extends AUTH_Controller
         if($this->access_check()== AUTHENTICATION_ERROR){
             redirect('/login');
         }
+        $this->add_data($this->user->get_mainGroup(), 'group');
         //--------------------------------------------------------------------------------------------------------------
 
-        if($this->belongs_group('Admin')){
-            $this->add_data("Admin", 'group');
+        if($this->belongs_group(AUTH_GROUP_ADMIN)){
             echo $this->load->view('dashboard/home/admin/index', $this->get_data(), true);
             die();
         }else{
-            echo "User is not admin, please contact this website developer";
+            echo "User is not admin, please contact this website developer .";
         }
 
     }

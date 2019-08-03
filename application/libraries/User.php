@@ -67,6 +67,7 @@ class User
      * Contains all groups this user belongs to
      */
     protected $groups = "Not Defined";
+    protected $main_group = "Not Defined";
 
     /**
      * @var array
@@ -260,8 +261,9 @@ class User
                                                         FROM Users
                                                         WHERE Users.User_ID = '.$this->user_id.' )');
 
+        $this->main_group = $user_groups->result()[0]->Name;
         foreach ($user_groups->result() as $groups){
-            array_push($this->groups, $groups->Name);
+            array_push($this->groups, $groups->Group_ID);
         }
 
         //Load Permissions Info ----------------------------------------------------------------------------------------
@@ -269,7 +271,7 @@ class User
 
         //Loads Permission's he has access (and where not denied)
         $granted_permissions = $this->CI->db->query('
-                                                SELECT Permissions.Name
+                                                SELECT Permissions.Permission_ID
                                                 FROM Permissions
                                                     RIGHT JOIN GroupPermissions
                                                     on Permissions.Permission_ID = GroupPermissions.Permission_ID
@@ -297,12 +299,12 @@ class User
                                                 )');
 
         foreach ($granted_permissions->result() as $granted){
-            array_push($this->permissions, $granted->Name);
+            array_push($this->permissions, $granted->Permission_ID);
         }
 
         // Loads Override Permissions Granted
         $overrided_permissions = $this->CI->db->query('
-                                                SELECT Permissions.Name
+                                                SELECT Permissions.Permission_ID
                                                 FROM Permissions
                                                     RIGHT JOIN GroupPermissions
                                                     on Permissions.Permission_ID = GroupPermissions.Permission_ID
@@ -330,7 +332,7 @@ class User
                                                 )');
 
         foreach ($overrided_permissions->result() as $granted){
-            array_push($this->permissions, $granted->Name);
+            array_push($this->permissions, $granted->Permission_ID);
         }
 
 
@@ -440,6 +442,16 @@ class User
     public function get_groups(){
         return $this->groups;
     }
+
+    /**
+     * @return string
+     */
+    public function get_mainGroup()
+    {
+        return $this->main_group;
+    }
+
+
 
     /**
      * @return array strings

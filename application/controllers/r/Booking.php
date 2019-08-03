@@ -12,6 +12,7 @@ class Booking extends AUTH_Controller
     {
         // REQUIRED ----------------------------------------------------------------------------------------------------
         parent::__construct();
+        $this->add_data($this->user->get_mainGroup(), 'group');
         $this->set_ControllerName('Booking');
         $this->set_ParentPath(site_url('r/booking'));
         $this->set_ParentPathName('Booking');
@@ -27,17 +28,23 @@ class Booking extends AUTH_Controller
         //--
         $this->load->model('ORData');
 
+        $this->set_permissions([AUTH_PERMISSIONS_VIEW_BOOKING]);
+        if($this->access_check()== AUTHENTICATION_ERROR){
+            redirect('/r/home');
+        }
+
     }
 
     public function index(){
         // REQUIRED ----------------------------------------------------------------------------------------------------
         $this->set_CurrentMethod('Home');
         $this->set_group();
-        $this->set_permissions(['View']);
-        $this->add_data($this->user->get_groups()[0], 'group');
+        $this->set_permissions([AUTH_PERMISSIONS_VIEW_BOOKING]);
+        $this->add_data($this->user->get_mainGroup(), 'group');
         if($this->access_check()== AUTHENTICATION_ERROR){
-            redirect('/login');
+            redirect('/r/home');
         }
+        $this->add_data($this->user->get_mainGroup(), 'group');
         //--------------------------------------------------------------------------------------------------------------
 
          redirect('r/booking/search', 'refresh');
@@ -47,9 +54,14 @@ class Booking extends AUTH_Controller
         // REQUIRED ----------------------------------------------------------------------------------------------------
         $this->set_CurrentMethod('Novo Booking');
         $this->set_group();
-        $this->set_permissions(['Add']);
-        $this->add_data($this->user->get_groups()[0], 'group'); //requires a group to the nav, this gets the first group... careful
+        $this->set_permissions([AUTH_PERMISSIONS_ADD_BOOKING]);
+        $this->add_data($this->user->get_mainGroup(), 'group'); //requires a group to the nav, this gets the first group... careful
         if($this->access_check()== AUTHENTICATION_ERROR){
+            $data = [
+                'errors' => '<span class="form-text text-danger"><i class="icon-cancel-circle2 mr-2"></i> Sem permissoes suficientes </span>'
+            ];
+
+            $this->session->set_flashdata($data);
             redirect('/login');
         }
         //--------------------------------------------------------------------------------------------------------------
@@ -62,6 +74,20 @@ class Booking extends AUTH_Controller
     }
 
     public function add(){
+
+        // REQUIRED ----------------------------------------------------------------------------------------------------
+        $this->set_permissions([AUTH_PERMISSIONS_ADD_BOOKING]);
+        if($this->access_check()== AUTHENTICATION_ERROR){
+            $data = [
+                'errors' => '<span class="form-text text-danger"><i class="icon-cancel-circle2 mr-2"></i> Sem permissoes suficientes </span>'
+            ];
+
+            $this->session->set_flashdata($data);
+            redirect('/login');
+        }
+        //--------------------------------------------------------------------------------------------------------------
+
+
         $data = $this->input->post();
 
         if(empty($data)){
@@ -137,8 +163,8 @@ class Booking extends AUTH_Controller
         // REQUIRED ----------------------------------------------------------------------------------------------------
         $this->set_CurrentMethod('Details');
         $this->set_group();
-        $this->set_permissions(['View']);
-        $this->add_data($this->user->get_groups()[0], 'group');
+        $this->set_permissions([AUTH_PERMISSIONS_VIEW_BOOKING]);
+        $this->add_data($this->user->get_mainGroup(), 'group');
         if($this->access_check()== AUTHENTICATION_ERROR){
             redirect('/login');
         }
@@ -162,11 +188,11 @@ class Booking extends AUTH_Controller
         // REQUIRED ----------------------------------------------------------------------------------------------------
         $this->set_CurrentMethod('Procura');
         $this->set_group();
-        $this->set_permissions(['View']);
-        $this->add_data($this->user->get_groups()[0], 'group');
+        $this->set_permissions([AUTH_PERMISSIONS_VIEW_BOOKING]);
         if($this->access_check()== AUTHENTICATION_ERROR){
             redirect('/login');
         }
+        $this->add_data($this->user->get_mainGroup(), 'group');
         //--------------------------------------------------------------------------------------------------------------
 
         $query_str = 'SELECT 	ORs.OR_ID,

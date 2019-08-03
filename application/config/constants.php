@@ -98,10 +98,10 @@ defined('AUTHENTICATION_SUCCESS')           OR define('AUTHENTICATION_SUCCESS', 
 defined('AUTHENTICATION_ERROR')             OR define('AUTHENTICATION_ERROR', 0); // current user is invalid
 defined('AUTH_GROUP_ADMIN')                 OR define('AUTH_GROUP_ADMIN', 1); // current user is from the admin group
 defined('AUTH_GROUP_WORKER')                OR define('AUTH_GROUP_WORKER', 1); // current user is from the normal func group
-defined('AUTH_PERMISSIONS_ALL')             OR define('AUTH_PERMISSIONS_ALL', 1); // authentication permission (override)
-defined('AUTH_PERMISSIONS_VIEW')            OR define('AUTH_PERMISSIONS_VIEW', 2); // authentication permission general view
-defined('AUTH_PERMISSIONS_ADD')             OR define('AUTH_PERMISSIONS_ADD', 3); // authentication permission general add
-defined('AUTH_PERMISSIONS_EDIT')            OR define('AUTH_PERMISSIONS_EDIT', 4); // authentication permission general edit
+defined('AUTH_PERMISSIONS_VIEW_BOOKING')            OR define('AUTH_PERMISSIONS_VIEW_BOOKING', 2); // authentication permission general view
+defined('AUTH_PERMISSIONS_ADD_BOOKING')             OR define('AUTH_PERMISSIONS_ADD_BOOKING', 3); // authentication permission general add
+defined('AUTH_PERMISSIONS_EDIT_FULL_BOOKING')            OR define('AUTH_PERMISSIONS_EDIT_FULL_BOOKING', 4); // authentication permission general edit
+defined('AUTH_PERMISSIONS_EDIT_BASIC_BOOKING')            OR define('AUTH_PERMISSIONS_EDIT_BASIC_BOOKING', 4); // authentication permission general edit
 
 //TOKEN
 defined('TOKEN_VALID')                      OR define('TOKEN_VALID', 1); // current token is valid
