@@ -96,12 +96,10 @@ $(document).ready(function(){
         var orID = this.id;
         bootbox.dialog({
             title: "OR " + this.id + " - atualizacao do estado",
-            message: '<div class="row">\n' +
-                '                <div class="col-md-12">\n' +
-                '                    <form action="#" class="modal-body form-inline justify-content-center">\n' +
+            message: '<form action="#" class="modal-body form-inline ">\n' +
                 '                        <label>Estado:</label>\n' +
                 '\n' +
-                '                        <select id="state'+orID+'" class="form-control">\n' +
+                '                        <select id="state'+orID+'" class="form-control col-auto  ">\n' +
                 '                            <option value="1">Agendado</option>\n' +
                 '                            <option value="2">Recebido na Loja </option>\n' +
                 '                            <option value="4">Recebido em Laboratorio</option>\n' +
@@ -114,13 +112,11 @@ $(document).ready(function(){
                 '                            <option value="17">Cancelado</option>\n' +
                 '                        </select>\n' +
                 '\n' +
-                '                        <label class="ml-sm-2">Codigo Funcionario</label>\n' +
+                '                        <label> Codigo Funcionario</label>\n' +
                 '                        <input id="cod'+orID+'" type="password" placeholder="codigo funcionario" class="form-control mb-2 mr-sm-2 ml-sm-2 mb-sm-0" required>\n' +
                 '\n' +
                 '                     \n' +
-                '                    </form>\n' +
-                '                    </div>\n' +
-                '                </div>',
+                '                    </form>\n',
             buttons: {
                 success: {
                     label: "Update",
@@ -143,10 +139,10 @@ $(document).ready(function(){
                         $.ajax({
                             type: "POST",
                             dataType: "json",
-                            url: window.location.origin + "/coregeek/API/OR_STATE",
+                            url: window.location.origin + "coregeek/API/OR_STATE",
                             data: {data:postData},
                             success: function(data){
-                               $("#"+orID+"_state").text(state_name);
+                                $("#"+orID+"_state").text(state_name);
                             },
                             error: function(e){
                                 alert('Verifique o codigo de funcionario');

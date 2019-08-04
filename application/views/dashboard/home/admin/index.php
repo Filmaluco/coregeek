@@ -47,7 +47,52 @@
         <!-- Content area------------------------------------------------------------------------------------------- -->
         <div class="content">
 
+            <?php
 
+            $now = time(); // or your date as well
+            $your_date = strtotime("2019-08-4");
+            $datediff = $now - $your_date;
+
+           $time = round($datediff / (60 * 60 * 24));
+            ?>
+
+            <div class="card border-success">
+                <div class="card-header alpha-success border-success d-flex justify-content-between">
+                    <span class="font-size-sm text-uppercase font-weight-semibold">Aug 4, 3:00pm</span>
+                    <span class="font-size-sm text-uppercase text-success-700 font-weight-semibold"><?php echo $time;?> dia(s) atras</span>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title">Aviso</h6>
+                    <p class="card-text">O website
+                        encontra-se em desenvolvimento, apenas as funções de booking estão ativas.</p>
+                    <p class="card-text">Assim que sistema de booking esteja confirmado como estável as restantes funcionalidades serão ativadas:</p>
+                </div>
+
+                <div class="card card-body bg-light mb-0">
+                    <dl class="mb-0">
+
+                        <dt>Sistema notificações</dt>
+                        <dd>
+                            Os utilizadores serão notificados sempre que a administração tome políticas novas ou alterações importantes aconteçam nos seus bookings <br>
+                            ex:
+                            booking fechado por outra pessoa, telemóvel arranjado, ….
+                        </dd>
+
+                        <dt>Gestao de Loja</dt>
+                        <dd>Cada loja tem acesso aos seus funcionários e contas associadas. <br>
+                            Cada funcionário terá um código associado para autenticação.
+                        </dd>
+
+                        <dt>Estatísticas</dt>
+                        <dd>Poderão consultar as vossas estatísticas</dd>
+
+                    </dl>
+                </div>
+
+                <div class="card-footer bg-transparent d-flex justify-content-between border-top-0 pt-0">
+                    <span class="text-muted">publicado por Coregeek</span>
+                </div>
+            </div>
 
         </div>
         <!-- /content area------------------------------------------------------------------------------------------ -->

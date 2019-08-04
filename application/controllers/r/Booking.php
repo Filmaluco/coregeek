@@ -256,9 +256,15 @@ class Booking extends AUTH_Controller
         CONCAT(Clients.Email, \'/\', Clients.Phone) AS \'Contactos\',
         CONCAT(DATE_FORMAT(t.Creation_Date, "%d, %M %Y"), \' por \', Users.Username) as UltimaAlteracao
 FROM ORs
-       JOIN (SELECT *
-             FROM   (SELECT * FROM OR_State ORDER BY Creation_Date DESC
-                    )tt GROUP BY tt.OR_ID) t
+       JOIN (SELECT  a.*
+             FROM    OR_State a
+                       INNER JOIN
+                         (
+                         SELECT  State_ID, MAX(Creation_Date)maxDate
+                         FROM OR_State
+                         GROUP BY OR_ID
+                         ) b  WHERE
+                 a.Creation_Date = b.maxDate) t
          ON ORs.OR_ID = t.OR_ID
        JOIN Repair_State
          ON t.State_ID = Repair_State.State_ID

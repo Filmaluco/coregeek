@@ -91,7 +91,6 @@
                                         $url = site_url('r/booking/edit/' . $OR->get_ORID().'');
                                         echo ' <a href="'. $url .'" class="dropdown-item" class="dropdown-item">Editar</a>';
                                     ?>
-                                    <a href="#" class="dropdown-item">Editar</a>
                                     <div class="dropdown-divider"></div>
                                     <a href="#" class="dropdown-item" onclick="displayHistory()">Ver historico de estados</a>
                                     <?php

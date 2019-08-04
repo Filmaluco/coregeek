@@ -89,8 +89,8 @@
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a href="#" class="dropdown-item"><i class="icon-user-plus"></i>O meu Perfil</a>
-                    <a href="#" class="dropdown-item"><i class="icon-cog5"></i> Definições de Conta</a>
+                    <!-- <a href="#" class="dropdown-item"><i class="icon-user-plus"></i>O meu Perfil</a>
+                    <a href="#" class="dropdown-item"><i class="icon-cog5"></i> Definições de Conta</a> -->
                     <div class="dropdown-divider"></div>
                     <a href="<?php echo site_url('login/logout/') ?>" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
                 </div>

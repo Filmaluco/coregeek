@@ -25,9 +25,11 @@
                     <div class="mr-3">
                         <a href="<?php echo site_url('r/home');?>"><img src="<?php echo assets_url()?>/images/avatar-logo.jpg" width="38" height="38" class="rounded-circle" alt="loading"></a>
                     </div>
-
                     <div class="media-body">
                         <div class="media-title font-weight-semibold"><?php echo $username?></div>
+                        <div class="font-size-xs opacity-50">
+                            <i class="icon-store font-size-sm"></i> &nbsp; <?php echo $store_name; ?>
+                        </div>
                     </div>
 
                     <div class="ml-3 align-self-center">
@@ -52,14 +54,20 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="icon-list-unordered"></i>
-                        <span>Option 1</span>
-                        <span class="badge bg-blue-400 align-self-center ml-auto">0.1</span>
-                    </a>
-                </li>
-                <!-- /main -->
+                <!-- Reparações -->
+                <li class="nav-item-header"><div class="text-uppercase font-size-xs line-height-xs">Reparações</div> <i class="icon-menu" title="reparacoes"></i></li>
+
+
+                <li class="nav-item"><a href="<?php echo site_url('r/booking');?>" class="nav-link"><i class="icon-coin-dollar "></i><span>Tabela Preços</span></a></li>
+                <li class="nav-item"><a href="<?php echo site_url('r/booking/search');?>" class="nav-link <?php if($current_Method == 'Procura' && $controller_Name == 'Booking'){echo 'active';}?>"><i class="icon-search4"></i> <span>Pesquisa</span></a></li>
+                <li class="nav-item"><a href="<?php echo site_url('r/booking/book');?>" class="nav-link <?php if($current_Method == 'Novo Booking' && $controller_Name == 'Booking'){echo 'active';}?>"><i class="icon-add-to-list"></i> <span>Adicionar</span></a></li>
+            </ul>
+            </li>
+
+
+
+
+            <!-- /main -->
 
             </ul>
         </div>

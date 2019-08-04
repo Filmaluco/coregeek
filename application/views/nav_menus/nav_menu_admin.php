@@ -54,37 +54,6 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a href="<?php echo site_url('r/home');?>" class="nav-link">
-                        <i class="icon-pie-chart5"></i>
-                        <span>Estatísticas</span>
-                    </a>
-                </li>
-
-                <!-- Gestão -->
-                <li class="nav-item-header"><div class="text-uppercase font-size-xs line-height-xs">Gestão</div> <i class="icon-menu" title="gestao"></i></li>
-
-                <li class="nav-item">
-                    <a href="<?php echo site_url('r/home');?>" class="nav-link">
-                        <i class="icon-users"></i>
-                        <span>Gerir Contas</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="<?php echo site_url('r/home');?>" class="nav-link">
-                        <i class="icon-coins"></i>
-                        <span>Gerir Tabela de Preços</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="<?php echo site_url('r/home');?>" class="nav-link">
-                        <i class="icon-bell3"></i>
-                        <span>Gerir Notificações</span>
-                    </a>
-                </li>
-
                 <!-- Reparações -->
                 <li class="nav-item-header"><div class="text-uppercase font-size-xs line-height-xs">Reparações</div> <i class="icon-menu" title="reparacoes"></i></li>
 

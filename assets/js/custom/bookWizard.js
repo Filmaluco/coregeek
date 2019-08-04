@@ -16,6 +16,8 @@
 // ------------------------------
 
 function cod_func(){
+    if(!form.checkValidity()){return;}
+
     bootbox.dialog({
         title: "Novo booking",
         message: '<div class="row">\n' +
@@ -50,7 +52,7 @@ function cod_func(){
                         data: {data:postData},
                         success: function(data){
                             $('#cod_func').val(codFunc);
-                            form.submit();
+                                form.submit();
                         },
                         error: function(e){
                             alert('Verifique o codigo de funcionario');

@@ -20,14 +20,22 @@ class API extends CI_Controller
     }
 
     public function OR_BOOK(){
+
         if(!isset( $_POST['data'])) {
             die();
         }else{
             $arr = $_POST['data'];
 
+
+
             if($this->user->validates_user_by_token($arr['token']) != AUTHENTICATION_SUCCESS){die();}
-            if( !in_array(AUTH_PERMISSIONS_EDIT_BASIC_BOOKING, $this->user->get_permissions()) ||
-                !in_array(AUTH_PERMISSIONS_EDIT_FULL_BOOKING, $this->user->get_permissions()) ){die();}
+
+
+
+            if( !(in_array(AUTH_PERMISSIONS_EDIT_BASIC_BOOKING, $this->user->get_permissions()) ||
+                in_array(AUTH_PERMISSIONS_EDIT_FULL_BOOKING, $this->user->get_permissions())) ){die();}
+
+
 
             if(!is_numeric($arr['codFunc'])){die;}
             if(!isset($this->db->get_where('Users', array('User_ID=' => $arr['codFunc']))->row()->Username)){die;}
@@ -43,14 +51,15 @@ class API extends CI_Controller
     }
 
     public function OR_STATE(){
+
         if(!isset( $_POST['data'])) {
             die();
         }else{
             $arr = $_POST['data'];
 
             if($this->user->validates_user_by_token($arr['token']) != AUTHENTICATION_SUCCESS){die();}
-            if( !in_array(AUTH_PERMISSIONS_EDIT_BASIC_BOOKING, $this->user->get_permissions()) ||
-                !in_array(AUTH_PERMISSIONS_EDIT_FULL_BOOKING, $this->user->get_permissions()) ){die();}
+            if( !(in_array(AUTH_PERMISSIONS_EDIT_BASIC_BOOKING, $this->user->get_permissions()) ||
+                in_array(AUTH_PERMISSIONS_EDIT_FULL_BOOKING, $this->user->get_permissions()) )){die();}
 
             if(!is_numeric($arr['codFunc'])){die;}
             if(!isset($this->db->get_where('Users', array('User_ID=' => $arr['codFunc']))->row()->Username)){die;}
