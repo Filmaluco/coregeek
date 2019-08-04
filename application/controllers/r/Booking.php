@@ -219,6 +219,7 @@ class Booking extends AUTH_Controller
         if(!is_numeric($data['or_id'])){die();}
         if(!is_numeric($data['cod_func'])){die();}
         if(!is_numeric($data['state'])){die();}
+        if(!is_numeric($data['or_valor'])){die();}
 
         $oldOR = new ORData($data['or_id']);
         $oldRepairInfo = $oldOR->get_LastRepairInfo();
@@ -226,7 +227,11 @@ class Booking extends AUTH_Controller
        if($this->has_permission(AUTH_PERMISSIONS_EDIT_FULL_BOOKING)){
 
        }
-        $oldOR->update_OR_state($data['cod_func'], $data['state']);
+
+       if($data['state'] != $oldOR->get_StateID()){
+           $oldOR->update_OR_state($data['cod_func'], $data['state']);
+       }
+
 
         $obs =$oldRepairInfo->Obs .' '.$data['obs_or'];
 

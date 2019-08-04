@@ -139,7 +139,7 @@ $(document).ready(function(){
                         $.ajax({
                             type: "POST",
                             dataType: "json",
-                            url: window.location.origin + "coregeek/API/OR_STATE",
+                            url: window.location.origin + "/coregeek/API/OR_STATE",
                             data: {data:postData},
                             success: function(data){
                                 $("#"+orID+"_state").text(state_name);

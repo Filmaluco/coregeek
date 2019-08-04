@@ -16,7 +16,6 @@ class API extends CI_Controller
     }
 
     public function Index(){
-       echo "Coregeek dash public api";
     }
 
     public function OR_BOOK(){
@@ -25,7 +24,6 @@ class API extends CI_Controller
             die();
         }else{
             $arr = $_POST['data'];
-
 
 
             if($this->user->validates_user_by_token($arr['token']) != AUTHENTICATION_SUCCESS){die();}
