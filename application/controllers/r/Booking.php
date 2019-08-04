@@ -148,7 +148,7 @@ class Booking extends AUTH_Controller
         $or = new ORData();
 
         try {
-            $or->create_ORData($or_type, $or_state, $client, $repair, $this->user->get_userID());
+            $or->create_ORData($or_type, $or_state, $client, $repair, $data['cod_func']);
         } catch (Exception $e) {
             echo "Por favor contacte o administrador do sistema [" . e . "]";
         }
@@ -184,6 +184,60 @@ class Booking extends AUTH_Controller
 
     }
 
+    public function edit($OR_ID = 0){
+        // REQUIRED ----------------------------------------------------------------------------------------------------
+        $this->set_CurrentMethod('Edit');
+        $this->set_group();
+        $this->set_permissions([AUTH_PERMISSIONS_EDIT_BASIC_BOOKING]);
+        $this->add_data($this->user->get_mainGroup(), 'group');
+        if($this->access_check()== AUTHENTICATION_ERROR){
+            redirect('/r/home');
+        }
+        $this->add_data($this->user->get_mainGroup(), 'group');
+        //--------------------------------------------------------------------------------------------------------------
+
+        $OR = new ORData();
+        try{
+            $OR->load_specific_ORData($OR_ID, 0);
+        }catch (Exception $e){
+            redirect("r/booking", "refresh");
+            die;
+        }
+        $this->add_data($OR, "OR");
+
+        if($this->has_permission(AUTH_PERMISSIONS_EDIT_FULL_BOOKING)){
+            //todo update
+            echo $this->load->view('dashboard/booking/edit_basic', $this->get_data(), true);
+        }else{
+            echo $this->load->view('dashboard/booking/edit_basic', $this->get_data(), true);
+        }
+    }
+
+    public function update(){
+        $data = $this->input->post();
+
+        if(!is_numeric($data['or_id'])){die();}
+        if(!is_numeric($data['cod_func'])){die();}
+        if(!is_numeric($data['state'])){die();}
+
+        $oldOR = new ORData($data['or_id']);
+        $oldRepairInfo = $oldOR->get_LastRepairInfo();
+
+       if($this->has_permission(AUTH_PERMISSIONS_EDIT_FULL_BOOKING)){
+
+       }
+        $oldOR->update_OR_state($data['cod_func'], $data['state']);
+
+        $obs =$oldRepairInfo->Obs .' '.$data['obs_or'];
+
+       $date= date('y-d-m', strtotime($data['or_data_entrega']));
+
+        $newRepairInfo = new RepairInfo($oldRepairInfo->Device, $oldRepairInfo->Brand, $oldRepairInfo->Model, $oldRepairInfo->Color, $oldRepairInfo->Unlock_Code, $data['or_valor'], $oldRepairInfo->IMEI, $oldRepairInfo->Acessories, $date, $oldRepairInfo->Desc,  $obs );
+        $newRepairInfo->create_repair($data['or_id'],$data['cod_func'] );
+
+        redirect('r/booking/details/'. $data['or_id'], 'refresh');
+    }
+
     public function search($method = "onGoing"){
         // REQUIRED ----------------------------------------------------------------------------------------------------
         $this->set_CurrentMethod('Procura');
@@ -196,17 +250,19 @@ class Booking extends AUTH_Controller
         //--------------------------------------------------------------------------------------------------------------
 
         $query_str = 'SELECT 	ORs.OR_ID,
-        Repair_State.Name as \'Estado\',
-        CONCAT(Last_Repair.Brand, \' \',Last_Repair.Model) AS \'Dispositivo\',
-        Clients.Name AS \'Cliente\',
+        Repair_State.Name as Estado,
+        CONCAT(Last_Repair.Brand, \' \',Last_Repair.Model) AS Dispositivo,
+        Clients.Name AS Cliente,
         CONCAT(Clients.Email, \'/\', Clients.Phone) AS \'Contactos\',
-        CONCAT(DATE_FORMAT(OR_State.Creation_Date, "%d, %M %Y"), \' por \', Users.Username) as \'UltimaAlteracao\'
-        FROM ORs
-        JOIN OR_State
-        ON ORs.OR_ID = OR_State.OR_ID
-        JOIN Repair_State
-        ON OR_State.State_ID = Repair_State.State_ID
-        JOIN (
+        CONCAT(DATE_FORMAT(t.Creation_Date, "%d, %M %Y"), \' por \', Users.Username) as UltimaAlteracao
+FROM ORs
+       JOIN (SELECT *
+             FROM   (SELECT * FROM OR_State ORDER BY Creation_Date DESC
+                    )tt GROUP BY tt.OR_ID) t
+         ON ORs.OR_ID = t.OR_ID
+       JOIN Repair_State
+         ON t.State_ID = Repair_State.State_ID
+       JOIN (
             SELECT  OR_ID,
                     Repair_Info.Creation_Date,
                     Brand,
@@ -216,21 +272,23 @@ class Booking extends AUTH_Controller
                      ON Repair_Info.Repair_ID = B.Repair_ID
             GROUP BY OR_ID
             ) AS Last_Repair
-         ON OR_State.OR_ID = Last_Repair.OR_ID
+         ON t.OR_ID = Last_Repair.OR_ID
        JOIN Clients ON ORs.Client_ID = Clients.Client_ID
-       JOIN Users ON OR_State.User_ID = Users.User_ID ';
+       JOIN Users ON t.User_ID = Users.User_ID ';
 
         switch ($method){
             case "onGoing":
-                $query_str .= "WHERE OR_State.State_ID < " . BOOKING_STATE_BOOKED_DELIVERED_S;
+                $query_str .= "WHERE t.State_ID < " . BOOKING_STATE_BOOKED_DELIVERED_S;
                 break;
             case "finished":
-                $query_str .= "WHERE OR_State.State_ID > " . BOOKING_STATE_BOOKED_DELIVERED_S;
+                $query_str .= "WHERE t.State_ID > " . BOOKING_STATE_BOOKED_DELIVERED_S;
                 break;
             case "all":
-                $query_str .= "WHERE OR_State.State_ID > 0";
+                $query_str .= "WHERE t.State_ID > 0";
                 break;
         }
+
+        $query_str .= ' ORDER BY ORs.OR_ID';
 
         $query = $this->db->query($query_str);
 

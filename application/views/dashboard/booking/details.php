@@ -87,9 +87,13 @@
                             <div class="dropdown">
                                 <a href="#" class="list-icons-item dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
                                 <div class="dropdown-menu dropdown-menu-right">
+                                    <?php
+                                        $url = site_url('r/booking/edit/' . $OR->get_ORID().'');
+                                        echo ' <a href="'. $url .'" class="dropdown-item" class="dropdown-item">Editar</a>';
+                                    ?>
                                     <a href="#" class="dropdown-item">Editar</a>
-                                    <?php if($group == "Admin"){ echo '<a href="#" class="dropdown-item">Apagar</a>' ;} ?>
                                     <div class="dropdown-divider"></div>
+                                    <a href="#" class="dropdown-item" onclick="displayHistory()">Ver historico de estados</a>
                                     <?php
                                     if($OR->get_RepairOffset() > 0){
                                         $url = site_url('r/booking/details/' . $OR->get_ORID().'');
@@ -129,6 +133,20 @@
 
                         </div>
                     </div>
+                </div>
+
+                <script>
+                    function displayHistory() {
+                        $('#state_history').removeAttr('hidden');
+                    }
+                </script>
+
+                <div id="state_history" class="card-body" hidden="true">
+                   <?php
+                        foreach($OR->get_StateHistory() as $history){
+                          echo $history->Name . " por " . $history->Username . " [ " . $history->Creation_date .' ]<br>';
+                        }
+                   ?>
                 </div>
 
                     <div class="card">

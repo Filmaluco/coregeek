@@ -12,6 +12,11 @@
     <script src="<?php echo assets_url()?>/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js"></script>
     <script src="<?php echo assets_url()?>/js/plugins/tables/datatables/extensions/buttons.min.js"></script>
 
+    <script src="<?php echo assets_url()?>/js/plugins/notifications/bootbox.min.js"></script>
+    <script src="<?php echo assets_url()?>/js/plugins/notifications/sweet_alert.min.js"></script>
+    <script src="<?php echo assets_url()?>/js/plugins/cookies/jquery.cookie.js"></script>
+
+
     <script src="<?php echo assets_url()?>/js/custom/bookingSearch.js"></script>
 
 </head>
@@ -81,7 +86,7 @@
                     {
                        echo "<tr>";
                         echo "<td>".$row->OR_ID."</td>";
-                        echo "<td>".$row->Estado."</td>";
+                        echo "<td id=\"".$row->OR_ID."_state\">".$row->Estado."</td>";
                         echo "<td>".$row->Cliente."</td>";
                         echo "<td>".$row->Dispositivo."</td>";
                         echo "<td>".$row->Contactos."</td>";
@@ -99,7 +104,11 @@
 
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a href="'.$url.'" class="dropdown-item"><i class="icon-search4"></i> Consultar</a>
-                                    <a href="#" class="dropdown-item"><i class="icon-pencil"></i> Editar</a>
+                                    ';
+                        $url = site_url('r/booking/edit/' . $row->OR_ID.'');
+                        echo ' <a href="'. $url .'" class="dropdown-item" class="dropdown-item"><i class="icon-pencil"></i>Editar</a>
+                                   <div class="dropdown-divider"></div>
+                                    <a href="#" id="'.$row->OR_ID.'" class="dropdown-item stateUpdate"><i class="icon-pencil"></i> Editar Estado</a>
                                 </div>
                             </div>
                         </div>
@@ -107,7 +116,6 @@
 
                     }
                     ?>
-
 
 
 

@@ -19,6 +19,7 @@ class ORData
     protected $Type;
     protected $State_ID;
     protected $State;
+    protected $State_history;
     protected $State_Altered_Date;
     protected $State_Altered_By;
     protected $Invoice_Number;
@@ -96,9 +97,7 @@ class ORData
         $repair_info->create_repair($this->OR_ID, $userID);
 
         //OR state
-        $CI->db->insert('OR_State', array('OR_ID' =>  $this->OR_ID,
-            'State_ID'=>   $status,
-            'User_ID' => $userID));
+        $this->update_OR_state($userID, $status);
 
 
     }
@@ -129,6 +128,7 @@ class ORData
         $CI =& get_instance();
         //see if $OR exists's
         try {
+            if(!is_numeric($OR_ID)){throw new Exception('');}
             $result = $CI->db->get_where('ORs', array('OR_ID=' => $OR_ID))->row();
             $this->OR_ID = $OR_ID;
             $this->Type_ID = $result->Type_ID;
@@ -139,18 +139,25 @@ class ORData
             $this->Client = new Client();
             $this->Client->get_client_byID($this->Client_ID);
 
-            //load ORState //TODO: optimize with a sql search!
-            $result = $CI->db->get_where('OR_State', array('OR_ID=' => $OR_ID))->row();
-            $this->State_ID = $result->State_ID;
-            $this->State = $CI->db->get_where('Repair_State', array("State_ID=" => $this->State_ID))->row()->Name;
-            $this->State_Altered_Date = $result->Creation_Date;
-            $this->State_Altered_By = $CI->db->get_where('Users', array("User_ID" => $result->User_ID))->row()->Username;
-
             //load number of repair info's
             $result = $CI->db->order_by('Creation_Date', 'DESC')->get_where('Repair_Info', array("OR_ID" => $this->OR_ID))->result();
             $this->repair_infos = $result;
             $this->last_repair_info = $result[0];
             $this->number_repairs = sizeof($result);
+
+            //load StatesInfo
+            $this->State_history = $CI->db->query('  SELECT OR_State.State_ID, Repair_State.Name, Users.Username, Creation_date FROM OR_State 
+                                        JOIN Users ON OR_State.User_ID = Users.User_ID
+                                        JOIN Repair_State ON Repair_State.State_ID = OR_State.State_ID
+                                        WHERE OR_ID = '.$OR_ID.' 
+                                        ORDER BY Creation_Date DESC')->result();
+
+            $this->State_ID =  $this->State_history[0]->State_ID;
+            $this->State =  $this->State_history[0]->Name;
+            $this->State_Altered_Date =  $this->State_history[0]->Creation_date;
+            $this->State_Altered_By =  $this->State_history[0]->Username;
+
+
 
         }catch (Exception $e){
             throw new Exception('INVALID OR');
@@ -319,6 +326,21 @@ class ORData
         return $result->Username;
     }
 
+    /**
+     * @return mixed
+     */
+    public function get_StateHistory()
+    {
+        return $this->State_history;
+    }
+
+    public function update_OR_state($userID, $newStatus){
+        $CI =& get_instance();
+
+        $CI->db->insert('OR_State', array('OR_ID' =>  $this->OR_ID,
+            'State_ID'=>   $newStatus,
+            'User_ID' => $userID));
+    }
 
 
 

@@ -86,6 +86,80 @@ $(document).ready(function(){
         });
     });
 
+    // Custom bootbox dialog with form
+
+
+
+
+
+    $('.stateUpdate').on('click', function() {
+        var orID = this.id;
+        bootbox.dialog({
+            title: "OR " + this.id + " - atualizacao do estado",
+            message: '<div class="row">\n' +
+                '                <div class="col-md-12">\n' +
+                '                    <form action="#" class="modal-body form-inline justify-content-center">\n' +
+                '                        <label>Estado:</label>\n' +
+                '\n' +
+                '                        <select id="state'+orID+'" class="form-control">\n' +
+                '                            <option value="1">Agendado</option>\n' +
+                '                            <option value="2">Recebido na Loja </option>\n' +
+                '                            <option value="4">Recebido em Laboratorio</option>\n' +
+                '                            <option value="7">OR Recusado</option>\n' +
+                '                            <option value="8">Aguarda Stock</option>\n' +
+                '                            <option value="9">Em Reparação</option>\n' +
+                '                            <option value="10">Reparado</option>\n' +
+                '                            <option value="15">Entregue (Reparado)</option>\n' +
+                '                            <option value="16">Entregue (S/ Reparação)</option>\n' +
+                '                            <option value="17">Cancelado</option>\n' +
+                '                        </select>\n' +
+                '\n' +
+                '                        <label class="ml-sm-2">Codigo Funcionario</label>\n' +
+                '                        <input id="cod'+orID+'" type="password" placeholder="codigo funcionario" class="form-control mb-2 mr-sm-2 ml-sm-2 mb-sm-0" required>\n' +
+                '\n' +
+                '                     \n' +
+                '                    </form>\n' +
+                '                    </div>\n' +
+                '                </div>',
+            buttons: {
+                success: {
+                    label: "Update",
+                    className: "btn btn-primary btn-block",
+                    callback: function () {
+                        var state = $('#state'+orID).val();
+                        var state_name = $( "#state"+orID+ " option:selected" ).text();
+                        var codFunc = $('#cod'+orID).val();
+                        var token = $.cookie("SID");
+
+                        var postData =
+                            {
+                                "token": token,
+                                "orID":orID,
+                                "stateID":state,
+                                "codFunc":codFunc,
+                            };
+
+
+                        $.ajax({
+                            type: "POST",
+                            dataType: "json",
+                            url: window.location.origin + "/coregeek/API/OR_STATE",
+                            data: {data:postData},
+                            success: function(data){
+                               $("#"+orID+"_state").text(state_name);
+                            },
+                            error: function(e){
+                                alert('Verifique o codigo de funcionario');
+                            }
+                        });
+
+
+                    }
+                }
+            }
+        });
+    });
+
 });
 
 // Initialize module

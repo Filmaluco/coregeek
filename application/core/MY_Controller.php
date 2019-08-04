@@ -209,5 +209,9 @@ class AUTH_Controller extends MY_Controller{
         return AUTHENTICATION_ERROR;
     }
 
+    public function has_permission($permission){
+        return in_array($permission, $this->user->get_permissions());
+    }
+
 
 }

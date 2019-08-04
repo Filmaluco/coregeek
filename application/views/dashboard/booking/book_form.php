@@ -23,6 +23,8 @@
     <script src="<?php echo assets_url(); ?>/js/plugins/pickers/pickadate/picker.js"></script>
     <script src="<?php echo assets_url(); ?>/js/plugins/pickers/pickadate/picker.date.js"></script>
     <script src="<?php echo assets_url(); ?>/js/plugins/pickers/pickadate/picker.time.js"></script>
+    <script src="<?php echo assets_url()?>/js/plugins/notifications/bootbox.min.js"></script>
+    <script src="<?php echo assets_url(); ?>/js/plugins/cookies/jquery.cookie.js"></script>
 
 </head>
 
@@ -82,7 +84,7 @@
                 </div>
 
                 <div class="card-body">
-                    <?php echo form_open('r/booking/add', ' method="post" data-fouc id="form"');?>
+                    <?php echo form_open('r/booking/add', ' method="post" class="form-validate-jquery" data-fouc id="form"');?>
                     <fieldset class="mb-3">
                         <legend class="text-uppercase font-size-sm font-weight-bold"><i class="icon-user"></i> Dados Cliente</legend>
 
@@ -161,7 +163,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Tipo Orçamento:</label>
-                                    <select name="or_tipo" onchange="or_tipoCheck(this);" data-placeholder="Tipo Orçamento" class="form-control form-control-select2" data-fouc>
+                                    <select name="or_tipo" onchange="or_tipoCheck(this);" data-placeholder="Tipo Orçamento" class="form-control form-control-select2" data-fouc required>
                                         <option></option>
                                         <option value="2">Orçamentado</option>
                                         <option value="1">Orçamentar</option>
@@ -393,11 +395,12 @@
                         </div>
 
                         <input type="hidden" value="wizard-form steps-validation>" name="form-style" />
+                        <input type="hidden" id="cod_func" value="" name="cod_func"/>
 
                     </fieldset>
 
                     <div class="form-group">
-                        <button type="submit" value="login" class="btn btn-primary btn-block">Book<i class="icon-circle-right2 ml-2"></i></button>
+                        <button type="button" id="submit_btn" value="login" class="btn btn-primary btn-block">Book<i class="icon-circle-right2 ml-2"></i></button>
                     </div>
 
                     <?php echo form_close();?>

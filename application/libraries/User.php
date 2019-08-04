@@ -194,7 +194,96 @@ class User
         }
 
         //Gets the token cookie
-        $this->token = $this->CI->input->cookie('SID');
+        $token = $this->CI->input->cookie('SID');
+
+        return $this->validates_user_by_token($token);
+    }
+
+
+
+    public function is_set_uniqueForm(){
+        return $this->CI->input->cookie('uniqueForm');
+    }
+
+    public function set_uniqueForm($on = TRUE){
+        if($on){
+            set_cookie("uniqueForm", "1", 0);
+        }else{
+            delete_cookie("uniqueForm");
+        }
+    }
+
+    /**
+     * @return string
+     * returns Store name
+     */
+    public function get_store_name(){
+        return $this->store_name;
+    }
+
+    /**
+     * @return int userID
+     * returns int with the user ID
+     */
+    public function get_userID(){
+        return $this->user_id;
+    }
+
+    /**
+     * @return string
+     * returns username
+     */
+    public function get_userName()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @return string
+     * returns the number of unread notifications
+     */
+    public function get_nr_notifications()
+    {
+        return $this->notifications_count;
+    }
+
+    /**
+     * @return array of Notification
+     * returns array with the last Notifications
+     */
+    public function get_last_notifications(){
+        return $this->notifications;
+    }
+
+    /**
+     * @return array strings
+     * returns array with the user group names
+     */
+    public function get_groups(){
+        return $this->groups;
+    }
+
+    /**
+     * @return string
+     */
+    public function get_mainGroup()
+    {
+        return $this->main_group;
+    }
+
+
+
+    /**
+     * @return array strings
+     * returns array with the user permissions
+     */
+    public function get_permissions(){
+        return $this->permissions;
+    }
+
+    public function validates_user_by_token($token)
+    {
+        $this->token = $token;
 
         //Obtains token info
         $token_info = $this->CI->db->get_where('UserTokens', ['Token_Key' => $this->token], 1);
@@ -365,8 +454,8 @@ class User
                 //Add token to the DB
                 $this->CI->db
                     ->set([ 'Name' => $device_info,
-                            'User_ID' => $this->user_id,
-                            'Token_Key' => $this->token])
+                        'User_ID' => $this->user_id,
+                        'Token_Key' => $this->token])
                     ->insert('UserTokens');
 
                 //Create cookies
@@ -380,89 +469,6 @@ class User
 
         return AUTHENTICATION_SUCCESS;
     }
-
-    public function is_set_uniqueForm(){
-        return $this->CI->input->cookie('uniqueForm');
-    }
-
-    public function set_uniqueForm($on = TRUE){
-        if($on){
-            set_cookie("uniqueForm", "1", 0);
-        }else{
-            delete_cookie("uniqueForm");
-        }
-    }
-
-    /**
-     * @return string
-     * returns Store name
-     */
-    public function get_store_name(){
-        return $this->store_name;
-    }
-
-    /**
-     * @return int userID
-     * returns int with the user ID
-     */
-    public function get_userID(){
-        return $this->user_id;
-    }
-
-    /**
-     * @return string
-     * returns username
-     */
-    public function get_userName()
-    {
-        return $this->username;
-    }
-
-    /**
-     * @return string
-     * returns the number of unread notifications
-     */
-    public function get_nr_notifications()
-    {
-        return $this->notifications_count;
-    }
-
-    /**
-     * @return array of Notification
-     * returns array with the last Notifications
-     */
-    public function get_last_notifications(){
-        return $this->notifications;
-    }
-
-    /**
-     * @return array strings
-     * returns array with the user group names
-     */
-    public function get_groups(){
-        return $this->groups;
-    }
-
-    /**
-     * @return string
-     */
-    public function get_mainGroup()
-    {
-        return $this->main_group;
-    }
-
-
-
-    /**
-     * @return array strings
-     * returns array with the user permissions
-     */
-    public function get_permissions(){
-        return $this->permissions;
-    }
-
-
-
 
 
 }

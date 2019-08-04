@@ -71,6 +71,7 @@ class RepairInfo
     public function create_repair($or_id, $user_id){
 
 
+
         $CI =& get_instance();
         $CI->db->insert('Repair_Info', array( "OR_ID" => $or_id,
                                                     "User_ID" => $user_id,

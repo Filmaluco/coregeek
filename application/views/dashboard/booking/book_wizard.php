@@ -18,12 +18,13 @@
     <script src="<?php echo assets_url(); ?>/js/plugins/pickers/pickadate/picker.date.js"></script>
     <script src="<?php echo assets_url(); ?>/js/plugins/pickers/pickadate/picker.time.js"></script>
     <script src="<?php echo assets_url(); ?>/js/plugins/pickers/pickadate/legacy.js"></script>
-
-
-    <script src="<?php echo assets_url(); ?>/js/custom/bookWizard.js"></script>
+    <script src="<?php echo assets_url(); ?>/js/plugins/cookies/jquery.cookie.js"></script>
     <script src="<?php echo assets_url(); ?>/js/plugins/pickers/pickadate/picker.js"></script>
     <script src="<?php echo assets_url(); ?>/js/plugins/pickers/pickadate/picker.date.js"></script>
     <script src="<?php echo assets_url(); ?>/js/plugins/pickers/pickadate/picker.time.js"></script>
+    <script src="<?php echo assets_url()?>/js/plugins/notifications/bootbox.min.js"></script>
+
+    <script src="<?php echo assets_url(); ?>/js/custom/bookWizard.js"></script>
 
 
 
@@ -400,6 +401,7 @@
                 </div>
 
                 <input type="hidden" value="wizard-form steps-validation>" name="form-style" />
+                <input type="hidden" id="cod_func" value="" name="cod_func"/>
 
             </fieldset>
 

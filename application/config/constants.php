@@ -100,7 +100,7 @@ defined('AUTH_GROUP_ADMIN')                 OR define('AUTH_GROUP_ADMIN', 1); //
 defined('AUTH_GROUP_WORKER')                OR define('AUTH_GROUP_WORKER', 1); // current user is from the normal func group
 defined('AUTH_PERMISSIONS_VIEW_BOOKING')            OR define('AUTH_PERMISSIONS_VIEW_BOOKING', 2); // authentication permission general view
 defined('AUTH_PERMISSIONS_ADD_BOOKING')             OR define('AUTH_PERMISSIONS_ADD_BOOKING', 3); // authentication permission general add
-defined('AUTH_PERMISSIONS_EDIT_FULL_BOOKING')            OR define('AUTH_PERMISSIONS_EDIT_FULL_BOOKING', 4); // authentication permission general edit
+defined('AUTH_PERMISSIONS_EDIT_FULL_BOOKING')            OR define('AUTH_PERMISSIONS_EDIT_FULL_BOOKING', 5); // authentication permission general edit
 defined('AUTH_PERMISSIONS_EDIT_BASIC_BOOKING')            OR define('AUTH_PERMISSIONS_EDIT_BASIC_BOOKING', 4); // authentication permission general edit
 
 //TOKEN
