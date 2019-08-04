@@ -66,7 +66,7 @@
                     <p class="card-text">O website
                         encontra-se em desenvolvimento, apenas as funções de booking estão ativas.</p>
                     <p class="card-text">Assim que sistema de booking esteja confirmado como estável as restantes funcionalidades serão ativadas:</p>
-                </div>
+
 
                 <div class="card card-body bg-light mb-0">
                     <dl class="mb-0">
@@ -75,7 +75,7 @@
                         <dd>
                             Os utilizadores serão notificados sempre que a administração tome políticas novas ou alterações importantes aconteçam nos seus bookings <br>
                             ex:
-                            booking fechado por outra pessoa, telemóvel arranjado, ….
+                            agendamentos nos próximos, bookings que requerem atenção, booking fechado por outra pessoa, telemóvel arranjado, …
                         </dd>
 
                         <dt>Gestao de Loja</dt>
@@ -89,9 +89,16 @@
                     </dl>
                 </div>
 
+
+                    <br>
+                    <p class="card-text">SE encontrares algum problema ou tiveres alguma sugestão a altura ideal será  nesta fase de desenvolvimento, não hesites e envia um email para <strong>desenvolvimento@coregeek.pt</strong></p>
+                    <br>
+                </div>
                 <div class="card-footer bg-transparent d-flex justify-content-between border-top-0 pt-0">
                     <span class="text-muted">publicado por Coregeek</span>
                 </div>
+
+
             </div>
 
         </div>
