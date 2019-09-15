@@ -107,7 +107,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Email:</label><span class="text-danger">*</span>
-                            <input type="email" name="cliente_email" class="form-control required" placeholder="your@email.com" required title="É obrigatório um email para contacto">
+                            <input type="email" name="cliente_email" class="form-control" placeholder="your@email.com">
                         </div>
                     </div>
                 </div>

@@ -46,10 +46,8 @@ class Client
      * @param string $phone mobile phone number
      * @param string $obs observations
      */
-    public function create_client($name, $email, $phone = "", $obs=""){
-        try {
-            $this->get_client_byEmail($email);
-        }catch (Exception $e){
+    public function create_client($name, $email=" ", $phone = "", $obs=""){
+
             $CI =& get_instance();
             $CI->db->insert('Clients', array("Name" => $name,
                                                 "Email" => $email,
@@ -60,7 +58,7 @@ class Client
             $this->Email = $email;
             $this->Phone = $name;
             $this->Obs = $obs;
-        }
+
     }
 
     /**

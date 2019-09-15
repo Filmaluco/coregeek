@@ -47,7 +47,7 @@ class Booking extends AUTH_Controller
         $this->add_data($this->user->get_mainGroup(), 'group');
         //--------------------------------------------------------------------------------------------------------------
 
-         redirect('r/booking/search', 'refresh');
+        redirect('r/booking/search', 'refresh');
 
     }
     public function book(){
@@ -97,8 +97,8 @@ class Booking extends AUTH_Controller
         //--------------------------------------------------------------------------------------------------------------
         $client = new Client();
         $client->create_client( $data['cliente_nome'],
-                                $data['cliente_email'], str_replace("-", "",
-                                $data['cliente_telemovel']));
+            isset($data['cliente_email']) ? $data['cliente_email'] : "", str_replace("-", "",
+                isset($data['cliente_telemovel']) ? $data['cliente_telemovel'] : ""));
         //--------------------------------------------------------------------------------------------------------------
         $or_state = $data['or_estado'];
         $or_type = $data['or_tipo'];
@@ -132,17 +132,17 @@ class Booking extends AUTH_Controller
         }
 
         $repair = new RepairInfo(   $data['tipo'],
-                                $data['marca'],
-                                $data['modelo'],
-                                $data['cor'],
-                                $codigo,
-                                isset($data['or_valor']) ? $data['or_valor'] : 0,
-                                isset($data['imei']) ? $data['imei'] : "",
-                                empty($data['acessorios']) ? '' : implode(",",$data['acessorios']),
-                                $data_entrega,
-                                $data['obs_equipamento'],
-                                $data['obs_or']
-            );
+            $data['marca'],
+            $data['modelo'],
+            $data['cor'],
+            $codigo,
+            isset($data['or_valor']) ? $data['or_valor'] : 0,
+            isset($data['imei']) ? $data['imei'] : "",
+            empty($data['acessorios']) ? '' : implode(",",$data['acessorios']),
+            $data_entrega,
+            $data['obs_equipamento'],
+            $data['obs_or']
+        );
 
 
         $or = new ORData();
@@ -216,26 +216,32 @@ class Booking extends AUTH_Controller
     public function update(){
         $data = $this->input->post();
 
-        if(!is_numeric($data['or_id'])){die();}
-        if(!is_numeric($data['cod_func'])){die();}
-        if(!is_numeric($data['state'])){die();}
-        if(!is_numeric($data['or_valor'])){die();}
+        if(!is_numeric($data['or_id'])){redirect("r/booking", "refresh");}
+        if(!is_numeric($data['cod_func'])){redirect("r/booking", "refresh");}
+        if(!is_numeric($data['state'])){redirect("r/booking", "refresh");}
+
+
+
 
         $oldOR = new ORData($data['or_id']);
         $oldRepairInfo = $oldOR->get_LastRepairInfo();
 
-       if($this->has_permission(AUTH_PERMISSIONS_EDIT_FULL_BOOKING)){
+        if(!(isset($data['or_data_entrega']) || isset($data['obs_or'])) && $data['state'] == $oldOR->get_StateID()){
+            redirect("r/booking", "refresh");
+        }
 
-       }
+        if($this->has_permission(AUTH_PERMISSIONS_EDIT_FULL_BOOKING)){
 
-       if($data['state'] != $oldOR->get_StateID()){
-           $oldOR->update_OR_state($data['cod_func'], $data['state']);
-       }
+        }
+
+        if($data['state'] != $oldOR->get_StateID()){
+            $oldOR->update_OR_state($data['cod_func'], $data['state']);
+        }
 
 
         $obs =$oldRepairInfo->Obs .' '.$data['obs_or'];
 
-       $date= date('y-d-m', strtotime($data['or_data_entrega']));
+        $date= date('y-d-m', strtotime($data['or_data_entrega']));
 
         $newRepairInfo = new RepairInfo($oldRepairInfo->Device, $oldRepairInfo->Brand, $oldRepairInfo->Model, $oldRepairInfo->Color, $oldRepairInfo->Unlock_Code, $data['or_valor'], $oldRepairInfo->IMEI, $oldRepairInfo->Acessories, $date, $oldRepairInfo->Desc,  $obs );
         $newRepairInfo->create_repair($data['or_id'],$data['cod_func'] );
