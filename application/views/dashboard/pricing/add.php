@@ -3,7 +3,16 @@
 <head>
     <title><?php echo 'Coregeek.pt - ' . $controller_Name. ' '. $current_Method;?></title>
 
+    <?php $this->view('dashboard/layouts/js-variables'); ?>
     <?php $this->view('dashboard/layouts/head'); ?>
+
+
+    <script src="<?php echo assets_url()?>/js/plugins/uploaders/fileinput/plugins/purify.min.js"></script>
+    <script src="<?php echo assets_url()?>/js/plugins/uploaders/fileinput/plugins/sortable.min.js"></script>
+    <script src="<?php echo assets_url()?>/js/plugins/uploaders/fileinput/fileinput.min.js"></script>
+
+    <script src="<?php echo assets_url()?>/js/custom/pricingFileUpload.js"></script>
+
 
 </head>
 
@@ -47,31 +56,39 @@
         <!-- Content area------------------------------------------------------------------------------------------- -->
         <div class="content">
 
-            <div class="card bg-dark">
-                <div class="card-header bg-dark header-elements-sm-inline">
-                    <h4 class="card-title">
-                        OR <b><?php echo $OR->get_ORID(); ?></b>
-                    </h4>
-                </div>
-
-
-                <div class="card">
-                    <div class="card-body text-dark ">
-
-                        edit_full
-
+            <div class="card">
+            <div class="card-header header-elements-inline">
+                <h5 class="panel-title">Tabela de Precos</h5>
+                <div class="header-elements">
+                    <div class="list-icons">
+                        <a class="list-icons-item" data-action="collapse"></a>
                     </div>
                 </div>
-
             </div>
-            <!-- /content area------------------------------------------------------------------------------------------ -->
-            <?php $this->view('dashboard/layouts/footer'); ?>
+
+                <div class="card-body">
+
+                    <div class="form-group row">
+                        <label class="col-lg-2 col-form-label font-weight-semibold">Excel upload:</label>
+                        <div class="col-lg-10">
+                            <input type="file" name="file" class="file-input-ajax"  data-fouc>
+                            <span class="form-text text-muted">Pode fazer download da <a href="<?php echo assets_url(). '/pricing/'.EXCEL_FILE_NAME?>"> tabela atual</a></span>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
 
         </div>
-        <!-- /main content -->
+        <!-- /content area------------------------------------------------------------------------------------------ -->
+        <?php $this->view('dashboard/layouts/footer'); ?>
 
     </div>
-    <!-- /page content -->
+    <!-- /main content -->
+
+</div>
+<!-- /page content -->
 
 </body>
 </html>

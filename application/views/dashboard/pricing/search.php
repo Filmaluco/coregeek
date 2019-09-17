@@ -4,7 +4,19 @@
     <title><?php echo 'Coregeek.pt - ' . $controller_Name. ' '. $current_Method;?></title>
 
     <?php $this->view('dashboard/layouts/js-variables'); ?>
+
     <?php $this->view('dashboard/layouts/head'); ?>
+
+    <script src="<?php echo assets_url()?>/js/plugins/tables/datatables/datatables.min.js"></script>
+    <script src="<?php echo assets_url()?>/js/plugins/forms/selects/select2.min.js"></script>
+    <script src="<?php echo assets_url()?>/js/plugins/tables/datatables/extensions/jszip/jszip.min.js"></script>
+    <script src="<?php echo assets_url()?>/js/plugins/tables/datatables/extensions/pdfmake/pdfmake.min.js"></script>
+    <script src="<?php echo assets_url()?>/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js"></script>
+    <script src="<?php echo assets_url()?>/js/plugins/tables/datatables/extensions/buttons.min.js"></script>
+
+
+    <script src="<?php echo assets_url()?>/js/custom/pricingSearch.js"></script>
+
 </head>
 
 <body>
@@ -46,9 +58,40 @@
         <!-- /page header -->
         <!-- Content area------------------------------------------------------------------------------------------- -->
         <div class="content">
+            <div class="card">
+                <div class="card-header header-elements-inline">
+                    <h5 class="card-title">Consulta</h5>
+                </div>
 
 
+        <?php
+        echo '<table class="table datatable-basic table-striped" cellspacing="0" width="100%">';
+            $isFirst = true;
 
+            foreach( $schedules as $single_schedule ) {
+                if($isFirst){
+                    echo '<thead>
+                    <tr>';
+                    foreach( $single_schedule as $single_item )
+                        echo '<th>' . $single_item . '</th>';
+
+                    echo '</tr>
+                    </thead>
+                    <tbody>';
+                    $isFirst = false;
+                    continue;
+                }
+                echo '<tr>';
+                foreach( $single_schedule as $single_item ) {
+                    echo '<th>' . $single_item . '</th>';
+                }
+                echo '</tr>';
+            }
+            echo ' </tbody>
+                </table>';
+        ?>
+
+            </div>
         </div>
         <!-- /content area------------------------------------------------------------------------------------------ -->
         <?php $this->view('dashboard/layouts/footer'); ?>

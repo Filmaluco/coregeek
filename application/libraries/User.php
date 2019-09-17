@@ -350,7 +350,7 @@ class User
                                                         FROM Users
                                                         WHERE Users.User_ID = '.$this->user_id.' )');
 
-        $this->main_group = $user_groups->result()[0]->Name;
+        $this->main_group = $user_groups->result()[0]->Group_ID;
         foreach ($user_groups->result() as $groups){
             array_push($this->groups, $groups->Group_ID);
         }

@@ -78,7 +78,7 @@ $(document).ready(function(){
     $(function(){
         // bind change event to select
         $('#dynamic_select').on('change', function () {
-            var url = window.location.origin + "/r/booking/search/" + $(this).val(); // get selected value
+            var url = base_url + "/v1/booking/search/" + $(this).val(); // get selected value
             if (url) { // require a URL
                 window.location = url; // redirect
             }
@@ -139,10 +139,11 @@ $(document).ready(function(){
                         $.ajax({
                             type: "POST",
                             dataType: "json",
-                            url: window.location.origin + "/coregeek/API/OR_STATE",
+                            url: base_url + "/API/OR_STATE",
                             data: {data:postData},
                             success: function(data){
                                 $("#"+orID+"_state").text(state_name);
+                                $("#"+orID+"_alteration").text(data.date + ' por ' + data.user);
                             },
                             error: function(e){
                                 alert('Verifique o codigo de funcionario');

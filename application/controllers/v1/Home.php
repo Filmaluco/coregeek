@@ -18,9 +18,8 @@ class Home extends AUTH_Controller
 
         // REQUIRED ----------------------------------------------------------------------------------------------------
         $this->set_ControllerName('Home');
-        $this->set_ParentPath(site_url('r/home'));
+        $this->set_ParentPath(site_url('v1/home'));
         $this->set_ParentPathName('Home');
-        $this->add_data($this->user->get_mainGroup(), 'group');
         //--------------------------------------------------------------------------------------------------------------
 
     }
@@ -34,7 +33,6 @@ class Home extends AUTH_Controller
         if($this->access_check()== AUTHENTICATION_ERROR){
             redirect('/login');
         }
-        $this->add_data($this->user->get_mainGroup(), 'group');
         //--------------------------------------------------------------------------------------------------------------
 
             echo $this->load->view('dashboard/home/admin/index', $this->get_data(), true);

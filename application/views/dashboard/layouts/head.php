@@ -22,11 +22,10 @@
 <script src="<?php echo assets_url()?>/js/plugins/extensions/session_timeout.min.js"></script>
 <script src="<?php echo assets_url()?>/js/plugins/ui/prism.min.js"></script>
 
-<!-- Theme JS files -->
+
 <script src="<?php echo assets_url()?>/js/app.js"></script>
-<!-- /theme JS files -->
+
 
 <!-- Custom JS files -->
-<script src="<?php echo assets_url()?>/js/custom.js"></script>
 <script src="<?php echo assets_url()?>/js/custom/userTimeout.js"></script>
 <!-- /custom JS files -->

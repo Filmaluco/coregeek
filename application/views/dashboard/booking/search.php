@@ -3,6 +3,7 @@
 <head>
     <title><?php echo 'Coregeek.pt - ' . $controller_Name. ' '. $current_Method;?></title>
 
+    <?php $this->view('dashboard/layouts/js-variables'); ?>
     <?php $this->view('dashboard/layouts/head'); ?>
 
     <script src="<?php echo assets_url()?>/js/plugins/tables/datatables/datatables.min.js"></script>
@@ -90,10 +91,10 @@
                         echo "<td>".$row->Cliente."</td>";
                         echo "<td>".$row->Dispositivo."</td>";
                         echo "<td>".$row->Contactos."</td>";
-                        echo "<td>".$row->UltimaAlteracao."</td>";
+                        echo "<td id=\"".$row->OR_ID."_alteration\">".$row->UltimaAlteracao."</td>";
 
 
-                        $url = site_url('r/booking/details/' . $row->OR_ID.'');
+                        $url = site_url('v1/booking/details/' . $row->OR_ID.'');
 
                         echo '<td class="text-center">
                         <div class="list-icons">
@@ -105,7 +106,7 @@
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a href="'.$url.'" class="dropdown-item"><i class="icon-search4"></i> Consultar</a>
                                     ';
-                        $url = site_url('r/booking/edit/' . $row->OR_ID.'');
+                        $url = site_url('v1/booking/edit/' . $row->OR_ID.'');
                         echo ' <a href="'. $url .'" class="dropdown-item" class="dropdown-item"><i class="icon-pencil"></i>Editar</a>
                                    <div class="dropdown-divider"></div>
                                     <a href="#" id="'.$row->OR_ID.'" class="dropdown-item stateUpdate"><i class="icon-pencil"></i> Editar Estado</a>

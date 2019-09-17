@@ -48,7 +48,7 @@
                 <!-- Main -->
                 <li class="nav-item-header"><div class="text-uppercase font-size-xs line-height-xs">Main</div> <i class="icon-menu" title="Main"></i></li>
                 <li class="nav-item">
-                    <a href="<?php echo site_url('r/home');?>" class="nav-link <?php if($current_Method == 'Home' && $controller_Name == 'Home'){echo 'active';}?>">
+                    <a href="<?php echo site_url('v1/home');?>" class="nav-link <?php if($current_Method == 'Home' && $controller_Name == 'Home'){echo 'active';}?>">
                         <i class="icon-home4"></i>
                         <span>Home</span>
                     </a>
@@ -58,9 +58,9 @@
                 <li class="nav-item-header"><div class="text-uppercase font-size-xs line-height-xs">Reparações</div> <i class="icon-menu" title="reparacoes"></i></li>
 
 
-                <li class="nav-item"><a href="<?php echo site_url('r/booking');?>" class="nav-link"><i class="icon-coin-dollar "></i><span>Tabela Preços</span></a></li>
-                <li class="nav-item"><a href="<?php echo site_url('r/booking/search');?>" class="nav-link <?php if($current_Method == 'Procura' && $controller_Name == 'Booking'){echo 'active';}?>"><i class="icon-search4"></i> <span>Pesquisa</span></a></li>
-                <li class="nav-item"><a href="<?php echo site_url('r/booking/book');?>" class="nav-link <?php if($current_Method == 'Novo Booking' && $controller_Name == 'Booking'){echo 'active';}?>"><i class="icon-add-to-list"></i> <span>Adicionar</span></a></li>
+                <li class="nav-item"><a href="<?php echo site_url('v1/pricing/search');?>" class="nav-link"><i class="icon-coin-dollar "></i><span>Tabela Preços</span></a></li>
+                <li class="nav-item"><a href="<?php echo site_url('v1/booking/search');?>" class="nav-link <?php if($current_Method == 'Procura' && $controller_Name == 'Booking'){echo 'active';}?>"><i class="icon-search4"></i> <span>Pesquisa</span></a></li>
+                <li class="nav-item"><a href="<?php echo site_url('v1/booking/book');?>" class="nav-link <?php if($current_Method == 'Novo Booking' && $controller_Name == 'Booking'){echo 'active';}?>"><i class="icon-add-to-list"></i> <span>Adicionar</span></a></li>
             </ul>
             </li>
 

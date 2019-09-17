@@ -60,12 +60,14 @@ class API extends CI_Controller
                 in_array(AUTH_PERMISSIONS_EDIT_FULL_BOOKING, $this->user->get_permissions()) )){die();}
 
             if(!is_numeric($arr['codFunc'])){die;}
-            if(!isset($this->db->get_where('Users', array('User_ID=' => $arr['codFunc']))->row()->Username)){die;}
+            $username = $this->db->get_where('Users', array('User_ID=' => $arr['codFunc']))->row()->Username;
+            if(!isset($username)){die;}
 
             header('Content-type: application/json');
             $response = array();
-            $response['success'] = 0;
-            $response['general_message'] = 0;
+            $response['success'] = 1;
+            $response['user'] = $username;
+            $response['date'] = date("d, F Y");
             $response['errors']  = 0;
             $data = array(
                 'OR_ID' => $arr['orID'],

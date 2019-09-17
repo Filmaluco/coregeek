@@ -23,7 +23,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = '';
+if (ENVIRONMENT == "development"){
+    $config['base_url'] = 'http://127.0.0.1/coregeek/';
+}else{
+    $config['base_url'] = 'https://dash.coregeek.pt/';
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -136,7 +140,7 @@ $config['subclass_prefix'] = 'MY_';
 | Note: This will NOT disable or override the CodeIgniter-specific
 |	autoloading (application/config/autoload.php)
 */
-$config['composer_autoload'] = "../vendor/autoload.php";
+$config['composer_autoload'] = "vendor/autoload.php";
 
 /*
 |--------------------------------------------------------------------------

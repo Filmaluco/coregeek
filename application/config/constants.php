@@ -133,3 +133,5 @@ defined('BOOKING_TYPE_BUDGET')                          OR define('BOOKING_TYPE_
 defined('BOOKING_TYPE_GIVE_BUDGET')                     OR define('BOOKING_TYPE_GIVE_BUDGET', 2);
 defined('BOOKING_TYPE_WARRANTY')                        OR define('BOOKING_TYPE_WARRANTY', 3);
 
+//PRICING
+defined('EXCEL_FILE_NAME')                        OR define('EXCEL_FILE_NAME', 'pricingTable.xlsx');

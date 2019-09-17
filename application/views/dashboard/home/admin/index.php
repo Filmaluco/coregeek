@@ -3,6 +3,7 @@
 <head>
     <title><?php echo 'Coregeek.pt - ' . $current_Method;?></title>
 
+    <?php $this->view('dashboard/layouts/js-variables'); ?>
     <?php $this->view('dashboard/layouts/head'); ?>
 
 </head>

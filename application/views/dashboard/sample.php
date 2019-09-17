@@ -3,7 +3,9 @@
 <head>
     <title><?php echo 'Coregeek.pt - ' . $controller_Name. ' '. $current_Method;?></title>
 
+    <?php $this->view('dashboard/layouts/js-variables'); ?>
     <?php $this->view('dashboard/layouts/head'); ?>
+
 
 </head>
 
@@ -46,7 +48,6 @@
         <!-- /page header -->
         <!-- Content area------------------------------------------------------------------------------------------- -->
         <div class="content">
-
 
 
         </div>

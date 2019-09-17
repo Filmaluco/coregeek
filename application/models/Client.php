@@ -50,9 +50,9 @@ class Client
 
             $CI =& get_instance();
             $CI->db->insert('Clients', array("Name" => $name,
-                                                "Email" => $email,
-                                                "Phone" => $phone,
-                                                "Obs" => $obs));
+                                             "Email" => $email,
+                                             "Phone" => $phone,
+                                             "Obs" => $obs));
             $this->Client_ID = $CI->db->insert_id();
             $this->Name = $name;
             $this->Email = $email;

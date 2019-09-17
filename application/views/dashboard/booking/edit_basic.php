@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <title><?php echo 'Coregeek.pt - ' . $controller_Name. ' '. $current_Method;?></title>
-
+    <?php $this->view('dashboard/layouts/js-variables'); ?>
     <?php $this->view('dashboard/layouts/head'); ?>
 
 
@@ -53,7 +53,7 @@
         <!-- /page header -->
         <!-- Content area------------------------------------------------------------------------------------------- -->
         <div class="content">
-            <?php echo form_open('r/booking/update', ' method="post" class="form-validate-jquery" data-fouc id="form"');?>
+            <?php echo form_open('v1/booking/update', ' method="post" class="form-validate-jquery" data-fouc id="form"');?>
             <div class="card bg-dark">
                 <div class="card-header bg-dark header-elements-sm-inline">
                     <h4 class="card-title">
@@ -158,7 +158,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="form-group form-group-feedback form-group-feedback-left">
-                                        <input id="valor" style="" name="or_valor" type="number" class="form-control form-control-lg required" placeholder=" <?php echo $OR->get_LastRepairInfo()->Price;?>">
+                                        <input id="valor" style="" name="or_valor" type="number" class="form-control form-control-lg required" value="<?php echo $OR->get_LastRepairInfo()->Price;?>" placeholder=" <?php echo $OR->get_LastRepairInfo()->Price;?>">
                                         <div class="form-control-feedback form-control-feedback-lg">
                                             <i class="icon-coin-euro"></i>
                                         </div>

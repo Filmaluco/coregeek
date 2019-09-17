@@ -48,7 +48,7 @@ class Profile extends AUTH_Controller
             $this->user->set_uniqueForm(TRUE);
         }
 
-        if($redirect){redirect("r/booking/book", "refresh");}
+        if($redirect){redirect("v1/booking/book", "refresh");}
     }
 
     public function Lockout(){

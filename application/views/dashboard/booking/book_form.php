@@ -3,6 +3,7 @@
 <head>
     <title><?php echo 'Coregeek.pt - ' . $controller_Name. ' '. $current_Method;?></title>
 
+    <?php $this->view('dashboard/layouts/js-variables'); ?>
     <?php $this->view('dashboard/layouts/head'); ?>
     <link rel="stylesheet" type="text/css" href="<?php echo assets_url(); ?>/css/patternlock.css"/>
     <script src="<?php echo assets_url(); ?>/js/custom/patternlock.js"></script>
@@ -76,7 +77,7 @@
                             <div class="dropdown">
                                 <a href="#" class="list-icons-item dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="<?php echo site_url("r/profile/UniqueForm/true");?>" class="dropdown-item">Usar formulário wizard</a>
+                                    <a href="<?php echo site_url("v1/profile/UniqueForm/true");?>" class="dropdown-item">Usar formulário wizard</a>
                                 </div>
                             </div>
                         </div>
@@ -84,7 +85,7 @@
                 </div>
 
                 <div class="card-body">
-                    <?php echo form_open('r/booking/add', ' method="post" class="form-validate-jquery" data-fouc id="form"');?>
+                    <?php echo form_open('v1/booking/add', ' method="post" class="form-validate-jquery" data-fouc id="form"');?>
                     <fieldset class="mb-3">
                         <legend class="text-uppercase font-size-sm font-weight-bold"><i class="icon-user"></i> Dados Cliente</legend>
 
@@ -258,14 +259,14 @@
                                     <label class="font-weight-semibold">Codigo Bloqueio<span class="text-danger">*</span></label>
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                            <input type="radio" class="form-check-input" name="codeType" value="none" checked>
+                                            <input type="radio" class="form-check-input" name="codeType" value="none">
                                             S/ Codigo
                                         </label>
                                     </div>
 
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                            <input type="radio" class="form-check-input" name="codeType" value="alphanumeric">
+                                            <input type="radio" class="form-check-input" name="codeType" value="alphanumeric" checked>
                                             Codigo
                                         </label>
                                     </div>
@@ -281,17 +282,19 @@
 
                             <script>
                                 $('input[type=radio][name=codeType]').change(function() {
-                                    if (this.value == 'none') {
+                                    if (this.value === 'none') {
                                         document.getElementById("codigoDesbloqueio").style.display = "none";
                                         document.getElementById("padraoDesbloqueio").style.display = "none";
+                                        document.getElementById("codigo").required = false;
                                     }
-                                    else if (this.value == 'alphanumeric') {
+                                    else if (this.value === 'alphanumeric') {
                                         document.getElementById("codigoDesbloqueio").style.display = "";
                                         document.getElementById("padraoDesbloqueio").style.display = "none";
                                     }
                                     else{
                                         document.getElementById("codigoDesbloqueio").style.display = "none";
                                         document.getElementById("padraoDesbloqueio").style.display = "";
+                                        document.getElementById("codigo").required = false;
 
 
                                     }
@@ -299,11 +302,11 @@
                             </script>
 
 
-                            <div id="codigoDesbloqueio" style="display: none;">
+                            <div id="codigoDesbloqueio" >
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Codigo</label>
-                                        <input type="text" name="cod_bloqueio" class="form-control" placeholder="codigo alfanumerico">
+                                        <input type="text" d="codigo" name="cod_bloqueio" class="form-control" placeholder="codigo alfanumerico" required>
                                     </div>
                                 </div>
                             </div>

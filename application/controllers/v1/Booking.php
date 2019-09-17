@@ -12,7 +12,6 @@ class Booking extends AUTH_Controller
     {
         // REQUIRED ----------------------------------------------------------------------------------------------------
         parent::__construct();
-        $this->add_data($this->user->get_mainGroup(), 'group');
         $this->set_ControllerName('Booking');
         $this->set_ParentPath(site_url('r/booking'));
         $this->set_ParentPathName('Booking');
@@ -30,7 +29,7 @@ class Booking extends AUTH_Controller
 
         $this->set_permissions([AUTH_PERMISSIONS_VIEW_BOOKING]);
         if($this->access_check()== AUTHENTICATION_ERROR){
-            redirect('/r/home');
+            redirect('/v1/home');
         }
 
     }
@@ -40,14 +39,12 @@ class Booking extends AUTH_Controller
         $this->set_CurrentMethod('Home');
         $this->set_group();
         $this->set_permissions([AUTH_PERMISSIONS_VIEW_BOOKING]);
-        $this->add_data($this->user->get_mainGroup(), 'group');
         if($this->access_check()== AUTHENTICATION_ERROR){
-            redirect('/r/home');
+            redirect('/v1/home');
         }
-        $this->add_data($this->user->get_mainGroup(), 'group');
         //--------------------------------------------------------------------------------------------------------------
 
-        redirect('r/booking/search', 'refresh');
+        redirect('v1/booking/search', 'refresh');
 
     }
     public function book(){
@@ -55,7 +52,6 @@ class Booking extends AUTH_Controller
         $this->set_CurrentMethod('Novo Booking');
         $this->set_group();
         $this->set_permissions([AUTH_PERMISSIONS_ADD_BOOKING]);
-        $this->add_data($this->user->get_mainGroup(), 'group'); //requires a group to the nav, this gets the first group... careful
         if($this->access_check()== AUTHENTICATION_ERROR){
             $data = [
                 'errors' => '<span class="form-text text-danger"><i class="icon-cancel-circle2 mr-2"></i> Sem permissoes suficientes </span>'
@@ -91,7 +87,7 @@ class Booking extends AUTH_Controller
         $data = $this->input->post();
 
         if(empty($data)){
-            redirect('r/booking/book', 'refresh');
+            redirect('v1/booking/book', 'refresh');
         }
         // Loads to control variables
         //--------------------------------------------------------------------------------------------------------------
@@ -152,19 +148,18 @@ class Booking extends AUTH_Controller
         } catch (Exception $e) {
             echo "Por favor contacte o administrador do sistema [" . e . "]";
         }
-        redirect('r/booking/details/'. $or->get_ORID(), 'refresh');
+        redirect('v1/booking/details/'. $or->get_ORID(), 'refresh');
     }
 
     public function details($OR_ID = 0, $offset=0){
         if(!$OR_ID){
-            redirect('r/booking/book', 'refresh');
+            redirect('v1/booking/book', 'refresh');
         }
 
         // REQUIRED ----------------------------------------------------------------------------------------------------
         $this->set_CurrentMethod('Details');
         $this->set_group();
         $this->set_permissions([AUTH_PERMISSIONS_VIEW_BOOKING]);
-        $this->add_data($this->user->get_mainGroup(), 'group');
         if($this->access_check()== AUTHENTICATION_ERROR){
             redirect('/login');
         }
@@ -174,7 +169,7 @@ class Booking extends AUTH_Controller
         try{
             $OR->load_specific_ORData($OR_ID, $offset);
         }catch (Exception $e){
-            redirect("r/booking", "refresh");
+            redirect("v1/booking", "refresh");
             die;
         }
         $this->add_data($OR, "OR");
@@ -189,18 +184,16 @@ class Booking extends AUTH_Controller
         $this->set_CurrentMethod('Edit');
         $this->set_group();
         $this->set_permissions([AUTH_PERMISSIONS_EDIT_BASIC_BOOKING]);
-        $this->add_data($this->user->get_mainGroup(), 'group');
         if($this->access_check()== AUTHENTICATION_ERROR){
-            redirect('/r/home');
+            redirect('/v1/home');
         }
-        $this->add_data($this->user->get_mainGroup(), 'group');
         //--------------------------------------------------------------------------------------------------------------
 
         $OR = new ORData();
         try{
             $OR->load_specific_ORData($OR_ID, 0);
         }catch (Exception $e){
-            redirect("r/booking", "refresh");
+            redirect("v1/booking", "refresh");
             die;
         }
         $this->add_data($OR, "OR");
@@ -216,9 +209,9 @@ class Booking extends AUTH_Controller
     public function update(){
         $data = $this->input->post();
 
-        if(!is_numeric($data['or_id'])){redirect("r/booking", "refresh");}
-        if(!is_numeric($data['cod_func'])){redirect("r/booking", "refresh");}
-        if(!is_numeric($data['state'])){redirect("r/booking", "refresh");}
+        if(!is_numeric($data['or_id'])){redirect("v1/booking", "refresh");}
+        if(!is_numeric($data['cod_func'])){redirect("v1/booking", "refresh");}
+        if(!is_numeric($data['state'])){redirect("v1/booking", "refresh");}
 
 
 
@@ -227,7 +220,7 @@ class Booking extends AUTH_Controller
         $oldRepairInfo = $oldOR->get_LastRepairInfo();
 
         if(!(isset($data['or_data_entrega']) || isset($data['obs_or'])) && $data['state'] == $oldOR->get_StateID()){
-            redirect("r/booking", "refresh");
+            redirect("v1/booking", "refresh");
         }
 
         if($this->has_permission(AUTH_PERMISSIONS_EDIT_FULL_BOOKING)){
@@ -246,7 +239,7 @@ class Booking extends AUTH_Controller
         $newRepairInfo = new RepairInfo($oldRepairInfo->Device, $oldRepairInfo->Brand, $oldRepairInfo->Model, $oldRepairInfo->Color, $oldRepairInfo->Unlock_Code, $data['or_valor'], $oldRepairInfo->IMEI, $oldRepairInfo->Acessories, $date, $oldRepairInfo->Desc,  $obs );
         $newRepairInfo->create_repair($data['or_id'],$data['cod_func'] );
 
-        redirect('r/booking/details/'. $data['or_id'], 'refresh');
+        redirect('v1/booking/details/'. $data['or_id'], 'refresh');
     }
 
     public function search($method = "onGoing"){
@@ -257,7 +250,6 @@ class Booking extends AUTH_Controller
         if($this->access_check()== AUTHENTICATION_ERROR){
             redirect('/login');
         }
-        $this->add_data($this->user->get_mainGroup(), 'group');
         //--------------------------------------------------------------------------------------------------------------
 
         $query_str = 'SELECT 	ORs.OR_ID,
@@ -295,10 +287,12 @@ FROM ORs
 
         switch ($method){
             case "onGoing":
-                $query_str .= "WHERE t.State_ID < " . BOOKING_STATE_BOOKED_DELIVERED_S;
+                $query_str .= "WHERE t.State_ID < " . BOOKING_STATE_BOOKED_DELIVERED_S
+                            . " AND t.State_ID != " . BOOKING_STATE_DENIED;
                 break;
             case "finished":
-                $query_str .= "WHERE t.State_ID > " . BOOKING_STATE_BOOKED_DELIVERED_S;
+                $query_str .= "WHERE t.State_ID > " . BOOKING_STATE_BOOKED_DELIVERED_S
+                           . "OR t.State_ID == " . BOOKING_STATE_DENIED;
                 break;
             case "all":
                 $query_str .= "WHERE t.State_ID > 0";

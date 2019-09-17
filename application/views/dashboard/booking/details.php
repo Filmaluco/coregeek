@@ -3,6 +3,7 @@
 <head>
     <title><?php echo 'Coregeek.pt - ' . $controller_Name. ' '. $current_Method;?></title>
 
+    <?php $this->view('dashboard/layouts/js-variables'); ?>
     <?php $this->view('dashboard/layouts/head'); ?>
 
 </head>
@@ -58,7 +59,7 @@
                         <ul class="pagination pagination-sm pagination-pager justify-content-between">
                             <?php
                             if($OR->get_RepairOffset() < ($OR->get_NumberRepairs()-1)){
-                                $url = site_url('r/booking/details/' . $OR->get_ORID().'/'. ($OR->get_RepairOffset()+1).'');
+                                $url = site_url('v1/booking/details/' . $OR->get_ORID().'/'. ($OR->get_RepairOffset()+1).'');
                                 echo '
                                     <ul class="pagination pagination-sm pagination-pager justify-content-between">
                                         <li class="page-item"><a name="2" href="'.$url.'" class="page-link" data-popup="tooltip" title="Alteracao anterior">&larr;</a></li>
@@ -77,7 +78,7 @@
                         </ul>
                         &nbsp; &nbsp;<?php
                                 if($OR->get_RepairOffset() > 0){
-                                    $url = site_url('r/booking/details/' . $OR->get_ORID().'/'. ($OR->get_RepairOffset()-1).'');
+                                    $url = site_url('v1/booking/details/' . $OR->get_ORID().'/'. ($OR->get_RepairOffset()-1).'');
                                     echo '
                                     <ul class="pagination pagination-sm pagination-pager justify-content-between">
                                         <li class="page-item"><a name="2" href="'.$url.'" class="page-link" data-popup="tooltip" title="Alteracao seguinte">&rarr;</a></li>
@@ -88,14 +89,14 @@
                                 <a href="#" class="list-icons-item dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <?php
-                                        $url = site_url('r/booking/edit/' . $OR->get_ORID().'');
+                                        $url = site_url('v1/booking/edit/' . $OR->get_ORID().'');
                                         echo ' <a href="'. $url .'" class="dropdown-item" class="dropdown-item">Editar</a>';
                                     ?>
                                     <div class="dropdown-divider"></div>
                                     <a href="#" class="dropdown-item" onclick="displayHistory()">Ver historico de estados</a>
                                     <?php
                                     if($OR->get_RepairOffset() > 0){
-                                        $url = site_url('r/booking/details/' . $OR->get_ORID().'');
+                                        $url = site_url('v1/booking/details/' . $OR->get_ORID().'');
                                         echo ' <a href="'. $url .'" class="dropdown-item" class="dropdown-item">Ir para alteracao mais recente</a>';
                                     }
                                     ?>

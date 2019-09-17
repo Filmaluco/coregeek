@@ -48,7 +48,7 @@ function cod_func(){
                     $.ajax({
                         type: "POST",
                         dataType: "json",
-                        url: window.location.origin + "/coregeek/API/OR_BOOK",
+                        url:  base_url + "API/OR_BOOK",
                         data: {data:postData},
                         success: function(data){
                             $('#cod_func').val(codFunc);

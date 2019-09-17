@@ -1,6 +1,6 @@
 <?php
     switch ($group){
-        case 'Admin':
+        case AUTH_GROUP_ADMIN:
             echo $this->navigation_menu->admin_menu();
             break;
         default:

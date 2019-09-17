@@ -25,6 +25,7 @@ class AUTH_Controller extends MY_Controller{
     protected $required_groups = array();
     protected $required_permissions = array();
 
+
     //Data that is passed to the views;
     protected $data;
 
@@ -40,14 +41,11 @@ class AUTH_Controller extends MY_Controller{
 
         //Set basic data to the view
         $this->data = array(
-            'controller_Name' => $this->controller_Name,
-            'current_Method' => $this->current_Method,
-            'parent_Path_Name' => $this->parent_Path_Name,
-            'parent_Path' => $this->parent_Path,
             'username' => $this->user->get_userName(),
             'user_nr_notifications' => $this->user->get_nr_notifications(),
             'last_notifications' => $this->user->get_last_notifications(),
-            'store_name' => $this->user->get_store_name()
+            'store_name' => $this->user->get_store_name(),
+            'group' => $this->user->get_mainGroup()
         );
 
     }
@@ -55,11 +53,12 @@ class AUTH_Controller extends MY_Controller{
     /**
      * @param $var = value of the data we pretend to add to the view
      * @param string $key = name of the variable (ex: $key)
+     * @param bool $overideMerge by default is false and will merge if array, but if true it won't merge
      *
      * if $var is of type array will merge both the arrays, therefore there's no need to specify a $key
      */
-    public function add_data($var, $key = 'default'){
-        if(is_array($var)){
+    public function add_data($var, $key = 'default', $overideMerge = false){
+        if(is_array($var) && !$overideMerge){
            $this->data = array_merge($this->data, $var);
         } else{
             $this->data[$key] = $var;
@@ -128,6 +127,7 @@ class AUTH_Controller extends MY_Controller{
      * will always clear the previous groups
      */
     public function set_group($var = array()){
+
         if(!check_numeric_array($var)) return;
         $this->required_groups = array();
         if(is_array($var)){
